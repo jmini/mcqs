@@ -15,16 +15,18 @@
  ******************************************************************************/
 package mcq.server.services.process;
 
-import org.eclipse.scout.service.AbstractService;
-import mcq.shared.services.process.IDesktopProcessService;
 import mcq.shared.services.process.DesktopFormData;
+import mcq.shared.services.process.IDesktopProcessService;
+
 import org.eclipse.scout.commons.exception.ProcessingException;
+import org.eclipse.scout.service.AbstractService;
 
-public class DesktopProcessService extends AbstractService implements IDesktopProcessService{
+public class DesktopProcessService extends AbstractService implements IDesktopProcessService {
 
+  @Override
   public DesktopFormData load(DesktopFormData formData) throws ProcessingException {
-    //TODO [jebr] Auto-generated method stub.
+    formData.getQuestions().addRow(new Object[]{1, "Quel est le meilleur IDE?"});
+    formData.getQuestions().addRow(new Object[]{2, "Quel est le meilleur smartphone sous Android?"});
     return formData;
-  
   }
 }
