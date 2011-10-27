@@ -13,23 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package mcq.server.services.process;
+package mcq.server.services.common.sql;
 
-import mcq.shared.services.process.DesktopFormData;
-import mcq.shared.services.process.IDesktopProcessService;
+import org.eclipse.scout.rt.services.common.jdbc.AbstractDerbySqlService;
+import org.eclipse.scout.service.IService;
 
-import org.eclipse.scout.commons.exception.ProcessingException;
-import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
-import org.eclipse.scout.service.AbstractService;
-
-public class DesktopProcessService extends AbstractService implements IDesktopProcessService {
+public class McqDerbySqlService extends AbstractDerbySqlService implements IService {
+  @Override
+  protected String getConfiguredJdbcMappingName() {
+    return "jdbc:derby:/Users/jebr/code/mcq/mcq_db.derby";
+  }
 
   @Override
-  public DesktopFormData load(DesktopFormData formData) throws ProcessingException {
-    SQL.selectInto(" select question_id, question_text " +
-        " from  questions " +
-        " into :QuestionNr, :Question",
-        formData.getQuestions());
-    return formData;
+  protected String getConfiguredUsername() {
+    return "mcq";
+  }
+
+  @Override
+  protected String getConfiguredPassword() {
+    return "qcm";
   }
 }
