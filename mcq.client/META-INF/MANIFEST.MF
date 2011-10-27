@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: mcq.client
+Bundle-SymbolicName: mcq.client;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: mcq.client.Activator
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.scout.rt.client;visibility:=reexport,
+ mcq.shared
+Export-Package: mcq.client,
+ mcq.client.ui.desktop,
+ mcq.client.ui.forms
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
