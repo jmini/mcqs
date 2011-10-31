@@ -24,6 +24,7 @@ import mcq.shared.services.process.IAnswerProcessService;
 
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.exception.VetoException;
+import org.eclipse.scout.commons.holders.NVPair;
 import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
 import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
@@ -49,7 +50,19 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
     if (!ACCESS.check(new CreateAnswerPermission())) {
       throw new VetoException(Texts.get("AuthorizationFailed"));
     }
-    //TODO [jebr] business logic here.
+
+    SQL.insert(" insert into answers (name, question_id) " +
+        " values (:YourName, :QuestionNr) ", formData);
+
+    SQL.selectInto(" values IDENTITY_VAL_LOCAL() " +
+        " into  :AnswerNr", formData);
+
+    if (formData.getChoices().isValueSet()) {
+      for (Long choiceId : formData.getChoices().getValue()) {
+        SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
+            " values (:AnswerNr, :ChoiceId) ", formData, new NVPair("ChoiceId", choiceId));
+      }
+    }
     return formData;
   }
 
