@@ -6,6 +6,7 @@
     <service class="mcq.server.services.custom.security.AccessControlService" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory" session="mcq.server.ServerSession"/>
     <service class="mcq.server.services.process.DesktopProcessService" session="mcq.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
     <service class="mcq.server.services.common.sql.McqDerbySqlService" session="mcq.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+    <service class="mcq.server.services.process.AnswerProcessService" session="mcq.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
   </extension>
   <extension point="org.eclipse.equinox.http.registry.servlets">
     <servlet alias="/process" class="org.eclipse.scout.rt.server.ServiceTunnelServlet">

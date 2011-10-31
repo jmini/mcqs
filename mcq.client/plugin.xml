@@ -2,6 +2,7 @@
 <plugin>
   <extension point="org.eclipse.scout.service.services">
     <proxy class="mcq.shared.services.process.IDesktopProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
+    <proxy class="mcq.shared.services.process.IAnswerProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
   </extension>
   <extension point="org.eclipse.scout.service.services">
   </extension>

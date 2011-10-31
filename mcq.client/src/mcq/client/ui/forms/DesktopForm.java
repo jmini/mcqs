@@ -23,6 +23,7 @@ import mcq.shared.services.process.IDesktopProcessService;
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
+import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.basic.table.AbstractTable;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractIntegerColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractStringColumn;
@@ -66,7 +67,7 @@ public class DesktopForm extends AbstractForm {
   public class MainBox extends AbstractGroupBox {
 
     @Order(10.0)
-    public class QuestionsField extends AbstractTableField<QuestionsField.Table>{
+    public class QuestionsField extends AbstractTableField<QuestionsField.Table> {
 
       @Override
       protected String getConfiguredLabel() {
@@ -74,7 +75,7 @@ public class DesktopForm extends AbstractForm {
       }
 
       @Order(10.0)
-      public class Table extends AbstractTable{
+      public class Table extends AbstractTable {
 
         public QuestionColumn getQuestionColumn() {
           return getColumnSet().getColumnByClass(QuestionColumn.class);
@@ -85,7 +86,7 @@ public class DesktopForm extends AbstractForm {
         }
 
         @Order(10.0)
-        public class QuestionNrColumn extends AbstractIntegerColumn{
+        public class QuestionNrColumn extends AbstractIntegerColumn {
 
           @Override
           protected String getConfiguredHeaderText() {
@@ -104,11 +105,27 @@ public class DesktopForm extends AbstractForm {
         }
 
         @Order(20.0)
-        public class QuestionColumn extends AbstractStringColumn{
+        public class QuestionColumn extends AbstractStringColumn {
 
           @Override
           protected String getConfiguredHeaderText() {
             return Texts.get("Question");
+          }
+        }
+
+        @Order(10.0)
+        public class AddAnAnswerMenu extends AbstractMenu {
+
+          @Override
+          protected String getConfiguredText() {
+            return Texts.get("AddAnAnswer");
+          }
+
+          @Override
+          protected void execAction() throws ProcessingException {
+            AnswerForm form = new AnswerForm();
+            form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
+            form.startNew();
           }
         }
       }
@@ -116,7 +133,7 @@ public class DesktopForm extends AbstractForm {
 
   }
 
-  public class ViewHandler extends AbstractFormHandler{
+  public class ViewHandler extends AbstractFormHandler {
 
     @Override
     protected void execLoad() throws ProcessingException {
@@ -125,7 +142,7 @@ public class DesktopForm extends AbstractForm {
       exportFormData(formData);
       formData = service.load(formData);
       importFormData(formData);
-    
+
     }
   }
 
