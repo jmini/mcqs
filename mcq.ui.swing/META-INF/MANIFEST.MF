@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: My Application
+Bundle-SymbolicName: mcq.ui.swing;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: mcq.ui.swing.Activator
+Bundle-ActivationPolicy: lazy
+Scout-Project: mcq
+Scout-Project-Alias: MCQ
+Require-Bundle: org.eclipse.scout.rt.ui.swing,
+ mcq.client;visibility:=reexport,
+ mcq.shared,
+ org.eclipse.scout.net
+Export-Package: mcq.ui.swing;uses:="org.eclipse.scout.rt.ui.swing,
+ org.eclipse.scout.rt.client.session,
+ org.osgi.framework",
+ mcq.ui.swing
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

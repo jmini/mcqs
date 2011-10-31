@@ -17,3 +17,4 @@ git repository
 Branches:
 * master: default branch, should run with the last released Eclipse Scout Version [eg: Eclipse Scout Indigo SR1].
 * tutorial: branch for a step by step tutorial [created with: Eclipse Scout Indigo SR1].
+

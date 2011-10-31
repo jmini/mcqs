@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+  <extension id="app" name="Application" point="org.eclipse.core.runtime.applications">
+    <application>
+      <run class="mcq.ui.swing.SwingApplication"/>
+    </application>
+  </extension>
+  <extension id="product" point="org.eclipse.core.runtime.products">
+    <product
+          application="mcq.ui.swing.app"
+          name="MCQ">
+       <property
+             name="appName"
+             value="MCQ">
+       </property>
+    </product>
+  </extension>
+</plugin>
