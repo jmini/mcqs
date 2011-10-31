@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.core.runtime,
 Export-Package: mcq.server,
  mcq.server.services.custom.security,
  mcq.server.services.process,
- mcq.server.services.common.sql
+ mcq.server.services.common.sql,
+ mcq.server.services.lookup
 Bundle-ClassPath: .
 Import-Package: javax.servlet;version="2.4.0",
  javax.servlet.http;version="2.4.0"

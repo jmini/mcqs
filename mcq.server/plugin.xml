@@ -7,6 +7,7 @@
     <service class="mcq.server.services.process.DesktopProcessService" session="mcq.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
     <service class="mcq.server.services.common.sql.McqDerbySqlService" session="mcq.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
     <service class="mcq.server.services.process.AnswerProcessService" session="mcq.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+    <service class="mcq.server.services.lookup.ChoicesLookupService" session="mcq.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
   </extension>
   <extension point="org.eclipse.equinox.http.registry.servlets">
     <servlet alias="/process" class="org.eclipse.scout.rt.server.ServiceTunnelServlet">

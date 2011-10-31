@@ -10,4 +10,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.scout.rt.shared;visibility:=reexport
 Export-Package: mcq.shared,
  mcq.shared.services.process,
- mcq.shared.security
+ mcq.shared.security,
+ mcq.shared.services.lookup

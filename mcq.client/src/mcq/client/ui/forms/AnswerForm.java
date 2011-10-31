@@ -23,6 +23,7 @@ import mcq.client.ui.forms.AnswerForm.MainBox.QuestionTextField;
 import mcq.client.ui.forms.AnswerForm.MainBox.YourNameField;
 import mcq.shared.Texts;
 import mcq.shared.security.UpdateAnswerPermission;
+import mcq.shared.services.lookup.ChoicesLookupCall;
 import mcq.shared.services.process.AnswerFormData;
 import mcq.shared.services.process.IAnswerProcessService;
 
@@ -38,6 +39,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.integerfield.AbstractIntegerField;
 import org.eclipse.scout.rt.client.ui.form.fields.listbox.AbstractListBox;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
+import org.eclipse.scout.rt.shared.services.lookup.LookupCall;
 import org.eclipse.scout.service.SERVICES;
 
 @FormData(value = AnswerFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
@@ -176,6 +178,11 @@ public class AnswerForm extends AbstractForm {
       @Override
       protected String getConfiguredLabel() {
         return Texts.get("Choices");
+      }
+
+      @Override
+      protected Class<? extends LookupCall> getConfiguredLookupCall() {
+        return ChoicesLookupCall.class;
       }
 
       @Override
