@@ -132,6 +132,22 @@ public class QuestionsListForm extends AbstractForm {
             form.startNew();
           }
         }
+
+        @Order(20.0)
+        public class DisplayAllAnswersMenu extends AbstractMenu {
+
+          @Override
+          protected String getConfiguredText() {
+            return Texts.get("DisplayAllAnswers");
+          }
+
+          @Override
+          protected void execAction() throws ProcessingException {
+            AnswersListForm form = new AnswersListForm();
+            form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
+            form.startDisplay();
+          }
+        }
       }
     }
 

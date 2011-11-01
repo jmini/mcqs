@@ -4,6 +4,7 @@
     <proxy class="org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
     <proxy class="org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
     <proxy class="org.eclipselabs.mcqs.shared.services.lookup.IChoicesLookupService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
+    <proxy class="org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
   </extension>
   <extension point="org.eclipse.scout.service.services">
   </extension>

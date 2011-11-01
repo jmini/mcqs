@@ -8,6 +8,7 @@
     <service class="org.eclipselabs.mcqs.server.services.common.sql.McqDerbySqlService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
     <service class="org.eclipselabs.mcqs.server.services.process.AnswerProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
     <service class="org.eclipselabs.mcqs.server.services.lookup.ChoicesLookupService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+    <service class="org.eclipselabs.mcqs.server.services.process.AnswersListProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
   </extension>
   <extension point="org.eclipse.equinox.http.registry.servlets">
     <servlet alias="/process" class="org.eclipse.scout.rt.server.ServiceTunnelServlet">
