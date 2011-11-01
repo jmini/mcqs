@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.eclipselabs.mcqs.shared.services.process;
+package org.eclipselabs.mcqs.shared.security;
 
-import org.eclipse.scout.service.IService;
-import org.eclipse.scout.commons.exception.ProcessingException;
-import org.eclipselabs.mcqs.shared.services.process.DesktopFormData;
+import java.security.BasicPermission;
 
-public interface IDesktopProcessService extends IService{
+public class ReadQuestionsListPermission extends BasicPermission {
 
-  public DesktopFormData load(DesktopFormData formData) throws ProcessingException;
+  private static final long serialVersionUID = 0L;
+
+  public ReadQuestionsListPermission() {
+    super("ReadQuestionsList");
+  }
 }

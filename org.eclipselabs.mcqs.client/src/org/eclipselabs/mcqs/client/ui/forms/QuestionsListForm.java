@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.client.ui.forms;
 
-
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
@@ -28,15 +27,15 @@ import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.service.SERVICES;
-import org.eclipselabs.mcqs.client.ui.forms.DesktopForm.MainBox.QuestionsField;
+import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm.MainBox.QuestionsField;
 import org.eclipselabs.mcqs.shared.Texts;
-import org.eclipselabs.mcqs.shared.services.process.DesktopFormData;
-import org.eclipselabs.mcqs.shared.services.process.IDesktopProcessService;
+import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService;
+import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
 
-@FormData(value = DesktopFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
-public class DesktopForm extends AbstractForm {
+@FormData(value = QuestionsListFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
+public class QuestionsListForm extends AbstractForm {
 
-  public DesktopForm() throws ProcessingException {
+  public QuestionsListForm() throws ProcessingException {
     super();
   }
 
@@ -111,6 +110,11 @@ public class DesktopForm extends AbstractForm {
           protected String getConfiguredHeaderText() {
             return Texts.get("Question");
           }
+
+          @Override
+          protected int getConfiguredWidth() {
+            return 350;
+          }
         }
 
         @Order(10.0)
@@ -133,16 +137,15 @@ public class DesktopForm extends AbstractForm {
 
   }
 
-  public class ViewHandler extends AbstractFormHandler {
+  public class DisplayHandler extends AbstractFormHandler {
 
     @Override
     protected void execLoad() throws ProcessingException {
-      IDesktopProcessService service = SERVICES.getService(IDesktopProcessService.class);
-      DesktopFormData formData = new DesktopFormData();
+      IQuestionsListProcessService service = SERVICES.getService(IQuestionsListProcessService.class);
+      QuestionsListFormData formData = new QuestionsListFormData();
       exportFormData(formData);
       formData = service.load(formData);
       importFormData(formData);
-
     }
   }
 
@@ -151,7 +154,7 @@ public class DesktopForm extends AbstractForm {
     return Texts.get("Questions");
   }
 
-  public void startView() throws ProcessingException {
-    startInternal(new DesktopForm.ViewHandler());
+  public void startDisplay() throws ProcessingException {
+    startInternal(new QuestionsListForm.DisplayHandler());
   }
 }

@@ -4,7 +4,7 @@
     <service class="org.eclipse.scout.rt.server.services.common.bookmark.FileSystemBookmarkStorageService" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory" session="org.eclipselabs.mcqs.server.ServerSession"/>
     <service class="org.eclipse.scout.rt.server.services.common.workflow.WorkflowProviderService" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory" session="org.eclipselabs.mcqs.server.ServerSession"/>
     <service class="org.eclipselabs.mcqs.server.services.custom.security.AccessControlService" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory" session="org.eclipselabs.mcqs.server.ServerSession"/>
-    <service class="org.eclipselabs.mcqs.server.services.process.DesktopProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+    <service class="org.eclipselabs.mcqs.server.services.process.QuestionsListProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
     <service class="org.eclipselabs.mcqs.server.services.common.sql.McqDerbySqlService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
     <service class="org.eclipselabs.mcqs.server.services.process.AnswerProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
     <service class="org.eclipselabs.mcqs.server.services.lookup.ChoicesLookupService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>

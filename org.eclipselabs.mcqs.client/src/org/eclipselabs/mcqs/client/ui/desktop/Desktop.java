@@ -28,7 +28,7 @@ import org.eclipse.scout.rt.client.ui.desktop.IDesktop;
 import org.eclipse.scout.rt.client.ui.desktop.bookmark.menu.AbstractBookmarkMenu;
 import org.eclipse.scout.rt.client.ui.form.ScoutInfoForm;
 import org.eclipselabs.mcqs.client.ClientSession;
-import org.eclipselabs.mcqs.client.ui.forms.DesktopForm;
+import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm;
 import org.eclipselabs.mcqs.shared.Texts;
 
 public class Desktop extends AbstractDesktop implements IDesktop{
@@ -47,8 +47,8 @@ public class Desktop extends AbstractDesktop implements IDesktop{
   @Override
   protected void execOpened() throws ProcessingException {
     // dektop form
-    DesktopForm desktopForm = new DesktopForm();
-    desktopForm.startView();
+    QuestionsListForm desktopForm = new QuestionsListForm();
+    desktopForm.startDisplay();
   }
 
 

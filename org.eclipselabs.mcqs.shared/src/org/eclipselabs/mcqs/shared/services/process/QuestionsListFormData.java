@@ -18,10 +18,10 @@ package org.eclipselabs.mcqs.shared.services.process;
 import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
 import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldData;
 
-public class DesktopFormData extends AbstractFormData {
+public class QuestionsListFormData extends AbstractFormData {
   private static final long serialVersionUID = 1L;
 
-  public DesktopFormData() {
+  public QuestionsListFormData() {
   }
 
   public Questions getQuestions() {
