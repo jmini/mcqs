@@ -57,7 +57,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
     SQL.selectInto(" values IDENTITY_VAL_LOCAL() " +
         " into  :AnswerNr", formData);
 
-    if (formData.getChoices().isValueSet()) {
+    if (formData.getChoices().isValueSet() && formData.getChoices().getValue() != null) {
       for (Long choiceId : formData.getChoices().getValue()) {
         SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
             " values (:AnswerNr, :ChoiceId) ", formData, new NVPair("ChoiceId", choiceId));
