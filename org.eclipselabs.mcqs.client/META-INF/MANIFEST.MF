@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.eclipselabs.mcqs.client
+Bundle-SymbolicName: org.eclipselabs.mcqs.client;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipselabs.mcqs.client.Activator
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.scout.rt.client;visibility:=reexport,
+ org.eclipselabs.mcqs.shared
+Export-Package: org.eclipselabs.mcqs.client,
+ org.eclipselabs.mcqs.client.ui.desktop,
+ org.eclipselabs.mcqs.client.ui.forms
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
