@@ -18,6 +18,7 @@ package org.eclipselabs.mcqs.client.ui.forms;
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
+import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.basic.table.AbstractTable;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractLongColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractStringColumn;
@@ -179,6 +180,26 @@ public class AnswersListForm extends AbstractForm {
           @Override
           protected String getConfiguredHeaderText() {
             return ScoutTexts.get("Name");
+          }
+        }
+
+        @Order(10.0)
+        public class EditAnswerMenu extends AbstractMenu {
+
+          @Override
+          protected String getConfiguredText() {
+            return Texts.get("EditAnswer");
+          }
+
+          @Override
+          protected void execAction() throws ProcessingException {
+            AnswerForm form = new AnswerForm();
+            form.setAnswerNr(getAnswerNrColumn().getSelectedValue());
+            form.startModify();
+            form.waitFor();
+            if (form.isFormStored()) {
+              getNameColumn().setValue(getSelectedRow(), form.getYourNameField().getValue());
+            }
           }
         }
       }

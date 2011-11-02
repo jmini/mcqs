@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.server.services.process;
 
-
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.exception.VetoException;
 import org.eclipse.scout.commons.holders.NVPair;
@@ -37,10 +36,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
       throw new VetoException(Texts.get("AuthorizationFailed"));
     }
 
-    SQL.selectInto(" select question_text " +
-        " from  questions " +
-        " where question_id = :QuestionNr " +
-        " into  :questionText", formData);
+    loadQuestion(formData);
 
     return formData;
   }
@@ -57,12 +53,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
     SQL.selectInto(" values IDENTITY_VAL_LOCAL() " +
         " into  :AnswerNr", formData);
 
-    if (formData.getChoices().isValueSet() && formData.getChoices().getValue() != null) {
-      for (Long choiceId : formData.getChoices().getValue()) {
-        SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
-            " values (:AnswerNr, :ChoiceId) ", formData, new NVPair("ChoiceId", choiceId));
-      }
-    }
+    storeAnswerChoice(formData);
     return formData;
   }
 
@@ -71,7 +62,23 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
     if (!ACCESS.check(new ReadAnswerPermission())) {
       throw new VetoException(Texts.get("AuthorizationFailed"));
     }
-    //TODO [jebr] business logic here
+
+    if (formData.getAnswerNr() == null) {
+      throw new ProcessingException("AnswerNr can no be null");
+    }
+
+    SQL.selectInto(" select question_id, name " +
+        " from answers " +
+        " where answer_id = :AnswerNr " +
+        " into  :QuestionNr, :YourName", formData);
+
+    loadQuestion(formData);
+
+    SQL.selectInto(" select choice_id " +
+        " from  answers_choices " +
+        " where answer_id = :AnswerNr " +
+        " into  :Choices", formData);
+
     return formData;
   }
 
@@ -80,7 +87,40 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
     if (!ACCESS.check(new UpdateAnswerPermission())) {
       throw new VetoException(Texts.get("AuthorizationFailed"));
     }
-    //TODO [jebr] business logic here
+    SQL.update("update answers set name = :YourName where answer_id = :AnswerNr", formData);
+
+    SQL.delete("delete from answers_choices where answer_id = :AnswerNr", formData);
+
+    storeAnswerChoice(formData);
+
     return formData;
+  }
+
+  /**
+   * @param formData
+   * @throws ProcessingException
+   */
+  private void loadQuestion(AnswerFormData formData) throws ProcessingException {
+    if (formData.getQuestionNr() == null) {
+      throw new ProcessingException("QuestionNr can no be null");
+    }
+
+    SQL.selectInto(" select question_text " +
+        " from  questions " +
+        " where question_id = :QuestionNr " +
+        " into  :QuestionText", formData);
+  }
+
+  /**
+   * @param formData
+   * @throws ProcessingException
+   */
+  private void storeAnswerChoice(AnswerFormData formData) throws ProcessingException {
+    if (formData.getChoices().isValueSet() && formData.getChoices().getValue() != null) {
+      for (Long choiceId : formData.getChoices().getValue()) {
+        SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
+            " values (:AnswerNr, :ChoiceId) ", formData, new NVPair("ChoiceId", choiceId));
+      }
+    }
   }
 }
