@@ -73,6 +73,11 @@ public class QuestionsListForm extends AbstractForm {
         return Texts.get("Questions");
       }
 
+      @Override
+      protected boolean getConfiguredLabelVisible() {
+        return false;
+      }
+
       @Order(10.0)
       public class Table extends AbstractTable {
 
@@ -113,7 +118,7 @@ public class QuestionsListForm extends AbstractForm {
 
           @Override
           protected int getConfiguredWidth() {
-            return 350;
+            return 380;
           }
         }
 
