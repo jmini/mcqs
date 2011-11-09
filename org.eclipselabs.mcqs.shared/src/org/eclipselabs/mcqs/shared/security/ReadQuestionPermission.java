@@ -13,24 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.eclipselabs.mcqs.server.services.common.sql;
+package org.eclipselabs.mcqs.shared.security;
 
-import org.eclipse.scout.rt.services.common.jdbc.AbstractDerbySqlService;
-import org.eclipse.scout.service.IService;
+import java.security.BasicPermission;
 
-public class McqDerbySqlService extends AbstractDerbySqlService implements IService {
-  @Override
-  protected String getConfiguredJdbcMappingName() {
-    return "jdbc:derby:C:/Users/jbr/McqDB";
-  }
+public class ReadQuestionPermission extends BasicPermission {
 
-  @Override
-  protected String getConfiguredUsername() {
-    return "mcq";
-  }
+  private static final long serialVersionUID = 0L;
 
-  @Override
-  protected String getConfiguredPassword() {
-    return "qcm";
+  public ReadQuestionPermission() {
+    super("ReadQuestion");
   }
 }

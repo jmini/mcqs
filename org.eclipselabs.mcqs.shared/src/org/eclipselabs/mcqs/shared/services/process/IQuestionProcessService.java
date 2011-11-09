@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.eclipselabs.mcqs.server.services.common.sql;
+package org.eclipselabs.mcqs.shared.services.process;
 
-import org.eclipse.scout.rt.services.common.jdbc.AbstractDerbySqlService;
+import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.service.IService;
 
-public class McqDerbySqlService extends AbstractDerbySqlService implements IService {
-  @Override
-  protected String getConfiguredJdbcMappingName() {
-    return "jdbc:derby:C:/Users/jbr/McqDB";
-  }
+public interface IQuestionProcessService extends IService {
 
-  @Override
-  protected String getConfiguredUsername() {
-    return "mcq";
-  }
+  QuestionFormData prepareCreate(QuestionFormData formData) throws ProcessingException;
 
-  @Override
-  protected String getConfiguredPassword() {
-    return "qcm";
-  }
+  QuestionFormData create(QuestionFormData formData) throws ProcessingException;
+
+  QuestionFormData load(QuestionFormData formData) throws ProcessingException;
+
+  QuestionFormData store(QuestionFormData formData) throws ProcessingException;
 }

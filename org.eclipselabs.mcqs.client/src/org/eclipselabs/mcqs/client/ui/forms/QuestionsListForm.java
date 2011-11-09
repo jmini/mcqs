@@ -153,20 +153,82 @@ public class QuestionsListForm extends AbstractForm {
             form.startDisplay();
           }
         }
+
+        @Order(30.0)
+        public class SeparatorMenu extends AbstractMenu {
+
+          @Override
+          protected boolean getConfiguredSeparator() {
+            return true;
+          }
+        }
+
+        @Order(40.0)
+        public class CreateQuestionMenu extends AbstractMenu {
+
+          @Override
+          protected boolean getConfiguredEmptySpaceAction() {
+            return true;
+          }
+
+          @Override
+          protected boolean getConfiguredSingleSelectionAction() {
+            return false;
+          }
+
+          @Override
+          protected String getConfiguredText() {
+            return Texts.get("CreateQuestion");
+          }
+
+          @Override
+          protected void execAction() throws ProcessingException {
+            QuestionForm form = new QuestionForm();
+            form.startNew();
+            form.waitFor();
+            if (form.isFormStored()) {
+              reloadForm();
+            }
+          }
+        }
+
+        @Order(50.0)
+        public class EditQuestionMenu extends AbstractMenu {
+
+          @Override
+          protected String getConfiguredText() {
+            return Texts.get("EditQuestion");
+          }
+
+          @Override
+          protected void execAction() throws ProcessingException {
+            QuestionForm form = new QuestionForm();
+            form.setQuestionNr(getQuestionNrColumn().getSelectedValue());
+            form.startModify();
+            form.waitFor();
+            if (form.isFormStored()) {
+              reloadForm();
+            }
+          }
+        }
       }
     }
 
+  }
+
+  private void reloadForm() throws ProcessingException {
+    IQuestionsListProcessService service = SERVICES.getService(IQuestionsListProcessService.class);
+    QuestionsListFormData formData = new QuestionsListFormData();
+    exportFormData(formData);
+    formData = service.load(formData);
+    importFormData(formData);
   }
 
   public class DisplayHandler extends AbstractFormHandler {
 
     @Override
     protected void execLoad() throws ProcessingException {
-      IQuestionsListProcessService service = SERVICES.getService(IQuestionsListProcessService.class);
-      QuestionsListFormData formData = new QuestionsListFormData();
-      exportFormData(formData);
-      formData = service.load(formData);
-      importFormData(formData);
+      reloadForm();
     }
   }
 
