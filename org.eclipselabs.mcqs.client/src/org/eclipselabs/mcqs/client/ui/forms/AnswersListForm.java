@@ -20,6 +20,7 @@ import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.basic.table.AbstractTable;
+import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractDoubleColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractLongColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractStringColumn;
 import org.eclipse.scout.rt.client.ui.form.AbstractForm;
@@ -28,10 +29,14 @@ import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractOkButton;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.integerfield.AbstractIntegerField;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
+import org.eclipse.scout.rt.client.ui.form.fields.tabbox.AbstractTabBox;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.shared.ScoutTexts;
 import org.eclipse.scout.service.SERVICES;
-import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.ListBox;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.ListBox.AnswersField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.StatisticsBox;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.OkButton;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.QuestionNrField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.QuestionTextField;
@@ -72,12 +77,24 @@ public class AnswersListForm extends AbstractForm {
     return getFieldByClass(QuestionTextField.class);
   }
 
+  public AnswersTabsBox getAnswersTabsBox() {
+    return getFieldByClass(AnswersTabsBox.class);
+  }
+
+  public ListBox getListBox() {
+    return getFieldByClass(ListBox.class);
+  }
+
   public MainBox getMainBox() {
     return getFieldByClass(MainBox.class);
   }
 
   public OkButton getOkButton() {
     return getFieldByClass(OkButton.class);
+  }
+
+  public StatisticsBox getStatsBox() {
+    return getFieldByClass(StatisticsBox.class);
   }
 
   @Order(10.0)
@@ -132,73 +149,169 @@ public class AnswersListForm extends AbstractForm {
     }
 
     @Order(30.0)
-    public class AnswersField extends AbstractTableField<AnswersField.Table> {
-
-      @Override
-      protected int getConfiguredGridH() {
-        return 6;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return Texts.get("Answers");
-      }
+    public class AnswersTabsBox extends AbstractTabBox {
 
       @Order(10.0)
-      public class Table extends AbstractTable {
+      public class StatisticsBox extends AbstractGroupBox {
 
-        public NameColumn getNameColumn() {
-          return getColumnSet().getColumnByClass(NameColumn.class);
-        }
-
-        public AnswerNrColumn getAnswerNrColumn() {
-          return getColumnSet().getColumnByClass(AnswerNrColumn.class);
+        @Override
+        protected String getConfiguredLabel() {
+          return Texts.get("Statistics");
         }
 
         @Order(10.0)
-        public class AnswerNrColumn extends AbstractLongColumn {
+        public class StatisticsField extends AbstractTableField<StatisticsField.Table> {
 
           @Override
-          protected String getConfiguredHeaderText() {
-            return Texts.get("No_");
+          protected String getConfiguredLabel() {
+            return Texts.get("Statistics");
           }
 
           @Override
-          protected boolean getConfiguredPrimaryKey() {
-            return true;
-          }
-
-          @Override
-          protected boolean getConfiguredVisible() {
+          protected boolean getConfiguredLabelVisible() {
             return false;
           }
-        }
 
-        @Order(20.0)
-        public class NameColumn extends AbstractStringColumn {
+          @Order(10.0)
+          public class Table extends AbstractTable {
 
-          @Override
-          protected String getConfiguredHeaderText() {
-            return ScoutTexts.get("Name");
+            @Override
+            protected boolean getConfiguredAutoResizeColumns() {
+              return true;
+            }
+
+            public ResultColumn getResultColumn() {
+              return getColumnSet().getColumnByClass(ResultColumn.class);
+            }
+
+            public ChoiceColumn getChoiceColumn() {
+              return getColumnSet().getColumnByClass(ChoiceColumn.class);
+            }
+
+            @Order(10.0)
+            public class ChoiceColumn extends AbstractStringColumn {
+
+              @Override
+              protected String getConfiguredHeaderText() {
+                return Texts.get("Choice");
+              }
+
+              @Override
+              protected int getConfiguredWidth() {
+                return 250;
+              }
+            }
+
+            @Order(20.0)
+            public class ResultColumn extends AbstractDoubleColumn {
+
+              @Override
+              protected String getConfiguredHeaderText() {
+                return Texts.get("Result");
+              }
+
+              @Override
+              protected int getConfiguredMultiplier() {
+                return 100;
+              }
+
+              @Override
+              protected boolean getConfiguredPercent() {
+                return true;
+              }
+            }
           }
+        }
+      }
+
+      @Order(20.0)
+      public class ListBox extends AbstractGroupBox {
+
+        @Override
+        protected String getConfiguredLabel() {
+          return Texts.get("List");
         }
 
         @Order(10.0)
-        public class EditAnswerMenu extends AbstractMenu {
+        public class AnswersField extends AbstractTableField<AnswersField.Table> {
 
           @Override
-          protected String getConfiguredText() {
-            return Texts.get("EditAnswer");
+          protected int getConfiguredGridH() {
+            return 6;
           }
 
           @Override
-          protected void execAction() throws ProcessingException {
-            AnswerForm form = new AnswerForm();
-            form.setAnswerNr(getAnswerNrColumn().getSelectedValue());
-            form.startModify();
-            form.waitFor();
-            if (form.isFormStored()) {
-              getNameColumn().setValue(getSelectedRow(), form.getYourNameField().getValue());
+          protected String getConfiguredLabel() {
+            return Texts.get("Answers");
+          }
+
+          @Override
+          protected boolean getConfiguredLabelVisible() {
+            return false;
+          }
+
+          @Order(10.0)
+          public class Table extends AbstractTable {
+
+            public NameColumn getNameColumn() {
+              return getColumnSet().getColumnByClass(NameColumn.class);
+            }
+
+            @Override
+            protected boolean getConfiguredAutoResizeColumns() {
+              return true;
+            }
+
+            public AnswerNrColumn getAnswerNrColumn() {
+              return getColumnSet().getColumnByClass(AnswerNrColumn.class);
+            }
+
+            @Order(10.0)
+            public class AnswerNrColumn extends AbstractLongColumn {
+
+              @Override
+              protected String getConfiguredHeaderText() {
+                return Texts.get("No_");
+              }
+
+              @Override
+              protected boolean getConfiguredPrimaryKey() {
+                return true;
+              }
+
+              @Override
+              protected boolean getConfiguredVisible() {
+                return false;
+              }
+            }
+
+            @Order(20.0)
+            public class NameColumn extends AbstractStringColumn {
+
+              @Override
+              protected String getConfiguredHeaderText() {
+                return ScoutTexts.get("Name");
+              }
+            }
+
+            @Order(10.0)
+            public class EditAnswerMenu extends AbstractMenu {
+
+              @Override
+              protected String getConfiguredText() {
+                return Texts.get("EditAnswer");
+              }
+
+              @Override
+              protected void execAction() throws ProcessingException {
+                AnswerForm form = new AnswerForm();
+                form.setAnswerNr(getAnswerNrColumn().getSelectedValue());
+                form.startModify();
+                form.waitFor();
+                if (form.isFormStored()) {
+                  getNameColumn().setValue(getSelectedRow(), form.getYourNameField().getValue());
+                }
+              }
             }
           }
         }
