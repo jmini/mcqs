@@ -8,10 +8,10 @@
   <extension id="product" point="org.eclipse.core.runtime.products">
     <product
           application="org.eclipselabs.mcqs.ui.swing.app"
-          name="MCQ">
+          name="mcqs">
        <property
              name="appName"
-             value="MCQ">
+             value="mcqs">
        </property>
     </product>
   </extension>

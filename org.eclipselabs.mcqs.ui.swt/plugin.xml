@@ -6,7 +6,7 @@
             class="org.eclipselabs.mcqs.ui.swt.perspective.Perspective"
             fixed="true"
             id="org.eclipselabs.mcqs.ui.swt.perspective.Perspective"
-            name="MCQ"/>
+            name="mcqs"/>
    </extension>
    <extension
          point="org.eclipse.ui.views">
@@ -52,10 +52,10 @@
   <extension id="product" point="org.eclipse.core.runtime.products">
     <product
           application="org.eclipselabs.mcqs.ui.swt.application"
-          name="MCQ">
+          name="mcqs">
        <property
              name="appName"
-             value="MCQ"/>
+             value="mcqs"/>
        <property
           name="windowImages"
           value="resources/icons/eclipseScout16x16.gif,resources/icons/eclipseScout32x32.gif"/>

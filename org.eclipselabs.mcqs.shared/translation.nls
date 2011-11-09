@@ -3,5 +3,5 @@
 # To ensure a properly working nls support of    #
 # keep this file untouched directly.             #
 ##################################################
-Nls-Class=mcq.shared.Texts
+Nls-Class=org.eclipselabs.mcqs.shared.Texts
 
