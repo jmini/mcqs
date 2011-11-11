@@ -20,7 +20,7 @@ import org.eclipse.scout.commons.exception.VetoException;
 import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
 import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
-import org.eclipselabs.mcqs.shared.Texts;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipselabs.mcqs.shared.security.ReadQuestionsListPermission;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
@@ -29,7 +29,7 @@ public class QuestionsListProcessService extends AbstractService implements IQue
   @Override
   public QuestionsListFormData load(QuestionsListFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadQuestionsListPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     SQL.selectInto(" select question_id, question_text " +

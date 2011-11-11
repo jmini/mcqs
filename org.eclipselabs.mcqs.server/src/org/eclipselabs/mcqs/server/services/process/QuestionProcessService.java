@@ -22,7 +22,7 @@ import org.eclipse.scout.commons.holders.NVPair;
 import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
 import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
-import org.eclipselabs.mcqs.shared.Texts;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipselabs.mcqs.shared.security.CreateQuestionPermission;
 import org.eclipselabs.mcqs.shared.security.ReadQuestionPermission;
 import org.eclipselabs.mcqs.shared.security.UpdateQuestionPermission;
@@ -34,7 +34,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public QuestionFormData prepareCreate(QuestionFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
     //nothing to do
     return formData;
@@ -43,7 +43,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public QuestionFormData create(QuestionFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     SQL.insert(" insert into questions (question_text) " +
@@ -59,7 +59,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public QuestionFormData load(QuestionFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getQuestionNr() == null) {
@@ -82,7 +82,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public QuestionFormData store(QuestionFormData formData) throws ProcessingException {
     if (!ACCESS.check(new UpdateQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
     SQL.update("update questions set question_text = :QuestionText where question_id = :QuestionNr", formData);
 

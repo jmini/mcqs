@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.client.ui.forms;
 
-
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
@@ -28,6 +27,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.integerfield.AbstractIntegerField;
 import org.eclipse.scout.rt.client.ui.form.fields.listbox.AbstractListBox;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.lookup.LookupCall;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.CancelButton;
@@ -36,7 +36,6 @@ import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.OkButton;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.QuestionNrField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.QuestionTextField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.YourNameField;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.UpdateAnswerPermission;
 import org.eclipselabs.mcqs.shared.services.lookup.ChoicesLookupCall;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
@@ -53,7 +52,7 @@ public class AnswerForm extends AbstractForm {
 
   @Override
   protected String getConfiguredTitle() {
-    return Texts.get("Answer");
+    return TEXTS.get("Answer");
   }
 
   public CancelButton getCancelButton() {
@@ -111,7 +110,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Order(10.0)
-    public class QuestionNrField extends AbstractIntegerField{
+    public class QuestionNrField extends AbstractIntegerField {
 
       @Override
       protected boolean getConfiguredEnabled() {
@@ -120,12 +119,12 @@ public class AnswerForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("QuestionNr");
+        return TEXTS.get("QuestionNr");
       }
     }
 
     @Order(20.0)
-    public class QuestionTextField extends AbstractStringField{
+    public class QuestionTextField extends AbstractStringField {
 
       @Override
       protected boolean getConfiguredEnabled() {
@@ -139,7 +138,7 @@ public class AnswerForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Question");
+        return TEXTS.get("Question");
       }
 
       @Override
@@ -154,11 +153,11 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Order(30.0)
-    public class YourNameField extends AbstractStringField{
+    public class YourNameField extends AbstractStringField {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("YourName");
+        return TEXTS.get("YourName");
       }
 
       @Override
@@ -168,7 +167,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Order(40.0)
-    public class ChoicesField extends AbstractListBox<Long>{
+    public class ChoicesField extends AbstractListBox<Long> {
 
       @Override
       protected int getConfiguredGridH() {
@@ -177,7 +176,7 @@ public class AnswerForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Choices");
+        return TEXTS.get("Choices");
       }
 
       @Override
@@ -213,7 +212,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Override
-    public void execStore() throws ProcessingException{
+    public void execStore() throws ProcessingException {
       IAnswerProcessService service = SERVICES.getService(IAnswerProcessService.class);
       AnswerFormData formData = new AnswerFormData();
       exportFormData(formData);
@@ -221,10 +220,10 @@ public class AnswerForm extends AbstractForm {
     }
   }
 
-  public class NewHandler extends AbstractFormHandler{
+  public class NewHandler extends AbstractFormHandler {
 
     @Override
-    public void execLoad() throws ProcessingException{
+    public void execLoad() throws ProcessingException {
       IAnswerProcessService service = SERVICES.getService(IAnswerProcessService.class);
       AnswerFormData formData = new AnswerFormData();
       exportFormData(formData);
@@ -233,7 +232,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Override
-    public void execStore() throws ProcessingException{
+    public void execStore() throws ProcessingException {
       IAnswerProcessService service = SERVICES.getService(IAnswerProcessService.class);
       AnswerFormData formData = new AnswerFormData();
       exportFormData(formData);

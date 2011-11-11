@@ -10,7 +10,8 @@ Scout-Project-Alias: mcqs
 Require-Bundle: org.eclipse.scout.rt.ui.swing,
  org.eclipselabs.mcqs.client;visibility:=reexport,
  org.eclipselabs.mcqs.shared,
- org.eclipse.scout.net
+ org.eclipse.scout.net,
+ org.eclipse.scout.svg.ui.swing;bundle-version="3.7.0"
 Export-Package: org.eclipselabs.mcqs.ui.swing
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

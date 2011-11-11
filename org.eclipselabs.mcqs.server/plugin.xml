@@ -24,6 +24,7 @@
       <init-param name="bundle-name" value="org.eclipselabs.mcqs.server"/>
       <init-param name="bundle-path" value="/resources/html"/>
     </servlet>
+    <servlet alias="/ajax" class="org.eclipse.scout.rt.server.ServiceTunnelServlet"/>
   </extension>
   <extension point="org.eclipse.scout.http.servletfilter.filters">
     <filter aliases="/" class="org.eclipse.scout.rt.server.servlet.filter.BasicSecurityFilter" ranking="20">

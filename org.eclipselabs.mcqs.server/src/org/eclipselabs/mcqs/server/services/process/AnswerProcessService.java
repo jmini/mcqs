@@ -21,7 +21,7 @@ import org.eclipse.scout.commons.holders.NVPair;
 import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
 import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
-import org.eclipselabs.mcqs.shared.Texts;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipselabs.mcqs.shared.security.CreateAnswerPermission;
 import org.eclipselabs.mcqs.shared.security.ReadAnswerPermission;
 import org.eclipselabs.mcqs.shared.security.UpdateAnswerPermission;
@@ -33,7 +33,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   @Override
   public AnswerFormData prepareCreate(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     loadQuestion(formData);
@@ -44,7 +44,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   @Override
   public AnswerFormData create(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     SQL.insert(" insert into answers (name, question_id) " +
@@ -60,7 +60,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   @Override
   public AnswerFormData load(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getAnswerNr() == null) {
@@ -85,7 +85,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   @Override
   public AnswerFormData store(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new UpdateAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
     SQL.update("update answers set name = :YourName where answer_id = :AnswerNr", formData);
 

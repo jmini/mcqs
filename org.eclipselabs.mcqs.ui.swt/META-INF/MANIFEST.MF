@@ -13,7 +13,8 @@ Require-Bundle: org.eclipselabs.mcqs.client;visibility:=reexport,
  org.eclipse.equinox.app,
  org.eclipse.core.runtime,
  org.eclipse.ui,
- org.eclipse.ui.views
+ org.eclipse.ui.views,
+ org.eclipse.scout.svg.ui.swt;bundle-version="3.7.0"
 Export-Package: org.eclipselabs.mcqs.ui.swt,
  org.eclipselabs.mcqs.ui.swt.application,
  org.eclipselabs.mcqs.ui.swt.perspective,
