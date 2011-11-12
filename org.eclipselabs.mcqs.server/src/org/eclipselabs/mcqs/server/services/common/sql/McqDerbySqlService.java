@@ -19,18 +19,4 @@ import org.eclipse.scout.rt.services.common.jdbc.AbstractDerbySqlService;
 import org.eclipse.scout.service.IService;
 
 public class McqDerbySqlService extends AbstractDerbySqlService implements IService {
-  @Override
-  protected String getConfiguredJdbcMappingName() {
-    return "jdbc:derby:C:/Users/jbr/McqDB";
-  }
-
-  @Override
-  protected String getConfiguredUsername() {
-    return "mcq";
-  }
-
-  @Override
-  protected String getConfiguredPassword() {
-    return "qcm";
-  }
 }
