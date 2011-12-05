@@ -21,6 +21,8 @@ import org.eclipse.scout.rt.client.ui.form.IForm;
 import org.eclipse.scout.rt.client.ui.messagebox.IMessageBox;
 import org.eclipse.scout.rt.ui.swt.AbstractSwtEnvironment;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipselabs.mcqs.ui.swt.window.dialog.SwtMacScoutDialog;
 import org.eclipselabs.mcqs.ui.swt.window.messagebox.SwtMacScoutMessageBoxDialog;
 import org.osgi.framework.Bundle;
 
@@ -60,6 +62,11 @@ public class SwtEnvironment extends AbstractSwtEnvironment {
     else {
       super.showMessageBoxFromScout(messageBox);
     }
+  }
+
+  @Override
+  protected SwtMacScoutDialog createSwtScoutDialog(Shell shell, int dialogStyle) {
+    return new SwtMacScoutDialog(shell, this, dialogStyle);
   }
 
 }
