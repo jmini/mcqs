@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.client.ui.forms;
 
-
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
@@ -111,7 +110,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Order(10.0)
-    public class QuestionNrField extends AbstractIntegerField{
+    public class QuestionNrField extends AbstractIntegerField {
 
       @Override
       protected boolean getConfiguredEnabled() {
@@ -125,7 +124,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Order(20.0)
-    public class QuestionTextField extends AbstractStringField{
+    public class QuestionTextField extends AbstractStringField {
 
       @Override
       protected boolean getConfiguredEnabled() {
@@ -154,7 +153,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Order(30.0)
-    public class YourNameField extends AbstractStringField{
+    public class YourNameField extends AbstractStringField {
 
       @Override
       protected String getConfiguredLabel() {
@@ -168,7 +167,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Order(40.0)
-    public class ChoicesField extends AbstractListBox<Long>{
+    public class ChoicesField extends AbstractListBox<Long> {
 
       @Override
       protected int getConfiguredGridH() {
@@ -213,7 +212,7 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Override
-    public void execStore() throws ProcessingException{
+    public void execStore() throws ProcessingException {
       IAnswerProcessService service = SERVICES.getService(IAnswerProcessService.class);
       AnswerFormData formData = new AnswerFormData();
       exportFormData(formData);
@@ -221,10 +220,10 @@ public class AnswerForm extends AbstractForm {
     }
   }
 
-  public class NewHandler extends AbstractFormHandler{
+  public class NewHandler extends AbstractFormHandler {
 
     @Override
-    public void execLoad() throws ProcessingException{
+    public void execLoad() throws ProcessingException {
       IAnswerProcessService service = SERVICES.getService(IAnswerProcessService.class);
       AnswerFormData formData = new AnswerFormData();
       exportFormData(formData);
@@ -233,11 +232,12 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Override
-    public void execStore() throws ProcessingException{
+    public void execStore() throws ProcessingException {
       IAnswerProcessService service = SERVICES.getService(IAnswerProcessService.class);
       AnswerFormData formData = new AnswerFormData();
       exportFormData(formData);
       formData = service.create(formData);
+      importFormData(formData);
     }
   }
 }

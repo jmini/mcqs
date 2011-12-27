@@ -27,4 +27,6 @@ public interface IAnswerProcessService extends IService {
   AnswerFormData load(AnswerFormData formData) throws ProcessingException;
 
   AnswerFormData store(AnswerFormData formData) throws ProcessingException;
+
+  void delete(Long answerNr) throws ProcessingException;
 }

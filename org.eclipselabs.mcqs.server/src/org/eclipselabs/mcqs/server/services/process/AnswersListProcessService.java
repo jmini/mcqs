@@ -47,6 +47,12 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
         " where question_id = :questionNr " +
         " into  :answerNr, :name", formData.getAnswers(), formData);
 
+    formData = loadStatistics(formData);
+    return formData;
+  }
+
+  @Override
+  public AnswersListFormData loadStatistics(AnswersListFormData formData) throws ProcessingException {
     SQL.selectInto("  select c.choice_text, (select count(*) from answers_choices ac where ac.choice_id = c.choice_id) " +
         "  from  choices c " +
         "  where c.question_id = :questionNr " +
@@ -60,6 +66,7 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
         formData.getStatistics().setResult(i, result);
       }
     }
+
     return formData;
   }
 }

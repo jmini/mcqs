@@ -123,4 +123,11 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
       }
     }
   }
+
+  @Override
+  public void delete(Long answerNr) throws ProcessingException {
+    SQL.delete("delete from answers_choices where answer_id = :AnswerNr", new NVPair("AnswerNr", answerNr));
+    SQL.delete("delete from answers where answer_id = :AnswerNr", new NVPair("AnswerNr", answerNr));
+
+  }
 }

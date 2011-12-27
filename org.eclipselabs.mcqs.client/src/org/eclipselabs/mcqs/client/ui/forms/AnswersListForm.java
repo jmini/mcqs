@@ -20,6 +20,7 @@ import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.basic.table.AbstractTable;
+import org.eclipse.scout.rt.client.ui.basic.table.ITableRow;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractDoubleColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractLongColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractStringColumn;
@@ -31,6 +32,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.integerfield.AbstractIntegerFi
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
 import org.eclipse.scout.rt.client.ui.form.fields.tabbox.AbstractTabBox;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
+import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.ScoutTexts;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox;
@@ -42,6 +44,7 @@ import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.QuestionNrFi
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.QuestionTextField;
 import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
+import org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
 
 @FormData(value = AnswersListFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
@@ -172,6 +175,11 @@ public class AnswersListForm extends AbstractForm {
             return false;
           }
 
+          @Override
+          protected boolean execIsSaveNeeded() throws ProcessingException {
+            return false;
+          }
+
           @Order(10.0)
           public class Table extends AbstractTable {
 
@@ -250,11 +258,21 @@ public class AnswersListForm extends AbstractForm {
             return false;
           }
 
+          @Override
+          protected boolean execIsSaveNeeded() throws ProcessingException {
+            return false;
+          }
+
           @Order(10.0)
           public class Table extends AbstractTable {
 
             public NameColumn getNameColumn() {
               return getColumnSet().getColumnByClass(NameColumn.class);
+            }
+
+            @Override
+            protected boolean getConfiguredAutoDiscardOnDelete() {
+              return true;
             }
 
             @Override
@@ -295,6 +313,40 @@ public class AnswersListForm extends AbstractForm {
             }
 
             @Order(10.0)
+            public class AddAnAnswerMenu extends AbstractMenu {
+
+              @Override
+              protected String getConfiguredText() {
+                return Texts.get("AddAnAnswer");
+              }
+
+              @Override
+              protected boolean getConfiguredEmptySpaceAction() {
+                return true;
+              }
+
+              @Override
+              protected boolean getConfiguredSingleSelectionAction() {
+                return false;
+              }
+
+              @Override
+              protected void execAction() throws ProcessingException {
+                AnswerForm form = new AnswerForm();
+                form.getQuestionNrField().setValue(getQuestionNrField().getValue());
+                form.startNew();
+                form.waitFor();
+                if (form.isFormStored()) {
+                  ITableRow newRow = createRow();
+                  getAnswerNrColumn().setValue(newRow, form.getAnswerNr());
+                  getNameColumn().setValue(newRow, form.getYourNameField().getValue());
+                  addRow(newRow);
+                  reloadStatistics();
+                }
+              }
+            }
+
+            @Order(20.0)
             public class EditAnswerMenu extends AbstractMenu {
 
               @Override
@@ -310,12 +362,41 @@ public class AnswersListForm extends AbstractForm {
                 form.waitFor();
                 if (form.isFormStored()) {
                   getNameColumn().setValue(getSelectedRow(), form.getYourNameField().getValue());
+                  reloadStatistics();
+                }
+              }
+            }
+
+            @Order(30.0)
+            public class DeleteAnswerMenu extends AbstractMenu {
+
+              @Override
+              protected String getConfiguredText() {
+                return Texts.get("DeleteAnswer");
+              }
+
+              @Override
+              protected void execAction() throws ProcessingException {
+                ITableRow r = getSelectedRow();
+                if (MessageBox.showDeleteConfirmationMessage(Texts.get("Answers"), getNameColumn().getValue(r))) {
+                  //Submit directly:
+                  SERVICES.getService(IAnswerProcessService.class).delete(getAnswerNrColumn().getValue(r));
+                  deleteRow(r);
+                  reloadStatistics();
                 }
               }
             }
           }
         }
       }
+    }
+
+    private void reloadStatistics() throws ProcessingException {
+      IAnswersListProcessService service = SERVICES.getService(IAnswersListProcessService.class);
+      AnswersListFormData formData = new AnswersListFormData();
+      exportFormData(formData);
+      formData = service.loadStatistics(formData);
+      importFormData(formData);
     }
 
     @Order(40.0)

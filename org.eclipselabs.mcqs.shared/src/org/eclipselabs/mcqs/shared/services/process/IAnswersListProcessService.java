@@ -21,4 +21,6 @@ import org.eclipse.scout.service.IService;
 public interface IAnswersListProcessService extends IService {
 
   AnswersListFormData load(AnswersListFormData formData) throws ProcessingException;
+
+  AnswersListFormData loadStatistics(AnswersListFormData formData) throws ProcessingException;
 }
