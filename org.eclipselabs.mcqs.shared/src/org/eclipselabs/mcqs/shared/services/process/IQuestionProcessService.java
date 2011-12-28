@@ -27,4 +27,6 @@ public interface IQuestionProcessService extends IService {
   QuestionFormData load(QuestionFormData formData) throws ProcessingException;
 
   QuestionFormData store(QuestionFormData formData) throws ProcessingException;
+
+  void delete(Integer questionNr) throws ProcessingException;
 }

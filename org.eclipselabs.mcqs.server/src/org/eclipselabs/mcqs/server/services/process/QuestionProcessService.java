@@ -121,4 +121,12 @@ public class QuestionProcessService extends AbstractService implements IQuestion
     }
   }
 
+  @Override
+  public void delete(Integer questionNr) throws ProcessingException {
+    SQL.delete("delete from answers_choices where answer_id in (select answer_id from answers where question_id = :QuestionNr)", new NVPair("QuestionNr", questionNr));
+    SQL.delete("delete from answers where question_id = :QuestionNr", new NVPair("QuestionNr", questionNr));
+    SQL.delete("delete from answers_choices where choice_id in (select choice_id from choices where question_id = :QuestionNr)", new NVPair("QuestionNr", questionNr));
+    SQL.delete("delete from choices where question_id = :QuestionNr", new NVPair("QuestionNr", questionNr));
+    SQL.delete("delete from questions where question_id = :QuestionNr", new NVPair("QuestionNr", questionNr));
+  }
 }

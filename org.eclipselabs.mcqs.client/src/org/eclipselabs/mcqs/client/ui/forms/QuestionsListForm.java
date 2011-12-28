@@ -20,15 +20,18 @@ import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.basic.table.AbstractTable;
+import org.eclipse.scout.rt.client.ui.basic.table.ITableRow;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractIntegerColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractStringColumn;
 import org.eclipse.scout.rt.client.ui.form.AbstractForm;
 import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
+import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm.MainBox.QuestionsField;
 import org.eclipselabs.mcqs.shared.Texts;
+import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
 
@@ -207,6 +210,24 @@ public class QuestionsListForm extends AbstractForm {
             form.startModify();
             form.waitFor();
             if (form.isFormStored()) {
+              reloadForm();
+            }
+          }
+        }
+
+        @Order(60.0)
+        public class DeleteQuestionMenu extends AbstractMenu {
+
+          @Override
+          protected String getConfiguredText() {
+            return Texts.get("DeleteQuestion");
+          }
+
+          @Override
+          protected void execAction() throws ProcessingException {
+            ITableRow r = getSelectedRow();
+            if (MessageBox.showDeleteConfirmationMessage(Texts.get("Questions"), getQuestionColumn().getValue(r))) {
+              SERVICES.getService(IQuestionProcessService.class).delete(getQuestionNrColumn().getValue(r));
               reloadForm();
             }
           }
