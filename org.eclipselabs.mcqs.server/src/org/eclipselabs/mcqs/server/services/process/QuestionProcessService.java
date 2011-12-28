@@ -105,6 +105,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
               " values (:ChoiceText, :QuestionNr) ", formData, new NVPair("ChoiceText", formData.getChoices().getChoiceText(i)));
           break;
         case ITableHolder.STATUS_DELETED:
+          SQL.delete("delete from answers_choices where choice_id = :ChoiceId", new NVPair("ChoiceId", formData.getChoices().getChoiceNr(i)));
           SQL.delete(" delete from choices " +
               " where choice_id = :ChoiceId ", new NVPair("ChoiceId", formData.getChoices().getChoiceNr(i)));
           break;
