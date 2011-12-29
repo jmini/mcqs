@@ -24,6 +24,7 @@ import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
 import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.CreateQuestionPermission;
+import org.eclipselabs.mcqs.shared.security.DeleteQuestionPermission;
 import org.eclipselabs.mcqs.shared.security.ReadQuestionPermission;
 import org.eclipselabs.mcqs.shared.security.UpdateQuestionPermission;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
@@ -52,6 +53,9 @@ public class QuestionProcessService extends AbstractService implements IQuestion
     SQL.selectInto(" values IDENTITY_VAL_LOCAL() " +
         " into  :QuestionNr", formData);
 
+    if (formData.getQuestionNr() == null) {
+      throw new ProcessingException("QuestionNr can no be null");
+    }
     storeQuestionChoices(formData);
     return formData;
   }
@@ -84,6 +88,11 @@ public class QuestionProcessService extends AbstractService implements IQuestion
     if (!ACCESS.check(new UpdateQuestionPermission())) {
       throw new VetoException(Texts.get("AuthorizationFailed"));
     }
+
+    if (formData.getQuestionNr() == null) {
+      throw new ProcessingException("QuestionNr can no be null");
+    }
+
     SQL.update("update questions set question_text = :QuestionText where question_id = :QuestionNr", formData);
 
     storeQuestionChoices(formData);
@@ -124,6 +133,10 @@ public class QuestionProcessService extends AbstractService implements IQuestion
 
   @Override
   public void delete(Integer questionNr) throws ProcessingException {
+    if (!ACCESS.check(new DeleteQuestionPermission())) {
+      throw new VetoException(Texts.get("AuthorizationFailed"));
+    }
+
     SQL.delete("delete from answers_choices where answer_id in (select answer_id from answers where question_id = :QuestionNr)", new NVPair("QuestionNr", questionNr));
     SQL.delete("delete from answers where question_id = :QuestionNr", new NVPair("QuestionNr", questionNr));
     SQL.delete("delete from answers_choices where choice_id in (select choice_id from choices where question_id = :QuestionNr)", new NVPair("QuestionNr", questionNr));

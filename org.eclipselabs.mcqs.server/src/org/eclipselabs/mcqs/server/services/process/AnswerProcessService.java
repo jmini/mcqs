@@ -23,6 +23,7 @@ import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
 import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.CreateAnswerPermission;
+import org.eclipselabs.mcqs.shared.security.DeleteAnswerPermission;
 import org.eclipselabs.mcqs.shared.security.ReadAnswerPermission;
 import org.eclipselabs.mcqs.shared.security.UpdateAnswerPermission;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
@@ -34,6 +35,10 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   public AnswerFormData prepareCreate(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateAnswerPermission())) {
       throw new VetoException(Texts.get("AuthorizationFailed"));
+    }
+
+    if (formData.getQuestionNr().getValue() == null) {
+      throw new ProcessingException("QuestionNr can no be null");
     }
 
     loadQuestion(formData);
@@ -52,6 +57,10 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
 
     SQL.selectInto(" values IDENTITY_VAL_LOCAL() " +
         " into  :AnswerNr", formData);
+
+    if (formData.getAnswerNr() == null) {
+      throw new ProcessingException("AnswerNr can no be null");
+    }
 
     storeAnswerChoice(formData);
     return formData;
@@ -72,6 +81,10 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
         " where answer_id = :AnswerNr " +
         " into  :QuestionNr, :YourName", formData);
 
+    if (formData.getQuestionNr().getValue() == null) {
+      throw new ProcessingException("QuestionNr can no be null");
+    }
+
     loadQuestion(formData);
 
     SQL.selectInto(" select choice_id " +
@@ -87,6 +100,11 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
     if (!ACCESS.check(new UpdateAnswerPermission())) {
       throw new VetoException(Texts.get("AuthorizationFailed"));
     }
+
+    if (formData.getAnswerNr() == null) {
+      throw new ProcessingException("AnswerNr can no be null");
+    }
+
     SQL.update("update answers set name = :YourName where answer_id = :AnswerNr", formData);
 
     SQL.delete("delete from answers_choices where answer_id = :AnswerNr", formData);
@@ -101,10 +119,6 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
    * @throws ProcessingException
    */
   private void loadQuestion(AnswerFormData formData) throws ProcessingException {
-    if (formData.getQuestionNr() == null) {
-      throw new ProcessingException("QuestionNr can no be null");
-    }
-
     SQL.selectInto(" select question_text " +
         " from  questions " +
         " where question_id = :QuestionNr " +
@@ -126,6 +140,10 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
 
   @Override
   public void delete(Long answerNr) throws ProcessingException {
+    if (!ACCESS.check(new DeleteAnswerPermission())) {
+      throw new VetoException(Texts.get("AuthorizationFailed"));
+    }
+
     SQL.delete("delete from answers_choices where answer_id = :AnswerNr", new NVPair("AnswerNr", answerNr));
     SQL.delete("delete from answers where answer_id = :AnswerNr", new NVPair("AnswerNr", answerNr));
 

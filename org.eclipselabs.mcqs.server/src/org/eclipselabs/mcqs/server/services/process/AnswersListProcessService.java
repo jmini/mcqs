@@ -33,8 +33,8 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
       throw new VetoException(Texts.get("AuthorizationFailed"));
     }
 
-    if (!formData.getQuestionNr().isValueSet()) {
-      throw new ProcessingException("QuestionId can no be null");
+    if (formData.getQuestionNr().getValue() == null) {
+      throw new ProcessingException("QuestionNr can no be null");
     }
 
     SQL.selectInto(" select question_text " +
@@ -53,6 +53,14 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
 
   @Override
   public AnswersListFormData loadStatistics(AnswersListFormData formData) throws ProcessingException {
+    if (!ACCESS.check(new ReadAnswersListPermission())) {
+      throw new VetoException(Texts.get("AuthorizationFailed"));
+    }
+
+    if (formData.getQuestionNr().getValue() == null) {
+      throw new ProcessingException("QuestionNr can no be null");
+    }
+
     SQL.selectInto("  select c.choice_text, (select count(*) from answers_choices ac where ac.choice_id = c.choice_id) " +
         "  from  choices c " +
         "  where c.question_id = :questionNr " +
