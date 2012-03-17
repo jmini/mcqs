@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+  <extension point="org.eclipse.scout.service.services">
+    <service class="org.eclipselabs.mcqs.server.nodb.services.process.NoDbQuestionsListProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+    <service class="org.eclipselabs.mcqs.server.nodb.services.process.NoDbAnswerProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+    <service class="org.eclipselabs.mcqs.server.nodb.services.lookup.NoDbChoicesLookupService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+    <service class="org.eclipselabs.mcqs.server.nodb.services.process.NoDbAnswersListProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+    <service class="org.eclipselabs.mcqs.server.nodb.services.process.NoDbQuestionProcessService" session="org.eclipselabs.mcqs.server.ServerSession" factory="org.eclipse.scout.rt.server.services.ServerServiceFactory"/>
+  </extension>
+</fragment>

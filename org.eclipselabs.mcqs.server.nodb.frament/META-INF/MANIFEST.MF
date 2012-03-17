@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Frament
+Bundle-SymbolicName: org.eclipselabs.mcqs.server.nodb.frament;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: org.eclipselabs.mcqs.server;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.eclipselabs.mcqs.server.nodb.services.lookup,
+ org.eclipselabs.mcqs.server.nodb.services.process
