@@ -9,4 +9,16 @@
   </extension>
   <extension point="org.eclipse.scout.service.services">
   </extension>
+  <extension
+        id="test_product"
+        point="org.eclipse.core.runtime.products">
+     <product
+           application="org.eclipselabs.mcqs.client.test_app"
+           name="mcqs [test]">
+        <property
+              name="appName"
+              value="mcqs [test]">
+        </property>
+     </product>
+  </extension>
 </plugin>
