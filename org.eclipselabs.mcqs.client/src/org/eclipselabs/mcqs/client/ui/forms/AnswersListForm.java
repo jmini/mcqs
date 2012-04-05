@@ -386,7 +386,7 @@ public class AnswersListForm extends AbstractForm {
         values.add(new BarGraph(j, formData.getStatistics().getChoice(j), percent));
       }
       InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values));
-      getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in, false));
+      getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
     }
   }
 }

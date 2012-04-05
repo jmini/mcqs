@@ -14,9 +14,10 @@ Require-Bundle: org.eclipselabs.mcqs.client;visibility:=reexport,
  org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.ui.views,
- org.eclipse.scout.svg.ui.swt;bundle-version="3.7.0"
-Export-Package: org.eclipselabs.mcqs.ui.swt,
+ org.eclipse.scout.svg.ui.swt
+Export-Package: org.eclipselabs.mcqs.ui.swt;uses:="org.eclipse.scout.rt.ui.swt,org.eclipse.scout.rt.client.session,org.osgi.framework",
  org.eclipselabs.mcqs.ui.swt.application,
+ org.eclipselabs.mcqs.ui.swt.application.menu,
  org.eclipselabs.mcqs.ui.swt.perspective,
  org.eclipselabs.mcqs.ui.swt.views
 Bundle-ClassPath: .

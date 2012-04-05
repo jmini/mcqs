@@ -28,10 +28,9 @@
    </vm>
 
    <plugins>
-      <plugin id="org.eclipselabs.mcqs.server" fragment=""/>
-      <plugin id="org.eclipselabs.mcqs.shared" fragment=""/>
       <plugin id="javax.servlet"/>
       <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.derby.jdbc_1082.fragment" fragment="true"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.runtime"/>
@@ -46,17 +45,25 @@
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
+      <plugin id="org.eclipse.jetty.continuation"/>
+      <plugin id="org.eclipse.jetty.http"/>
+      <plugin id="org.eclipse.jetty.io"/>
+      <plugin id="org.eclipse.jetty.security"/>
+      <plugin id="org.eclipse.jetty.server"/>
+      <plugin id="org.eclipse.jetty.servlet"/>
+      <plugin id="org.eclipse.jetty.util"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.scout.commons"/>
       <plugin id="org.eclipse.scout.http.servletfilter"/>
+      <plugin id="org.eclipse.scout.jaxws216"/>
       <plugin id="org.eclipse.scout.rt.jdbc.derby"/>
       <plugin id="org.eclipse.scout.rt.server"/>
       <plugin id="org.eclipse.scout.rt.shared"/>
       <plugin id="org.eclipse.scout.service"/>
       <plugin id="org.eclipse.update.configurator"/>
-      <plugin id="org.mortbay.jetty.server"/>
-      <plugin id="org.mortbay.jetty.util"/>
+      <plugin id="org.eclipselabs.mcqs.server"/>
+      <plugin id="org.eclipselabs.mcqs.shared"/>
    </plugins>
 
 

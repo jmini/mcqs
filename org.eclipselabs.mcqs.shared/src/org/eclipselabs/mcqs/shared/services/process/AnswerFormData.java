@@ -1,7 +1,6 @@
 package org.eclipselabs.mcqs.shared.services.process;
 
 import org.eclipse.scout.rt.shared.data.form.ValidationRule;
-import java.util.Map;
 import org.eclipse.scout.rt.shared.data.form.fields.AbstractValueFieldData;
 import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
 import org.eclipselabs.mcqs.shared.services.lookup.ChoicesLookupCall;
@@ -64,7 +63,7 @@ public class AnswerFormData extends AbstractFormData {
      * list of derived validation rules.
      */
     @Override
-    protected void initValidationRules(Map<String, Object> ruleMap) {
+    protected void initValidationRules(java.util.Map<String, Object> ruleMap) {
       super.initValidationRules(ruleMap);
       ruleMap.put(ValidationRule.LOOKUP_CALL, ChoicesLookupCall.class);
       ruleMap.put(ValidationRule.MASTER_VALUE_FIELD, QuestionNr.class);
@@ -88,7 +87,7 @@ public class AnswerFormData extends AbstractFormData {
      * list of derived validation rules.
      */
     @Override
-    protected void initValidationRules(Map<String, Object> ruleMap) {
+    protected void initValidationRules(java.util.Map<String, Object> ruleMap) {
       super.initValidationRules(ruleMap);
       ruleMap.put(ValidationRule.MAX_LENGTH, 4000);
     }
@@ -104,7 +103,7 @@ public class AnswerFormData extends AbstractFormData {
      * list of derived validation rules.
      */
     @Override
-    protected void initValidationRules(Map<String, Object> ruleMap) {
+    protected void initValidationRules(java.util.Map<String, Object> ruleMap) {
       super.initValidationRules(ruleMap);
       ruleMap.put(ValidationRule.MANDATORY, true);
       ruleMap.put(ValidationRule.MAX_LENGTH, 4000);

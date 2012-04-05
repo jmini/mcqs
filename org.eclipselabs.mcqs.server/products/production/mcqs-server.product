@@ -4,8 +4,8 @@
 <product name="mcqs Server" id="org.eclipselabs.mcqs.server.product" application="org.eclipselabs.mcqs.server.app" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
-      <linux>/org.eclipselabs.mcqs.server/products/development/config.ini</linux>
-      <macosx>/org.eclipselabs.mcqs.server/products/development/config.ini</macosx>
+      <linux>/org.eclipselabs.mcqs.server/products/production/config.ini</linux>
+      <macosx>/org.eclipselabs.mcqs.server/products/production/config.ini</macosx>
       <win32>/org.eclipselabs.mcqs.server/products/production/config.ini</win32>
    </configIni>
 
@@ -33,6 +33,7 @@
       <plugin id="org.eclipselabs.mcqs.shared" fragment=""/>
       <plugin id="javax.servlet"/>
       <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.derby.jdbc_1082.fragment" fragment="true"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.runtime"/>
@@ -50,6 +51,7 @@
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.scout.commons"/>
       <plugin id="org.eclipse.scout.http.servletfilter"/>
+      <plugin id="org.eclipse.scout.jaxws216"/>
       <plugin id="org.eclipse.scout.rt.jdbc.derby"/>
       <plugin id="org.eclipse.scout.rt.server"/>
       <plugin id="org.eclipse.scout.rt.shared"/>

@@ -21,7 +21,7 @@ import org.eclipse.scout.service.IService;
 public class McqDerbySqlService extends AbstractDerbySqlService implements IService {
   @Override
   protected String getConfiguredJdbcMappingName() {
-    return "jdbc:derby:C:/Users/jbr/McqDB";
+    return "jdbc:derby:/Users/jebr/code/mcq/mcq_db.derby";
   }
 
   @Override
