@@ -1,10 +1,10 @@
 package org.eclipselabs.mcqs.shared.services.process;
 
+import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
 import org.eclipse.scout.rt.shared.data.form.ValidationRule;
 import org.eclipse.scout.rt.shared.data.form.fields.AbstractValueFieldData;
-import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
-import org.eclipselabs.mcqs.shared.services.lookup.ChoicesLookupCall;
 import org.eclipse.scout.rt.shared.data.form.properties.AbstractPropertyData;
+import org.eclipselabs.mcqs.shared.services.lookup.ChoicesLookupCall;
 
 public class AnswerFormData extends AbstractFormData {
   private static final long serialVersionUID = 1L;

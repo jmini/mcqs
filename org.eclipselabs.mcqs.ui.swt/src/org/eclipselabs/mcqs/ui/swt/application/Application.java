@@ -47,22 +47,13 @@ public class Application implements IApplication {
   public Integer startSecure(final IApplicationContext context)
       throws Exception {
     Display display = PlatformUI.createDisplay();
-    //Subject.getSubject(AccessController.getContext()).getPrincipals().add(new NetPrincipal("localhost", "admin", "manager"));
     NetActivator.install();
-//    NetActivator.getDefault().addCallbackHandler(new UserPassDialogCallbackHandler(getSwingEnvironment()));
-//    if (FenixUpdater.update(getProgressMonitor())==State.RestartRequired){
-//      return EXIT_RESTART;
-//    }
     if (PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor()) == PlatformUI.RETURN_RESTART) {
       return EXIT_RESTART;
     }
     return EXIT_OK;
   }
 
-  /*
-   * (non-Javadoc)
-  * @see org.eclipse.equinox.app.IApplication#stop()
-   */
   @Override
   public void stop() {
     final IWorkbench workbench = PlatformUI.getWorkbench();

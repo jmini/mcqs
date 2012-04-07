@@ -26,9 +26,9 @@ import org.eclipse.scout.rt.client.ui.form.AbstractForm;
 import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm.MainBox.QuestionsField;
-import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
 
