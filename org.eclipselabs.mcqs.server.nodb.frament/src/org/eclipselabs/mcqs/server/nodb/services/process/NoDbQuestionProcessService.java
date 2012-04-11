@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2011 Jeremie Bresson
+ * Copyright 2012 Jeremie Bresson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package org.eclipselabs.mcqs.server.nodb.services.process;
 import org.eclipse.scout.commons.annotations.Priority;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.service.AbstractService;
+import org.eclipselabs.mcqs.server.nodb.DataStore;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 
@@ -31,20 +32,34 @@ public class NoDbQuestionProcessService extends AbstractService implements IQues
 
   @Override
   public QuestionFormData create(QuestionFormData formData) throws ProcessingException {
+    DataStore.getInstance().storeQuestion(formData);
     return formData;
   }
 
   @Override
   public QuestionFormData load(QuestionFormData formData) throws ProcessingException {
-    return formData;
+    if (formData.getQuestionNr() == null) {
+      throw new ProcessingException("QuestionNr can not be null");
+    }
+    return DataStore.getInstance().getQuestion(formData.getQuestionNr());
   }
 
   @Override
   public QuestionFormData store(QuestionFormData formData) throws ProcessingException {
+    if (formData.getQuestionNr() == null) {
+      throw new ProcessingException("QuestionNr can not be null");
+    }
+
+    DataStore.getInstance().storeQuestion(formData);
     return formData;
   }
 
   @Override
   public void delete(Integer questionNr) throws ProcessingException {
+    if (questionNr == null) {
+      throw new ProcessingException("QuestionNr can not be null");
+    }
+
+    DataStore.getInstance().deleteQuestion(questionNr);
   }
 }
