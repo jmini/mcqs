@@ -54,7 +54,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
         " into  :QuestionNr", formData);
 
     if (formData.getQuestionNr() == null) {
-      throw new ProcessingException("QuestionNr can no be null");
+      throw new ProcessingException("QuestionNr can not be null");
     }
     storeQuestionChoices(formData);
     return formData;

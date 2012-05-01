@@ -144,8 +144,11 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
       throw new VetoException(Texts.get("AuthorizationFailed"));
     }
 
+    if (answerNr == null) {
+      throw new ProcessingException("AnswerNr can no be null");
+    }
+
     SQL.delete("delete from answers_choices where answer_id = :AnswerNr", new NVPair("AnswerNr", answerNr));
     SQL.delete("delete from answers where answer_id = :AnswerNr", new NVPair("AnswerNr", answerNr));
-
   }
 }

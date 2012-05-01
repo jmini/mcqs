@@ -34,7 +34,7 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
     }
 
     if (formData.getQuestionNr().getValue() == null) {
-      throw new ProcessingException("QuestionNr can no be null");
+      throw new ProcessingException("QuestionNr can not be null");
     }
 
     SQL.selectInto(" select question_text " +
@@ -58,7 +58,7 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
     }
 
     if (formData.getQuestionNr().getValue() == null) {
-      throw new ProcessingException("QuestionNr can no be null");
+      throw new ProcessingException("QuestionNr can not be null");
     }
 
     SQL.selectInto("  select c.choice_text, (select count(*) from answers_choices ac where ac.choice_id = c.choice_id) " +
