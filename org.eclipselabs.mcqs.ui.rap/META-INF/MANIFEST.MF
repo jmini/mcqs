@@ -5,15 +5,14 @@ Bundle-SymbolicName: org.eclipselabs.mcqs.ui.rap;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipselabs.mcqs.ui.rap.Activator
 Bundle-Vendor: Eclipse Scout Project
+Export-Package: org.eclipselabs.mcqs.ui.rap
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipselabs.mcqs.client,
  org.eclipselabs.mcqs.shared,
  org.eclipse.scout.rt.ui.rap,
  org.eclipse.scout.net,
  org.eclipse.equinox.http.registry,
- org.eclipse.scout.http.servletfilter,
- org.eclipse.scout.svg.ui.rap;bundle-version="3.7.0"
-Bundle-ActivationPolicy: lazy
+ org.eclipse.scout.http.servletfilter
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Scout-Project: org.eclipse.scout.rt
-Export-Package: org.eclipselabs.mcqs.ui.rap
+Bundle-ActivationPolicy: lazy

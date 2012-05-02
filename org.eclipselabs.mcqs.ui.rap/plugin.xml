@@ -20,9 +20,6 @@
     point="org.eclipse.scout.rt.ui.rap.lookAndFeel">
     <decorations
       scope="global">
-      <enableBehaviour
-        enabled="readOnly">
-      </enableBehaviour>
       <mandatory>
         <starMarker
           placement="afterLabel">
@@ -66,9 +63,14 @@
   <extension
     point="org.eclipse.scout.http.servletfilter.filters">
     <filter
-      aliases="/rap"
+      aliases="/"
       class="org.eclipse.scout.http.servletfilter.security.AnonymousSecurityFilter"
       ranking="10">
+    </filter>
+    <filter
+      aliases="/rap"
+      class="org.eclipse.scout.http.servletfilter.security.BasicSecurityFilter"
+      ranking="20">
     </filter>
   </extension>
 </plugin>

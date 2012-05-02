@@ -84,6 +84,10 @@
                value="/resources/html">
          </init-param>
       </servlet>
+      <servlet
+            alias="/ajax"
+            class="org.eclipse.scout.rt.server.ServiceTunnelServlet">
+      </servlet>
    </extension>
    <extension
          name=""
@@ -114,8 +118,8 @@
          name=""
          point="org.eclipse.core.runtime.products">
       <product
-            name="mcqs Server"
-            application="org.eclipselabs.mcqs.server.app">
+            application="org.eclipselabs.mcqs.server.app"
+            name="mcqs Server">
          <property
                name="appName"
                value="mcqs Server">

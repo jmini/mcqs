@@ -10,12 +10,8 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.ui.rap;
 
-import java.security.PrivilegedAction;
-import javax.security.auth.Subject;
-import org.eclipse.scout.commons.security.SimplePrincipal;
 import org.eclipselabs.mcqs.client.ClientSession;
 import org.eclipse.scout.rt.ui.rap.AbstractStandaloneRwtEnvironment;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  *
