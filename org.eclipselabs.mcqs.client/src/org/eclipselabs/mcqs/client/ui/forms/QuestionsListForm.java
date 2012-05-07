@@ -28,9 +28,9 @@ import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm.MainBox.QuestionsField;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
@@ -72,8 +72,13 @@ public class QuestionsListForm extends AbstractForm {
     public class QuestionsField extends AbstractTableField<QuestionsField.Table> {
 
       @Override
+      protected int getConfiguredGridH() {
+        return 6;
+      }
+
+      @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Questions");
+        return TEXTS.get("Questions");
       }
 
       @Override
@@ -97,7 +102,7 @@ public class QuestionsListForm extends AbstractForm {
 
           @Override
           protected String getConfiguredHeaderText() {
-            return Texts.get("Nr");
+            return TEXTS.get("Nr");
           }
 
           @Override
@@ -116,7 +121,7 @@ public class QuestionsListForm extends AbstractForm {
 
           @Override
           protected String getConfiguredHeaderText() {
-            return Texts.get("Question");
+            return TEXTS.get("Question");
           }
 
           @Override
@@ -130,7 +135,7 @@ public class QuestionsListForm extends AbstractForm {
 
           @Override
           protected String getConfiguredText() {
-            return Texts.get("AddAnAnswer");
+            return TEXTS.get("AddAnAnswer");
           }
 
           @Override
@@ -146,7 +151,7 @@ public class QuestionsListForm extends AbstractForm {
 
           @Override
           protected String getConfiguredText() {
-            return Texts.get("DisplayAllAnswers");
+            return TEXTS.get("DisplayAllAnswers");
           }
 
           @Override
@@ -181,7 +186,7 @@ public class QuestionsListForm extends AbstractForm {
 
           @Override
           protected String getConfiguredText() {
-            return Texts.get("CreateQuestion");
+            return TEXTS.get("CreateQuestion");
           }
 
           @Override
@@ -200,7 +205,7 @@ public class QuestionsListForm extends AbstractForm {
 
           @Override
           protected String getConfiguredText() {
-            return Texts.get("EditQuestion");
+            return TEXTS.get("EditQuestion");
           }
 
           @Override
@@ -220,13 +225,13 @@ public class QuestionsListForm extends AbstractForm {
 
           @Override
           protected String getConfiguredText() {
-            return Texts.get("DeleteQuestion");
+            return TEXTS.get("DeleteQuestion");
           }
 
           @Override
           protected void execAction() throws ProcessingException {
             ITableRow r = getSelectedRow();
-            if (MessageBox.showDeleteConfirmationMessage(Texts.get("Questions"), getQuestionColumn().getValue(r))) {
+            if (MessageBox.showDeleteConfirmationMessage(TEXTS.get("Questions"), getQuestionColumn().getValue(r))) {
               SERVICES.getService(IQuestionProcessService.class).delete(getQuestionNrColumn().getValue(r));
               reloadForm();
             }
@@ -255,7 +260,7 @@ public class QuestionsListForm extends AbstractForm {
 
   @Override
   protected String getConfiguredTitle() {
-    return Texts.get("Questions");
+    return TEXTS.get("Questions");
   }
 
   public void startDisplay() throws ProcessingException {

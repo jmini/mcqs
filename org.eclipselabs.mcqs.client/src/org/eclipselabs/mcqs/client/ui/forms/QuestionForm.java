@@ -31,10 +31,10 @@ import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.CancelButton;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.OkButton;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.UpdateQuestionPermission;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
@@ -50,7 +50,7 @@ public class QuestionForm extends AbstractForm {
 
   @Override
   protected String getConfiguredTitle() {
-    return Texts.get("Question");
+    return TEXTS.get("Question");
   }
 
   public CancelButton getCancelButton() {
@@ -100,7 +100,7 @@ public class QuestionForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Question");
+        return TEXTS.get("Question");
       }
 
       @Override
@@ -129,7 +129,7 @@ public class QuestionForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Choices");
+        return TEXTS.get("Choices");
       }
 
       @Order(10.0)
@@ -158,7 +158,7 @@ public class QuestionForm extends AbstractForm {
 
           @Override
           protected String getConfiguredHeaderText() {
-            return Texts.get("Nr");
+            return TEXTS.get("Nr");
           }
         }
 
@@ -167,7 +167,7 @@ public class QuestionForm extends AbstractForm {
 
           @Override
           protected String getConfiguredHeaderText() {
-            return Texts.get("Choice");
+            return TEXTS.get("Choice");
           }
         }
 
@@ -186,7 +186,7 @@ public class QuestionForm extends AbstractForm {
 
           @Override
           protected String getConfiguredText() {
-            return Texts.get("AddChoice");
+            return TEXTS.get("AddChoice");
           }
 
           @Override
@@ -207,7 +207,7 @@ public class QuestionForm extends AbstractForm {
 
           @Override
           protected String getConfiguredText() {
-            return Texts.get("EditChoice");
+            return TEXTS.get("EditChoice");
           }
 
           @Override
@@ -231,13 +231,13 @@ public class QuestionForm extends AbstractForm {
 
           @Override
           protected String getConfiguredText() {
-            return Texts.get("RemoveChoice");
+            return TEXTS.get("RemoveChoice");
           }
 
           @Override
           protected void execAction() throws ProcessingException {
             ITableRow r = getSelectedRow();
-            if (MessageBox.showDeleteConfirmationMessage(Texts.get("Choice"), getChoiceTextColumn().getValue(r))) {
+            if (MessageBox.showDeleteConfirmationMessage(TEXTS.get("Choice"), getChoiceTextColumn().getValue(r))) {
               deleteRow(r);
             }
           }

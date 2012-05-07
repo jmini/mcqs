@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011 Jeremie Bresson
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,6 +14,10 @@
  * limitations under the License.
  ******************************************************************************/
 package org.eclipselabs.mcqs.client.ui.forms;
+
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.annotations.Order;
@@ -34,15 +38,21 @@ import org.eclipse.scout.rt.client.ui.form.fields.tabbox.AbstractTabBox;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.ScoutTexts;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.service.SERVICES;
+import org.eclipse.scout.svg.client.SVGUtility;
+import org.eclipse.scout.svg.client.svgfield.AbstractSvgField;
+import org.eclipselabs.mcqs.client.graph.BarGraph;
+import org.eclipselabs.mcqs.client.graph.BarGraphGenerator;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.GraphBox;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.GraphBox.GraphField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.ListBox;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.ListBox.AnswersField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.StatisticsBox;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.OkButton;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.QuestionNrField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.QuestionTextField;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
 import org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
@@ -61,7 +71,7 @@ public class AnswersListForm extends AbstractForm {
 
   @Override
   protected String getConfiguredTitle() {
-    return Texts.get("Answers");
+    return TEXTS.get("Answers");
   }
 
   public void startDisplay() throws ProcessingException {
@@ -84,6 +94,14 @@ public class AnswersListForm extends AbstractForm {
     return getFieldByClass(AnswersTabsBox.class);
   }
 
+  public GraphField getGraphField() {
+    return getFieldByClass(GraphField.class);
+  }
+
+  public GraphBox getGraphBox() {
+    return getFieldByClass(GraphBox.class);
+  }
+
   public ListBox getListBox() {
     return getFieldByClass(ListBox.class);
   }
@@ -103,11 +121,6 @@ public class AnswersListForm extends AbstractForm {
   @Order(10.0)
   public class MainBox extends AbstractGroupBox {
 
-    @Override
-    protected int getConfiguredGridColumnCount() {
-      return 1;
-    }
-
     @Order(10.0)
     public class QuestionNrField extends AbstractIntegerField {
 
@@ -118,7 +131,7 @@ public class AnswersListForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Question");
+        return TEXTS.get("Question");
       }
     }
 
@@ -136,8 +149,13 @@ public class AnswersListForm extends AbstractForm {
       }
 
       @Override
+      protected int getConfiguredGridW() {
+        return 2;
+      }
+
+      @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Question");
+        return TEXTS.get("Question");
       }
 
       @Override
@@ -155,11 +173,33 @@ public class AnswersListForm extends AbstractForm {
     public class AnswersTabsBox extends AbstractTabBox {
 
       @Order(10.0)
+      public class GraphBox extends AbstractGroupBox {
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Graph");
+        }
+
+        @Order(10.0)
+        public class GraphField extends AbstractSvgField {
+
+          @Override
+          protected int getConfiguredGridH() {
+            return 15;
+          }
+
+          @Override
+          protected boolean getConfiguredLabelVisible() {
+            return false;
+          }
+        }
+      }
+
+      @Order(20.0)
       public class StatisticsBox extends AbstractGroupBox {
 
         @Override
         protected String getConfiguredLabel() {
-          return Texts.get("Statistics");
+          return TEXTS.get("Statistics");
         }
 
         @Order(10.0)
@@ -167,7 +207,7 @@ public class AnswersListForm extends AbstractForm {
 
           @Override
           protected String getConfiguredLabel() {
-            return Texts.get("Statistics");
+            return TEXTS.get("Statistics");
           }
 
           @Override
@@ -201,7 +241,7 @@ public class AnswersListForm extends AbstractForm {
 
               @Override
               protected String getConfiguredHeaderText() {
-                return Texts.get("Choice");
+                return TEXTS.get("Choice");
               }
 
               @Override
@@ -215,7 +255,7 @@ public class AnswersListForm extends AbstractForm {
 
               @Override
               protected String getConfiguredHeaderText() {
-                return Texts.get("Result");
+                return TEXTS.get("Result");
               }
 
               @Override
@@ -232,12 +272,12 @@ public class AnswersListForm extends AbstractForm {
         }
       }
 
-      @Order(20.0)
+      @Order(30.0)
       public class ListBox extends AbstractGroupBox {
 
         @Override
         protected String getConfiguredLabel() {
-          return Texts.get("List");
+          return TEXTS.get("List");
         }
 
         @Order(10.0)
@@ -245,12 +285,17 @@ public class AnswersListForm extends AbstractForm {
 
           @Override
           protected int getConfiguredGridH() {
-            return 6;
+            return 15;
+          }
+
+          @Override
+          protected int getConfiguredGridW() {
+            return 2;
           }
 
           @Override
           protected String getConfiguredLabel() {
-            return Texts.get("Answers");
+            return TEXTS.get("Answers");
           }
 
           @Override
@@ -289,7 +334,7 @@ public class AnswersListForm extends AbstractForm {
 
               @Override
               protected String getConfiguredHeaderText() {
-                return Texts.get("No_");
+                return TEXTS.get("No_");
               }
 
               @Override
@@ -317,7 +362,7 @@ public class AnswersListForm extends AbstractForm {
 
               @Override
               protected String getConfiguredText() {
-                return Texts.get("AddAnAnswer");
+                return TEXTS.get("AddAnAnswer");
               }
 
               @Override
@@ -351,7 +396,7 @@ public class AnswersListForm extends AbstractForm {
 
               @Override
               protected String getConfiguredText() {
-                return Texts.get("EditAnswer");
+                return TEXTS.get("EditAnswer");
               }
 
               @Override
@@ -372,13 +417,13 @@ public class AnswersListForm extends AbstractForm {
 
               @Override
               protected String getConfiguredText() {
-                return Texts.get("DeleteAnswer");
+                return TEXTS.get("DeleteAnswer");
               }
 
               @Override
               protected void execAction() throws ProcessingException {
                 ITableRow r = getSelectedRow();
-                if (MessageBox.showDeleteConfirmationMessage(Texts.get("Answers"), getNameColumn().getValue(r))) {
+                if (MessageBox.showDeleteConfirmationMessage(TEXTS.get("Answers"), getNameColumn().getValue(r))) {
                   //Submit directly:
                   SERVICES.getService(IAnswerProcessService.class).delete(getAnswerNrColumn().getValue(r));
                   deleteRow(r);
@@ -397,6 +442,8 @@ public class AnswersListForm extends AbstractForm {
       exportFormData(formData);
       formData = service.loadStatistics(formData);
       importFormData(formData);
+
+      //TODO: refresh GraphField with new values.
     }
 
     @Order(40.0)
@@ -413,6 +460,16 @@ public class AnswersListForm extends AbstractForm {
       exportFormData(formData);
       formData = service.load(formData);
       importFormData(formData);
+
+      List<BarGraph> values = new ArrayList<BarGraph>();
+      int nb = formData.getStatistics().getRowCount();
+      for (int i = 0; i < nb; i++) {
+        int j = nb - i - 1;
+        int percent = (int) (formData.getStatistics().getResult(j) * 100);
+        values.add(new BarGraph(j, formData.getStatistics().getChoice(j), percent));
+      }
+      InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values));
+      getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
     }
   }
 }

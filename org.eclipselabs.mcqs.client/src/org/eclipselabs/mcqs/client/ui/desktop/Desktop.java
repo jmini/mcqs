@@ -24,9 +24,10 @@ import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.desktop.AbstractDesktop;
 import org.eclipse.scout.rt.client.ui.desktop.IDesktop;
 import org.eclipse.scout.rt.client.ui.form.ScoutInfoForm;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipselabs.mcqs.client.ClientSession;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm;
-import org.eclipselabs.mcqs.shared.Texts;
+import org.eclipselabs.mcqs.shared.Icons;
 
 public class Desktop extends AbstractDesktop implements IDesktop {
   private static IScoutLogger logger = ScoutLogManager.getLogger(Desktop.class);
@@ -35,14 +36,15 @@ public class Desktop extends AbstractDesktop implements IDesktop {
   }
 
   @Override
-  public String getConfiguredTitle() {
-    return Texts.get("ApplicationTitle");
+  protected String getConfiguredTitle() {
+    return TEXTS.get("ApplicationTitle");
   }
 
   @Override
   protected void execOpened() throws ProcessingException {
     // dektop form
     QuestionsListForm desktopForm = new QuestionsListForm();
+    desktopForm.setIconId(Icons.EclipseScout);
     desktopForm.startDisplay();
   }
 
@@ -51,7 +53,7 @@ public class Desktop extends AbstractDesktop implements IDesktop {
 
     @Override
     public String getConfiguredText() {
-      return Texts.get("FileMenu");
+      return TEXTS.get("FileMenu");
     }
 
     @Order(10.0)
@@ -59,7 +61,7 @@ public class Desktop extends AbstractDesktop implements IDesktop {
 
       @Override
       public String getConfiguredText() {
-        return Texts.get("AboutMenu");
+        return TEXTS.get("AboutMenu");
       }
 
       @Override
@@ -83,7 +85,7 @@ public class Desktop extends AbstractDesktop implements IDesktop {
 
       @Override
       public String getConfiguredText() {
-        return Texts.get("ExitMenu");
+        return TEXTS.get("ExitMenu");
       }
 
       @Override
@@ -92,5 +94,4 @@ public class Desktop extends AbstractDesktop implements IDesktop {
       }
     }
   }
-
 }

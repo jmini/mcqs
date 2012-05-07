@@ -20,8 +20,11 @@ import org.eclipse.scout.rt.client.AbstractClientSession;
 import org.eclipse.scout.rt.client.ui.form.IForm;
 import org.eclipse.scout.rt.client.ui.messagebox.IMessageBox;
 import org.eclipse.scout.rt.ui.swt.AbstractSwtEnvironment;
+import org.eclipse.scout.rt.ui.swt.ISwtEnvironmentListener;
+import org.eclipse.scout.rt.ui.swt.SwtEnvironmentEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 import org.eclipselabs.mcqs.ui.swt.window.dialog.SwtMacScoutDialog;
 import org.eclipselabs.mcqs.ui.swt.window.messagebox.SwtMacScoutMessageBoxDialog;
 import org.osgi.framework.Bundle;
@@ -43,14 +46,21 @@ import org.osgi.framework.Bundle;
  */
 public class SwtEnvironment extends AbstractSwtEnvironment {
 
-  public static final String DEFAULT_STACK_VIEW_ID = "com.bsiag.crm.ui.swt.views.defaultStackView";
-
   public SwtEnvironment(Bundle bundle, String perspectiveId, Class<? extends AbstractClientSession> clientSessionClazz) {
     super(bundle, perspectiveId, clientSessionClazz);
     registerPart(IForm.VIEW_ID_CENTER, Activator.CENTER_VIEW_ID);
     registerPart(IForm.VIEW_ID_OUTLINE, Activator.OUTLINE_VIEW_ID);
     registerPart(IForm.VIEW_ID_PAGE_TABLE, Activator.TABLE_PAGE_VIEW_ID);
     registerPart(IForm.VIEW_ID_PAGE_SEARCH, Activator.SEAECH_VIEW_ID);
+
+    addEnvironmentListener(new ISwtEnvironmentListener() {
+      @Override
+      public void environmentChanged(SwtEnvironmentEvent e) {
+        if (e.getType() == SwtEnvironmentEvent.STOPPED) {
+          PlatformUI.getWorkbench().close();
+        }
+      }
+    });
   }
 
   @Override
@@ -66,6 +76,7 @@ public class SwtEnvironment extends AbstractSwtEnvironment {
 
   @Override
   protected SwtMacScoutDialog createSwtScoutDialog(Shell shell, int dialogStyle) {
+    //TODO: remove this SwtMacScoutDialog (bug 365809 is resolved): 
     return new SwtMacScoutDialog(shell, this, dialogStyle);
   }
 

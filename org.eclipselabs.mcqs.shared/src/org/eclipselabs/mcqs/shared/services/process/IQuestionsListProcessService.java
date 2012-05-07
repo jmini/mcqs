@@ -15,9 +15,8 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.shared.services.process;
 
-import org.eclipse.scout.service.IService;
 import org.eclipse.scout.commons.exception.ProcessingException;
-import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
+import org.eclipse.scout.service.IService;
 
 public interface IQuestionsListProcessService extends IService{
 

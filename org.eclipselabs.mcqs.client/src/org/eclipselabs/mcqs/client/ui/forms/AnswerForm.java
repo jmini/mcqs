@@ -27,6 +27,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.integerfield.AbstractIntegerField;
 import org.eclipse.scout.rt.client.ui.form.fields.listbox.AbstractListBox;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.lookup.LookupCall;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.CancelButton;
@@ -35,7 +36,6 @@ import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.OkButton;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.QuestionNrField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.QuestionTextField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.YourNameField;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.UpdateAnswerPermission;
 import org.eclipselabs.mcqs.shared.services.lookup.ChoicesLookupCall;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
@@ -52,7 +52,7 @@ public class AnswerForm extends AbstractForm {
 
   @Override
   protected String getConfiguredTitle() {
-    return Texts.get("Answer");
+    return TEXTS.get("Answer");
   }
 
   public CancelButton getCancelButton() {
@@ -119,7 +119,7 @@ public class AnswerForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("QuestionNr");
+        return TEXTS.get("QuestionNr");
       }
     }
 
@@ -138,7 +138,7 @@ public class AnswerForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Question");
+        return TEXTS.get("Question");
       }
 
       @Override
@@ -157,7 +157,7 @@ public class AnswerForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("YourName");
+        return TEXTS.get("YourName");
       }
 
       @Override
@@ -176,7 +176,7 @@ public class AnswerForm extends AbstractForm {
 
       @Override
       protected String getConfiguredLabel() {
-        return Texts.get("Choices");
+        return TEXTS.get("Choices");
       }
 
       @Override

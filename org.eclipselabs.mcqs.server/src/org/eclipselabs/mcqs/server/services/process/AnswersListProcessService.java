@@ -18,9 +18,9 @@ package org.eclipselabs.mcqs.server.services.process;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.exception.VetoException;
 import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.ReadAnswersListPermission;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
@@ -30,7 +30,7 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
   @Override
   public AnswersListFormData load(AnswersListFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadAnswersListPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getQuestionNr().getValue() == null) {
@@ -54,7 +54,7 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
   @Override
   public AnswersListFormData loadStatistics(AnswersListFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadAnswersListPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getQuestionNr().getValue() == null) {

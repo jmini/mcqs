@@ -18,15 +18,15 @@ package org.eclipselabs.mcqs.ui.swt;
 import org.eclipse.scout.rt.ui.swt.AbstractSwtStartup;
 import org.eclipse.scout.rt.ui.swt.ISwtEnvironment;
 
-/** <h3>CenterView</h3>
- *  The Startup class is registered as a view extension point in the plugin.xml.
- *  It is used to get aware that the Workbench is ready.
-* @see AbstractSwtStartup
+/**
+ * <h3>SwtStartup</h3> The Startup class is registered as a view extension point in the plugin.xml.
+ * It is used to get aware that the Workbench is ready.
+ * 
+ * @see AbstractSwtStartup
  */
-public class SwtStartup extends AbstractSwtStartup{
-
+public class SwtStartup extends AbstractSwtStartup {
   @Override
-  protected ISwtEnvironment getSwtEnvironment(){
+  protected ISwtEnvironment getSwtEnvironment() {
     return Activator.getDefault().getEnvironment();
   }
 }

@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
-  <extension point="org.eclipse.scout.service.services">
-    <proxy class="org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
-    <proxy class="org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
-    <proxy class="org.eclipselabs.mcqs.shared.services.lookup.IChoicesLookupService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
-    <proxy class="org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
-    <proxy class="org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService" factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"/>
-  </extension>
-  <extension point="org.eclipse.scout.service.services">
-  </extension>
-  <extension
-        id="test_product"
-        point="org.eclipse.core.runtime.products">
-     <product
-           application="org.eclipselabs.mcqs.client.test_app"
-           name="mcqs [test]">
-        <property
-              name="appName"
-              value="mcqs [test]">
-        </property>
-     </product>
-  </extension>
+   <extension
+         id=""
+         point="org.eclipse.scout.service.services">
+      <proxy
+            factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"
+            class="org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService">
+      </proxy>
+      <proxy
+            factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"
+            class="org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService">
+      </proxy>
+      <proxy
+            factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"
+            class="org.eclipselabs.mcqs.shared.services.lookup.IChoicesLookupService">
+      </proxy>
+      <proxy
+            factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"
+            class="org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService">
+      </proxy>
+      <proxy
+            factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"
+            class="org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService">
+      </proxy>
+   </extension>
+   <extension
+         id="test_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+             application="org.eclipselabs.mcqs.client.test_app"
+             name="mcqs [test]">
+         <property
+                 name="appName"
+                 value="mcqs [test]">
+         </property>
+      </product>
+    </extension>
 </plugin>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.6"?>
+<target name="ScoutRAP">
+  <locations>
+    <location path="${eclipse_home}" type="Profile"/>
+    <location path="/Users/jebr/Downloads/eclipse-scout-juno-M6-macosx-cocoa-x86_64/rap_target" type="Directory"/>
+  </locations>
+  <launcherArgs>
+    <vmArgs>-Xms256m -Xmx512m -XX:MaxPermSize=256m</vmArgs>
+  </launcherArgs>
+</target>

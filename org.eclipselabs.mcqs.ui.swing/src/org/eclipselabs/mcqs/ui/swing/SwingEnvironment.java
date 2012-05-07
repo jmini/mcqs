@@ -15,8 +15,8 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.ui.swing;
 
-import org.eclipse.scout.rt.ui.swing.LegacySwingEnvironment;
+import org.eclipse.scout.rt.ui.swing.AbstractSwingEnvironment;
 
-public class SwingEnvironment extends LegacySwingEnvironment {
+public class SwingEnvironment extends AbstractSwingEnvironment {
 
 }

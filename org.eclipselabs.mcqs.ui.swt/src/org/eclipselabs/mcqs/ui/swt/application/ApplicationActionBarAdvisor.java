@@ -15,56 +15,29 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.ui.swt.application;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.ToolBarContributionItem;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
-import org.eclipselabs.mcqs.client.ui.desktop.Desktop;
-import org.eclipselabs.mcqs.shared.Texts;
 
 /**
  * <h3>ApplicationActionBarAdvisor</h3> Used for menu contributions.
  */
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
-  private IWorkbenchAction exitAction;
-  private Action aboutAction;
-
   public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
     super(configurer);
   }
 
   @Override
-  protected void makeActions(final IWorkbenchWindow window) {
-    exitAction = ActionFactory.QUIT.create(window);
-    register(exitAction);
-
-    aboutAction = new SwtScoutAction(Desktop.FileMenu.AboutMenu.class);
-    aboutAction.setText(Texts.get("AboutMenu"));
-    register(aboutAction);
-  }
-
-  @Override
   protected void fillMenuBar(IMenuManager menuBar) {
-    MenuManager fileMenu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
-    menuBar.add(fileMenu);
-
-    fileMenu.add(aboutAction);
-    fileMenu.add(new Separator("additions"));
-    fileMenu.add(new Separator());
-    fileMenu.add(new Separator("exit"));
-    fileMenu.add(exitAction);
+    menuBar.add(new MenuManager("", IWorkbenchActionConstants.M_FILE));
   }
 
   @Override
