@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2011 Jeremie Bresson
+ * Copyright 2012 Jeremie Bresson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,7 @@ import org.eclipse.scout.rt.ui.swt.AbstractSwtEnvironment;
 import org.eclipse.scout.rt.ui.swt.ISwtEnvironmentListener;
 import org.eclipse.scout.rt.ui.swt.SwtEnvironmentEvent;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.eclipselabs.mcqs.ui.swt.window.dialog.SwtMacScoutDialog;
 import org.eclipselabs.mcqs.ui.swt.window.messagebox.SwtMacScoutMessageBoxDialog;
 import org.osgi.framework.Bundle;
 
@@ -73,11 +71,4 @@ public class SwtEnvironment extends AbstractSwtEnvironment {
       super.showMessageBoxFromScout(messageBox);
     }
   }
-
-  @Override
-  protected SwtMacScoutDialog createSwtScoutDialog(Shell shell, int dialogStyle) {
-    //TODO: remove this SwtMacScoutDialog (bug 365809 is resolved): 
-    return new SwtMacScoutDialog(shell, this, dialogStyle);
-  }
-
 }
