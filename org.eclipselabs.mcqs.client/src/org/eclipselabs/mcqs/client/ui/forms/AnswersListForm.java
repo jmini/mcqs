@@ -82,24 +82,16 @@ public class AnswersListForm extends AbstractForm {
     return getFieldByClass(AnswersField.class);
   }
 
-  public QuestionNrField getQuestionNrField() {
-    return getFieldByClass(QuestionNrField.class);
-  }
-
-  public QuestionTextField getQuestionTextField() {
-    return getFieldByClass(QuestionTextField.class);
-  }
-
   public AnswersTabsBox getAnswersTabsBox() {
     return getFieldByClass(AnswersTabsBox.class);
   }
 
-  public GraphField getGraphField() {
-    return getFieldByClass(GraphField.class);
-  }
-
   public GraphBox getGraphBox() {
     return getFieldByClass(GraphBox.class);
+  }
+
+  public GraphField getGraphField() {
+    return getFieldByClass(GraphField.class);
   }
 
   public ListBox getListBox() {
@@ -114,12 +106,30 @@ public class AnswersListForm extends AbstractForm {
     return getFieldByClass(OkButton.class);
   }
 
+  public QuestionNrField getQuestionNrField() {
+    return getFieldByClass(QuestionNrField.class);
+  }
+
+  public QuestionTextField getQuestionTextField() {
+    return getFieldByClass(QuestionTextField.class);
+  }
+
   public StatisticsBox getStatsBox() {
     return getFieldByClass(StatisticsBox.class);
   }
 
   @Order(10.0)
   public class MainBox extends AbstractGroupBox {
+
+    private void reloadStatistics() throws ProcessingException {
+      IAnswersListProcessService service = SERVICES.getService(IAnswersListProcessService.class);
+      AnswersListFormData formData = new AnswersListFormData();
+      exportFormData(formData);
+      formData = service.loadStatistics(formData);
+      importFormData(formData);
+
+      //TODO: refresh GraphField with new values.
+    }
 
     @Order(10.0)
     public class QuestionNrField extends AbstractIntegerField {
@@ -174,6 +184,7 @@ public class AnswersListForm extends AbstractForm {
 
       @Order(10.0)
       public class GraphBox extends AbstractGroupBox {
+
         @Override
         protected String getConfiguredLabel() {
           return TEXTS.get("Graph");
@@ -228,12 +239,12 @@ public class AnswersListForm extends AbstractForm {
               return true;
             }
 
-            public ResultColumn getResultColumn() {
-              return getColumnSet().getColumnByClass(ResultColumn.class);
-            }
-
             public ChoiceColumn getChoiceColumn() {
               return getColumnSet().getColumnByClass(ChoiceColumn.class);
+            }
+
+            public ResultColumn getResultColumn() {
+              return getColumnSet().getColumnByClass(ResultColumn.class);
             }
 
             @Order(10.0)
@@ -311,10 +322,6 @@ public class AnswersListForm extends AbstractForm {
           @Order(10.0)
           public class Table extends AbstractTable {
 
-            public NameColumn getNameColumn() {
-              return getColumnSet().getColumnByClass(NameColumn.class);
-            }
-
             @Override
             protected boolean getConfiguredAutoDiscardOnDelete() {
               return true;
@@ -327,6 +334,10 @@ public class AnswersListForm extends AbstractForm {
 
             public AnswerNrColumn getAnswerNrColumn() {
               return getColumnSet().getColumnByClass(AnswerNrColumn.class);
+            }
+
+            public NameColumn getNameColumn() {
+              return getColumnSet().getColumnByClass(NameColumn.class);
             }
 
             @Order(10.0)
@@ -361,11 +372,6 @@ public class AnswersListForm extends AbstractForm {
             public class AddAnAnswerMenu extends AbstractMenu {
 
               @Override
-              protected String getConfiguredText() {
-                return TEXTS.get("AddAnAnswer");
-              }
-
-              @Override
               protected boolean getConfiguredEmptySpaceAction() {
                 return true;
               }
@@ -373,6 +379,11 @@ public class AnswersListForm extends AbstractForm {
               @Override
               protected boolean getConfiguredSingleSelectionAction() {
                 return false;
+              }
+
+              @Override
+              protected String getConfiguredText() {
+                return TEXTS.get("AddAnAnswer");
               }
 
               @Override
@@ -434,16 +445,6 @@ public class AnswersListForm extends AbstractForm {
           }
         }
       }
-    }
-
-    private void reloadStatistics() throws ProcessingException {
-      IAnswersListProcessService service = SERVICES.getService(IAnswersListProcessService.class);
-      AnswersListFormData formData = new AnswersListFormData();
-      exportFormData(formData);
-      formData = service.loadStatistics(formData);
-      importFormData(formData);
-
-      //TODO: refresh GraphField with new values.
     }
 
     @Order(40.0)

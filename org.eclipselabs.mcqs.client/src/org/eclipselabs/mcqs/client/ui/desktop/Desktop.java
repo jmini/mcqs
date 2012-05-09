@@ -30,6 +30,7 @@ import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm;
 import org.eclipselabs.mcqs.shared.Icons;
 
 public class Desktop extends AbstractDesktop implements IDesktop {
+
   private static IScoutLogger logger = ScoutLogManager.getLogger(Desktop.class);
 
   public Desktop() {

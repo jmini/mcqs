@@ -18,7 +18,7 @@ package org.eclipselabs.mcqs.shared.services.process;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.service.IService;
 
-public interface IQuestionsListProcessService extends IService{
+public interface IQuestionsListProcessService extends IService {
 
   public QuestionsListFormData load(QuestionsListFormData formData) throws ProcessingException;
 }

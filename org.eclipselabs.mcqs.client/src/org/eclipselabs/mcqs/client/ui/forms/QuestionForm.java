@@ -53,10 +53,6 @@ public class QuestionForm extends AbstractForm {
     return TEXTS.get("Question");
   }
 
-  public CancelButton getCancelButton() {
-    return getFieldByClass(CancelButton.class);
-  }
-
   @FormData
   public Integer getQuestionNr() {
     return questionNr;
@@ -75,6 +71,10 @@ public class QuestionForm extends AbstractForm {
     startInternal(new QuestionForm.NewHandler());
   }
 
+  public CancelButton getCancelButton() {
+    return getFieldByClass(CancelButton.class);
+  }
+
   public MainBox getMainBox() {
     return getFieldByClass(MainBox.class);
   }
@@ -88,6 +88,7 @@ public class QuestionForm extends AbstractForm {
 
     @Order(10.0)
     public class QuestionTextField extends AbstractStringField {
+
       @Override
       protected int getConfiguredGridH() {
         return 2;
@@ -135,10 +136,6 @@ public class QuestionForm extends AbstractForm {
       @Order(10.0)
       public class Table extends AbstractTable {
 
-        public ChoiceTextColumn getChoiceTextColumn() {
-          return getColumnSet().getColumnByClass(ChoiceTextColumn.class);
-        }
-
         @Override
         protected boolean getConfiguredAutoResizeColumns() {
           return true;
@@ -146,6 +143,10 @@ public class QuestionForm extends AbstractForm {
 
         public ChoiceNrColumn getChoiceNrColumn() {
           return getColumnSet().getColumnByClass(ChoiceNrColumn.class);
+        }
+
+        public ChoiceTextColumn getChoiceTextColumn() {
+          return getColumnSet().getColumnByClass(ChoiceTextColumn.class);
         }
 
         @Order(10.0)

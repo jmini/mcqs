@@ -22,6 +22,6 @@ public class UpdateAnswerPermission extends BasicPermission {
   private static final long serialVersionUID = 0L;
 
   public UpdateAnswerPermission() {
-  super("UpdateAnswer");
+    super("UpdateAnswer");
   }
 }

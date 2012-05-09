@@ -57,12 +57,29 @@ public class QuestionsListForm extends AbstractForm {
     return VIEW_ID_CENTER;
   }
 
+  @Override
+  protected String getConfiguredTitle() {
+    return TEXTS.get("Questions");
+  }
+
+  public void startDisplay() throws ProcessingException {
+    startInternal(new QuestionsListForm.DisplayHandler());
+  }
+
   public MainBox getMainBox() {
     return getFieldByClass(MainBox.class);
   }
 
   public QuestionsField getQuestionsField() {
     return getFieldByClass(QuestionsField.class);
+  }
+
+  private void reloadForm() throws ProcessingException {
+    IQuestionsListProcessService service = SERVICES.getService(IQuestionsListProcessService.class);
+    QuestionsListFormData formData = new QuestionsListFormData();
+    exportFormData(formData);
+    formData = service.load(formData);
+    importFormData(formData);
   }
 
   @Order(10.0)
@@ -239,15 +256,6 @@ public class QuestionsListForm extends AbstractForm {
         }
       }
     }
-
-  }
-
-  private void reloadForm() throws ProcessingException {
-    IQuestionsListProcessService service = SERVICES.getService(IQuestionsListProcessService.class);
-    QuestionsListFormData formData = new QuestionsListFormData();
-    exportFormData(formData);
-    formData = service.load(formData);
-    importFormData(formData);
   }
 
   public class DisplayHandler extends AbstractFormHandler {
@@ -256,14 +264,5 @@ public class QuestionsListForm extends AbstractForm {
     protected void execLoad() throws ProcessingException {
       reloadForm();
     }
-  }
-
-  @Override
-  protected String getConfiguredTitle() {
-    return TEXTS.get("Questions");
-  }
-
-  public void startDisplay() throws ProcessingException {
-    startInternal(new QuestionsListForm.DisplayHandler());
   }
 }

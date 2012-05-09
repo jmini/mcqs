@@ -43,9 +43,9 @@ public final class BarGraphGenerator {
     cnt.add("  </defs>");
     cnt.add("  <g clip-path=\"url(#canvas)\">");
     cnt.add("    <rect width=\"100%\" height=\"100%\" fill=\"rgb(240,240,240)\" stroke-width=\"1px\" stroke=\"rgb(0,0,0)\"/>");
-//		cnt.add("    <path d=\"M16 130L590 130M16 100L590 100M16 70L590 70M16 40L590 40M16 10L590 10M16 130L16 10M44.7 130L44.7 10M73.4 130L73.4 10M102.1 130L102.1 10M130.8 130L130.8 10M159.5 130L159.5 10M188.2 130L188.2 10M216.9 130L216.9 10M245.6 130L245.6 10M274.3 130L274.3 10M303 130L303 10M331.7 130L331.7 10M360.4 130L360.4 10M389.1 130L389.1 10M417.8 130L417.8 10M446.5 130L446.5 10M475.2 130L475.2 10M503.9 130L503.9 10M532.6 130L532.6 10M561.3 130L561.3 10M590 130L590 10\" stroke=\"rgb(220,220,220)\"/>");
+    //		cnt.add("    <path d=\"M16 130L590 130M16 100L590 100M16 70L590 70M16 40L590 40M16 10L590 10M16 130L16 10M44.7 130L44.7 10M73.4 130L73.4 10M102.1 130L102.1 10M130.8 130L130.8 10M159.5 130L159.5 10M188.2 130L188.2 10M216.9 130L216.9 10M245.6 130L245.6 10M274.3 130L274.3 10M303 130L303 10M331.7 130L331.7 10M360.4 130L360.4 10M389.1 130L389.1 10M417.8 130L417.8 10M446.5 130L446.5 10M475.2 130L475.2 10M503.9 130L503.9 10M532.6 130L532.6 10M561.3 130L561.3 10M590 130L590 10\" stroke=\"rgb(220,220,220)\"/>");
     addRect(cnt, values);
-//		cnt.add("    <path d=\"M16 130l-3 0M16 100l-3 0M16 70l-3 0M16 40l-3 0M16 10l-3 0M16 130l0 3M44.7 130l0 3M73.4 130l0 3M102.1 130l0 3M130.8 130l0 3M159.5 130l0 3M188.2 130l0 3M216.9 130l0 3M245.6 130l0 3M274.3 130l0 3M303 130l0 3M331.7 130l0 3M360.4 130l0 3M389.1 130l0 3M417.8 130l0 3M446.5 130l0 3M475.2 130l0 3M503.9 130l0 3M532.6 130l0 3M561.3 130l0 3M590 130l0 3\" stroke-width=\"1px\" stroke=\"rgb(0,0,0)\"/>");
+    //		cnt.add("    <path d=\"M16 130l-3 0M16 100l-3 0M16 70l-3 0M16 40l-3 0M16 10l-3 0M16 130l0 3M44.7 130l0 3M73.4 130l0 3M102.1 130l0 3M130.8 130l0 3M159.5 130l0 3M188.2 130l0 3M216.9 130l0 3M245.6 130l0 3M274.3 130l0 3M303 130l0 3M331.7 130l0 3M360.4 130l0 3M389.1 130l0 3M417.8 130l0 3M446.5 130l0 3M475.2 130l0 3M503.9 130l0 3M532.6 130l0 3M561.3 130l0 3M590 130l0 3\" stroke-width=\"1px\" stroke=\"rgb(0,0,0)\"/>");
     cnt.add("    <g stroke-width=\"2px\" stroke=\"rgb(0,0,0)\">");
     cnt.add("      <line x1=\"11\" x2=\"595\" y2=\"" + line1y + "\" y1=\"" + line1y + "\"/>");
     cnt.add("      <line x1=\"16\" x2=\"16\" y2=\"" + line2y + "\" y1=\"5\"/>");
@@ -103,7 +103,7 @@ public final class BarGraphGenerator {
           "khaki",
           //                    "thistle",
           "mintcream"};
-//      String color = COLORS[i % COLORS.length];
+      //      String color = COLORS[i % COLORS.length];
       String color = cs[i % cs.length];
       cnt.add("    <rect height=\"20\" y=\"" + y + "\" x=\"16\" width=\"" + width + "\" id=\"e" + i + "\" style=\"stroke:rgb(0,0,0);stroke-width:1px;fill:" + color + ";\"/>");
       i = i + 1;

@@ -55,10 +55,6 @@ public class AnswerForm extends AbstractForm {
     return TEXTS.get("Answer");
   }
 
-  public CancelButton getCancelButton() {
-    return getFieldByClass(CancelButton.class);
-  }
-
   @FormData
   public Long getAnswerNr() {
     return answerNr;
@@ -75,6 +71,10 @@ public class AnswerForm extends AbstractForm {
 
   public void startNew() throws ProcessingException {
     startInternal(new AnswerForm.NewHandler());
+  }
+
+  public CancelButton getCancelButton() {
+    return getFieldByClass(CancelButton.class);
   }
 
   public ChoicesField getChoicesField() {

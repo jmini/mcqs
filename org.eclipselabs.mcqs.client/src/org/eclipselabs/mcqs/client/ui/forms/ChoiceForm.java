@@ -44,14 +44,6 @@ public class ChoiceForm extends AbstractForm {
     return TEXTS.get("Choice");
   }
 
-  public void startEdit() throws ProcessingException {
-    startInternal(new ChoiceForm.EditHandler());
-  }
-
-  public CancelButton getCancelButton() {
-    return getFieldByClass(CancelButton.class);
-  }
-
   @FormData
   public Integer getChoiceNr() {
     return choiceNr;
@@ -60,6 +52,14 @@ public class ChoiceForm extends AbstractForm {
   @FormData
   public void setChoiceNr(Integer choiceNr) {
     this.choiceNr = choiceNr;
+  }
+
+  public void startEdit() throws ProcessingException {
+    startInternal(new ChoiceForm.EditHandler());
+  }
+
+  public CancelButton getCancelButton() {
+    return getFieldByClass(CancelButton.class);
   }
 
   public ChoiceField getChoiceField() {

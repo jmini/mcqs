@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.client;
 
-
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.logger.IScoutLogger;
@@ -26,28 +25,17 @@ import org.eclipse.scout.rt.client.servicetunnel.http.HttpServiceTunnel;
 import org.eclipse.scout.rt.shared.services.common.code.CODES;
 import org.eclipselabs.mcqs.client.ui.desktop.Desktop;
 
-public class ClientSession extends AbstractClientSession{
+public class ClientSession extends AbstractClientSession {
+
   private static IScoutLogger logger = ScoutLogManager.getLogger(ClientSession.class);
 
-  public ClientSession(){
+  public ClientSession() {
     super(true);
   }
 
-  /**
-   * @return session in current ThreadContext
-   */
-  public static ClientSession get(){
-    return ClientJob.getCurrentSession(ClientSession.class);
-  }
-
-  @FormData
-  public Long getPersonNr(){
-    return getSharedContextVariable("personNr",Long.class);
-  }
-
   @Override
-  public void execLoadSession() throws ProcessingException{
-    setServiceTunnel(new HttpServiceTunnel(this,getBundle().getBundleContext().getProperty("server.url")));
+  public void execLoadSession() throws ProcessingException {
+    setServiceTunnel(new HttpServiceTunnel(this, getBundle().getBundleContext().getProperty("server.url")));
 
     //pre-load all known code types
     CODES.getAllCodeTypes(org.eclipselabs.mcqs.shared.Activator.PLUGIN_ID);
@@ -59,6 +47,18 @@ public class ClientSession extends AbstractClientSession{
   }
 
   @Override
-  public void execStoreSession() throws ProcessingException{
+  public void execStoreSession() throws ProcessingException {
+  }
+
+  @FormData
+  public Long getPersonNr() {
+    return getSharedContextVariable("personNr", Long.class);
+  }
+
+  /**
+   * @return session in current ThreadContext
+   */
+  public static ClientSession get() {
+    return ClientJob.getCurrentSession(ClientSession.class);
   }
 }

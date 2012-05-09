@@ -22,6 +22,6 @@ public class CreateAnswerPermission extends BasicPermission {
   private static final long serialVersionUID = 0L;
 
   public CreateAnswerPermission() {
-  super("CreateAnswer");
+    super("CreateAnswer");
   }
 }
