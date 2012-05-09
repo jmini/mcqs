@@ -118,6 +118,18 @@ public class AnswersListForm extends AbstractForm {
     return getFieldByClass(StatisticsBox.class);
   }
 
+  private void reloadGraph(AnswersListFormData formData) throws ProcessingException {
+    List<BarGraph> values = new ArrayList<BarGraph>();
+    int nb = formData.getStatistics().getRowCount();
+    for (int i = 0; i < nb; i++) {
+      int j = nb - i - 1;
+      int percent = (int) (formData.getStatistics().getResult(j) * 100);
+      values.add(new BarGraph(j, formData.getStatistics().getChoice(j), percent));
+    }
+    InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values));
+    getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
+  }
+
   @Order(10.0)
   public class MainBox extends AbstractGroupBox {
 
@@ -128,7 +140,7 @@ public class AnswersListForm extends AbstractForm {
       formData = service.loadStatistics(formData);
       importFormData(formData);
 
-      //TODO: refresh GraphField with new values.
+      reloadGraph(formData);
     }
 
     @Order(10.0)
@@ -462,15 +474,7 @@ public class AnswersListForm extends AbstractForm {
       formData = service.load(formData);
       importFormData(formData);
 
-      List<BarGraph> values = new ArrayList<BarGraph>();
-      int nb = formData.getStatistics().getRowCount();
-      for (int i = 0; i < nb; i++) {
-        int j = nb - i - 1;
-        int percent = (int) (formData.getStatistics().getResult(j) * 100);
-        values.add(new BarGraph(j, formData.getStatistics().getChoice(j), percent));
-      }
-      InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values));
-      getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
+      reloadGraph(formData);
     }
   }
 }
