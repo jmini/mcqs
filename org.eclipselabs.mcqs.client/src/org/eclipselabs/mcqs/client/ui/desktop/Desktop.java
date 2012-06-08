@@ -45,7 +45,7 @@ public class Desktop extends AbstractDesktop implements IDesktop {
   protected void execOpened() throws ProcessingException {
     // dektop form
     QuestionsListForm desktopForm = new QuestionsListForm();
-    desktopForm.setIconId(Icons.EclipseScout);
+    desktopForm.setIconId(Icons.McqsSmall);
     desktopForm.startDisplay();
   }
 
