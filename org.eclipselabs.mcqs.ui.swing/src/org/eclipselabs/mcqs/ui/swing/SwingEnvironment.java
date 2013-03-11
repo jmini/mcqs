@@ -15,8 +15,7 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.ui.swing;
 
-import org.eclipse.scout.rt.ui.swing.AbstractSwingEnvironment;
 
-public class SwingEnvironment extends AbstractSwingEnvironment {
+public class SwingEnvironment extends org.eclipse.scout.rt.ui.swing.DefaultSwingEnvironment {
 
 }
