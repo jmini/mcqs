@@ -44,8 +44,7 @@ public class Application implements IApplication {
     });
   }
 
-  public Integer startSecure(final IApplicationContext context)
-      throws Exception {
+  public Integer startSecure(final IApplicationContext context) throws Exception {
     Display display = PlatformUI.createDisplay();
     NetActivator.install();
     if (PlatformUI.createAndRunWorkbench(display, new ApplicationWorkbenchAdvisor()) == PlatformUI.RETURN_RESTART) {

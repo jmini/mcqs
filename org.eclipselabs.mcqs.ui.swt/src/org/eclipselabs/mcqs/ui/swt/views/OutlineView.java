@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2011 Jeremie Bresson
+ * Copyright 2013 Jeremie Bresson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,25 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.eclipselabs.mcqs.ui.swt.application;
+package org.eclipselabs.mcqs.ui.swt.views;
 
-import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.application.ActionBarAdvisor;
-import org.eclipse.ui.application.IActionBarConfigurer;
+import org.eclipse.scout.rt.ui.swt.ISwtEnvironment;
+import org.eclipse.scout.rt.ui.swt.window.desktop.view.AbstractScoutView;
+import org.eclipselabs.mcqs.ui.swt.Activator;
 
-/**
- * <h3>ApplicationActionBarAdvisor</h3> Used for menu contributions.
- */
-public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
+public class OutlineView extends AbstractScoutView {
 
-  public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
-    super(configurer);
+  public OutlineView() {
   }
 
   @Override
-  protected void fillMenuBar(IMenuManager menuBar) {
-    menuBar.add(new MenuManager("", IWorkbenchActionConstants.M_FILE));
+  protected ISwtEnvironment getSwtEnvironment() {
+    return Activator.getDefault().getEnvironment();
   }
 }

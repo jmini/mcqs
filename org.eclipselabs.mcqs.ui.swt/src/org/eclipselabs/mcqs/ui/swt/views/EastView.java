@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2011 Jeremie Bresson
+ * Copyright 2013 Jeremie Bresson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,12 @@ package org.eclipselabs.mcqs.ui.swt.views;
 import org.eclipse.scout.rt.ui.swt.ISwtEnvironment;
 import org.eclipse.scout.rt.ui.swt.window.desktop.view.AbstractScoutView;
 import org.eclipselabs.mcqs.ui.swt.Activator;
-import org.eclipselabs.mcqs.ui.swt.SwtEnvironment;
 
-/**
- * <h3>OutlinePageView</h3> A view used of scout is registered as a view extension point in the plugin.xml and linked to
- * scout view id in the SwtEnvironment.
- * 
- * @see SwtEnvironment
- */
-public class OutlinePageView extends AbstractScoutView {
+public class EastView extends AbstractScoutView {
+
+  public EastView() {
+  }
+
   @Override
   protected ISwtEnvironment getSwtEnvironment() {
     return Activator.getDefault().getEnvironment();

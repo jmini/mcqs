@@ -18,6 +18,7 @@ package org.eclipselabs.mcqs.ui.swt.application;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchAdvisor;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
+import org.eclipselabs.mcqs.ui.swt.perspective.Perspective;
 
 /**
  * <h3>ApplicationWorkbenchAdvisor</h3> Used for getting the initial perspective.
@@ -31,6 +32,6 @@ public class ApplicationWorkbenchAdvisor extends WorkbenchAdvisor {
 
   @Override
   public String getInitialWindowPerspectiveId() {
-    return "org.eclipselabs.mcqs.ui.swt.perspective.Perspective";
+    return Perspective.ID;
   }
 }
