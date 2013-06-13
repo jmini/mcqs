@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
    <extension
-         id=""
+         name=""
          point="org.eclipse.scout.service.services">
       <proxy
             factory="org.eclipse.scout.rt.client.services.ClientProxyServiceFactory"

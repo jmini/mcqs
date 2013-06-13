@@ -16,8 +16,7 @@
      <run class="org.eclipse.scout.rt.ui.rap.RwtApplication"/>
    </application>
   </extension>
-  <extension
-    point="org.eclipse.scout.rt.ui.rap.lookAndFeel">
+  <extension point="org.eclipse.scout.rt.ui.rap.lookAndFeel">
     <decorations
       scope="global">
       <mandatory>
@@ -34,23 +33,54 @@
       </property>
     </properties>
   </extension>
-  <extension
-    point="org.eclipse.rap.ui.entrypoint">
+  <extension point="org.eclipse.rap.ui.entrypoint">
     <entrypoint
       class="org.eclipselabs.mcqs.ui.rap.StandaloneRwtEnvironment"
-      id="default"
-      parameter="default"/>
+      id="org.eclipselabs.mcqs.ui.rap.entrypoint.web"
+      brandingId="org.eclipselabs.mcqs.ui.rap.branding.web"
+      path="/web"/>
+    <entrypoint
+      class="org.eclipselabs.mcqs.ui.rap.MobileStandaloneRwtEnvironment"
+      id="org.eclipselabs.mcqs.ui.rap.entrypoint.mobile"
+      brandingId="org.eclipselabs.mcqs.ui.rap.branding.mobile"
+      path="/mobile"/>
+    <entrypoint
+      class="org.eclipselabs.mcqs.ui.rap.TabletStandaloneRwtEnvironment"
+      id="org.eclipselabs.mcqs.ui.rap.entrypoint.tablet"
+      brandingId="org.eclipselabs.mcqs.ui.rap.branding.tablet"
+      path="/tablet"/>
   </extension>
-
   <extension point="org.eclipse.rap.ui.branding">
-    <branding body="web-resources/startup-body.html" favicon="web-resources/eclipseScout.gif" id="org.eclipselabs.mcqs.ui.rap.branding" servletName="rap" themeId="org.eclipse.scout.rt.ui.rap.theme" title="mcqs">
+    <branding
+      body="web-resources/startup-body.html"
+      favicon="web-resources/eclipseScout.gif"
+      id="org.eclipselabs.mcqs.ui.rap.branding.web"
+      themeId="org.eclipse.scout.rt.ui.rap.theme"
+      title="mcqs">
       <additionalHeaders>
         <link href="res/html-styles.css" rel="stylesheet"/>
       </additionalHeaders>
     </branding>
-    <branding body="web-resources/startup-body.html" favicon="web-resources/eclipseScout.gif" id="org.eclipselabs.mcqs.ui.rap.branding" servletName="extern.rap" themeId="org.eclipse.scout.rt.ui.rap.theme" title="mcqs">
+    <branding
+      body="web-resources/startup-body.html"
+      favicon="web-resources/eclipseScout.gif"
+      id="org.eclipselabs.mcqs.ui.rap.branding.mobile"
+      themeId="org.eclipse.scout.rt.ui.rap.mobile.theme"
+      title="mcqs">
       <additionalHeaders>
         <link href="res/html-styles.css" rel="stylesheet"/>
+        <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"></meta>
+      </additionalHeaders>
+    </branding>
+    <branding
+      body="web-resources/startup-body.html"
+      favicon="web-resources/eclipseScout.gif"
+      id="org.eclipselabs.mcqs.ui.rap.branding.tablet"
+      themeId="org.eclipse.scout.rt.ui.rap.mobile.theme"
+      title="mcqs">
+      <additionalHeaders>
+        <link href="res/html-styles.css" rel="stylesheet"/>
+        <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"></meta>
       </additionalHeaders>
     </branding>
   </extension>
@@ -60,17 +90,22 @@
   <extension point="org.eclipse.equinox.http.registry.resources">
     <resource alias="/res" base-name="/web-resources"/>
   </extension>
-  <extension
-    point="org.eclipse.scout.http.servletfilter.filters">
+  <extension point="org.eclipse.scout.http.servletfilter.filters">
     <filter
       aliases="/"
       class="org.eclipse.scout.http.servletfilter.security.AnonymousSecurityFilter"
       ranking="10">
     </filter>
     <filter
-      aliases="/rap"
+      aliases="/web"
       class="org.eclipse.scout.http.servletfilter.security.BasicSecurityFilter"
       ranking="20">
     </filter>
+  </extension>
+  <extension point="org.eclipse.equinox.http.registry.servlets">
+    <servlet
+      alias="/"
+      class="org.eclipse.scout.rt.ui.rap.mobile.servlets.DeviceDispatcherServlet">
+    </servlet>
   </extension>
 </plugin>

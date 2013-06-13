@@ -29,15 +29,13 @@
    </vm>
 
    <plugins>
-      <plugin id="org.eclipselabs.mcqs.server" fragment=""/>
-      <plugin id="org.eclipselabs.mcqs.shared" fragment=""/>
       <plugin id="javax.servlet"/>
+      <plugin id="javax.xml"/>
       <plugin id="org.apache.commons.codec"/>
-      <plugin id="org.apache.derby.jdbc_1082.fragment" fragment="true"/>
+      <plugin id="org.apache.derby.jdbc_1091.fragment" fragment="true"/>
       <plugin id="org.eclipse.core.contenttype"/>
       <plugin id="org.eclipse.core.jobs"/>
       <plugin id="org.eclipse.core.runtime"/>
-      <plugin id="org.eclipse.core.runtime.compatibility.registry" fragment="true"/>
       <plugin id="org.eclipse.equinox.app"/>
       <plugin id="org.eclipse.equinox.common"/>
       <plugin id="org.eclipse.equinox.http.registry"/>
@@ -46,6 +44,7 @@
       <plugin id="org.eclipse.equinox.preferences"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
+      <plugin id="org.eclipse.equinox.security.win32.x86" fragment="true"/>
       <plugin id="org.eclipse.equinox.servletbridge"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
@@ -57,8 +56,9 @@
       <plugin id="org.eclipse.scout.rt.shared"/>
       <plugin id="org.eclipse.scout.service"/>
       <plugin id="org.eclipse.update.configurator"/>
+      <plugin id="org.eclipselabs.mcqs.server"/>
+      <plugin id="org.eclipselabs.mcqs.shared"/>
    </plugins>
 
 
 </product>
-

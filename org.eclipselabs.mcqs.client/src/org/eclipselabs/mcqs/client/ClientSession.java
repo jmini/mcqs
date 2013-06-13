@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.client;
 
-import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.logger.IScoutLogger;
 import org.eclipse.scout.commons.logger.ScoutLogManager;
@@ -33,6 +32,13 @@ public class ClientSession extends AbstractClientSession {
     super(true);
   }
 
+  /**
+   * @return session in current ThreadContext
+   */
+  public static ClientSession get() {
+    return ClientJob.getCurrentSession(ClientSession.class);
+  }
+
   @Override
   public void execLoadSession() throws ProcessingException {
     setServiceTunnel(new HttpServiceTunnel(this, getBundle().getBundleContext().getProperty("server.url")));
@@ -48,17 +54,5 @@ public class ClientSession extends AbstractClientSession {
 
   @Override
   public void execStoreSession() throws ProcessingException {
-  }
-
-  @FormData
-  public Long getPersonNr() {
-    return getSharedContextVariable("personNr", Long.class);
-  }
-
-  /**
-   * @return session in current ThreadContext
-   */
-  public static ClientSession get() {
-    return ClientJob.getCurrentSession(ClientSession.class);
   }
 }

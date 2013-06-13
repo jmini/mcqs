@@ -7,6 +7,7 @@ Bundle-ClassPath: .
 Bundle-Activator: org.eclipselabs.mcqs.ui.swt.Activator
 Export-Package: org.eclipselabs.mcqs.ui.swt;uses:="org.eclipse.scout.rt.ui.swt,org.eclipse.scout.rt.client.session,org.osgi.framework",
  org.eclipselabs.mcqs.ui.swt.application,
+ org.eclipselabs.mcqs.ui.swt.application.button,
  org.eclipselabs.mcqs.ui.swt.application.menu,
  org.eclipselabs.mcqs.ui.swt.editor,
  org.eclipselabs.mcqs.ui.swt.perspective,

@@ -3,15 +3,12 @@ Bundle-ManifestVersion: 2
 Bundle-Name: My Application
 Bundle-SymbolicName: org.eclipselabs.mcqs.ui.swing;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-ClassPath: .
 Bundle-Activator: org.eclipselabs.mcqs.ui.swing.Activator
-Export-Package: org.eclipselabs.mcqs.ui.swing
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.scout.rt.ui.swing,
  org.eclipselabs.mcqs.client;visibility:=reexport,
  org.eclipselabs.mcqs.shared,
- org.eclipse.scout.net,
- org.eclipse.scout.svg.ui.swing;bundle-version="3.7.0"
+ org.eclipse.scout.net
+Export-Package: org.eclipselabs.mcqs.ui.swing;uses:="org.eclipse.scout.rt.ui.swing,org.eclipse.scout.rt.client.session,org.osgi.framework"
+Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ActivationPolicy: lazy
-Scout-Project: org.eclipselabs.mcqs
-Scout-Project-Alias: mcqs

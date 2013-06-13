@@ -3,18 +3,19 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipselabs.mcqs.server
 Bundle-SymbolicName: org.eclipselabs.mcqs.server;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
 Bundle-Activator: org.eclipselabs.mcqs.server.Activator
-Bundle-ActivationPolicy: lazy
+Export-Package: org.eclipselabs.mcqs.server,
+ org.eclipselabs.mcqs.server.services.process,
+ org.eclipselabs.mcqs.server.services.common.security
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipselabs.mcqs.shared,
  org.eclipse.scout.rt.server,
  org.eclipse.scout.http.servletfilter,
  org.eclipse.equinox.http.registry,
- org.eclipse.scout.rt.jdbc.derby
-Export-Package: org.eclipselabs.mcqs.server,
- org.eclipselabs.mcqs.server.services.custom.security,
- org.eclipselabs.mcqs.server.services.process
-Bundle-ClassPath: .
+ org.eclipse.scout.rt.jdbc.derby,
+ org.eclipse.scout.jaxws216;bundle-version="2.1.6"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: javax.servlet;version="2.4.0",
  javax.servlet.http;version="2.4.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy

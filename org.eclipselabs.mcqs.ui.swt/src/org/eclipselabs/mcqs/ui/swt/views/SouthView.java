@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2011 Jeremie Bresson
+ * Copyright 2013 Jeremie Bresson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.eclipselabs.mcqs.server.services.custom.security;
+package org.eclipselabs.mcqs.ui.swt.views;
 
-import java.security.AllPermission;
-import java.security.Permissions;
+import org.eclipse.scout.rt.ui.swt.ISwtEnvironment;
+import org.eclipse.scout.rt.ui.swt.window.desktop.view.AbstractScoutView;
+import org.eclipselabs.mcqs.ui.swt.Activator;
 
-import org.eclipse.scout.rt.server.services.common.security.AbstractAccessControlService;
-import org.eclipse.scout.rt.shared.security.RemoteServiceAccessPermission;
+public class SouthView extends AbstractScoutView {
 
-public class AccessControlService extends AbstractAccessControlService {
-
-  @Override
-  protected Permissions execLoadPermissions() {
-    Permissions permissions = new Permissions();
-    permissions.add(new RemoteServiceAccessPermission("*.shared.*", "*"));
-    //TODO jebr fill access control service
-    permissions.add(new AllPermission());
-    return permissions;
+  public SouthView() {
   }
 
+  @Override
+  protected ISwtEnvironment getSwtEnvironment() {
+    return Activator.getDefault().getEnvironment();
+  }
 }
