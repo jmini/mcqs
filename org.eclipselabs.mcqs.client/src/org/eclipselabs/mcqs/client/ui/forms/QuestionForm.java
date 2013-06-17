@@ -87,159 +87,163 @@ public class QuestionForm extends AbstractForm {
   public class MainBox extends AbstractGroupBox {
 
     @Order(10.0)
-    public class QuestionTextField extends AbstractStringField {
-
-      @Override
-      protected int getConfiguredGridH() {
-        return 2;
-      }
-
-      @Override
-      protected int getConfiguredGridW() {
-        return 2;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("Question");
-      }
-
-      @Override
-      protected boolean getConfiguredMultilineText() {
-        return true;
-      }
-
-      @Override
-      protected boolean getConfiguredWrapText() {
-        return true;
-      }
-    }
-
-    @Order(20.0)
-    public class ChoicesField extends AbstractTableField<ChoicesField.Table> {
-
-      @Override
-      protected int getConfiguredGridH() {
-        return 6;
-      }
-
-      @Override
-      protected int getConfiguredGridW() {
-        return 2;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("Choices");
-      }
+    public class ContentBox extends AbstractGroupBox {
 
       @Order(10.0)
-      public class Table extends AbstractTable {
+      public class QuestionTextField extends AbstractStringField {
 
         @Override
-        protected boolean getConfiguredAutoResizeColumns() {
+        protected int getConfiguredGridH() {
+          return 2;
+        }
+
+        @Override
+        protected int getConfiguredGridW() {
+          return 2;
+        }
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Question");
+        }
+
+        @Override
+        protected boolean getConfiguredMultilineText() {
           return true;
         }
 
-        public ChoiceNrColumn getChoiceNrColumn() {
-          return getColumnSet().getColumnByClass(ChoiceNrColumn.class);
+        @Override
+        protected boolean getConfiguredWrapText() {
+          return true;
+        }
+      }
+
+      @Order(20.0)
+      public class ChoicesField extends AbstractTableField<ChoicesField.Table> {
+
+        @Override
+        protected int getConfiguredGridH() {
+          return 6;
         }
 
-        public ChoiceTextColumn getChoiceTextColumn() {
-          return getColumnSet().getColumnByClass(ChoiceTextColumn.class);
+        @Override
+        protected int getConfiguredGridW() {
+          return 2;
         }
 
-        @Order(10.0)
-        public class ChoiceNrColumn extends AbstractIntegerColumn {
-
-          @Override
-          protected boolean getConfiguredDisplayable() {
-            return false;
-          }
-
-          @Override
-          protected String getConfiguredHeaderText() {
-            return TEXTS.get("Nr");
-          }
-        }
-
-        @Order(20.0)
-        public class ChoiceTextColumn extends AbstractStringColumn {
-
-          @Override
-          protected String getConfiguredHeaderText() {
-            return TEXTS.get("Choice");
-          }
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Choices");
         }
 
         @Order(10.0)
-        public class AddChoiceMenu extends AbstractMenu {
+        public class Table extends AbstractTable {
 
           @Override
-          protected boolean getConfiguredEmptySpaceAction() {
+          protected boolean getConfiguredAutoResizeColumns() {
             return true;
           }
 
-          @Override
-          protected boolean getConfiguredSingleSelectionAction() {
-            return false;
+          public ChoiceNrColumn getChoiceNrColumn() {
+            return getColumnSet().getColumnByClass(ChoiceNrColumn.class);
           }
 
-          @Override
-          protected String getConfiguredText() {
-            return TEXTS.get("AddChoice");
+          public ChoiceTextColumn getChoiceTextColumn() {
+            return getColumnSet().getColumnByClass(ChoiceTextColumn.class);
           }
 
-          @Override
-          protected void execAction() throws ProcessingException {
-            ChoiceForm form = new ChoiceForm();
-            form.startEdit();
-            form.waitFor();
-            if (form.isFormStored()) {
-              ITableRow r = createRow();
-              getChoiceTextColumn().setValue(r, form.getChoiceField().getValue());
-              addRow(r, true);
+          @Order(10.0)
+          public class ChoiceNrColumn extends AbstractIntegerColumn {
+
+            @Override
+            protected boolean getConfiguredDisplayable() {
+              return false;
+            }
+
+            @Override
+            protected String getConfiguredHeaderText() {
+              return TEXTS.get("Nr");
             }
           }
-        }
 
-        @Order(20.0)
-        public class EditChoiceMenu extends AbstractMenu {
+          @Order(20.0)
+          public class ChoiceTextColumn extends AbstractStringColumn {
 
-          @Override
-          protected String getConfiguredText() {
-            return TEXTS.get("EditChoice");
-          }
-
-          @Override
-          protected void execAction() throws ProcessingException {
-            ITableRow r = getSelectedRow();
-
-            ChoiceForm form = new ChoiceForm();
-            form.setChoiceNr(getChoiceNrColumn().getValue(r));
-            form.getChoiceField().setValue(getChoiceTextColumn().getValue(r));
-
-            form.startEdit();
-            form.waitFor();
-            if (form.isFormStored()) {
-              getChoiceTextColumn().setValue(r, form.getChoiceField().getValue());
+            @Override
+            protected String getConfiguredHeaderText() {
+              return TEXTS.get("Choice");
             }
           }
-        }
 
-        @Order(30.0)
-        public class RemoveChoiceMenu extends AbstractMenu {
+          @Order(10.0)
+          public class AddChoiceMenu extends AbstractMenu {
 
-          @Override
-          protected String getConfiguredText() {
-            return TEXTS.get("RemoveChoice");
+            @Override
+            protected boolean getConfiguredEmptySpaceAction() {
+              return true;
+            }
+
+            @Override
+            protected boolean getConfiguredSingleSelectionAction() {
+              return false;
+            }
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("AddChoice");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              ChoiceForm form = new ChoiceForm();
+              form.startEdit();
+              form.waitFor();
+              if (form.isFormStored()) {
+                ITableRow r = createRow();
+                getChoiceTextColumn().setValue(r, form.getChoiceField().getValue());
+                addRow(r, true);
+              }
+            }
           }
 
-          @Override
-          protected void execAction() throws ProcessingException {
-            ITableRow r = getSelectedRow();
-            if (MessageBox.showDeleteConfirmationMessage(TEXTS.get("Choice"), getChoiceTextColumn().getValue(r))) {
-              deleteRow(r);
+          @Order(20.0)
+          public class EditChoiceMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("EditChoice");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              ITableRow r = getSelectedRow();
+
+              ChoiceForm form = new ChoiceForm();
+              form.setChoiceNr(getChoiceNrColumn().getValue(r));
+              form.getChoiceField().setValue(getChoiceTextColumn().getValue(r));
+
+              form.startEdit();
+              form.waitFor();
+              if (form.isFormStored()) {
+                getChoiceTextColumn().setValue(r, form.getChoiceField().getValue());
+              }
+            }
+          }
+
+          @Order(30.0)
+          public class RemoveChoiceMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("RemoveChoice");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              ITableRow r = getSelectedRow();
+              if (MessageBox.showDeleteConfirmationMessage(TEXTS.get("Choice"), getChoiceTextColumn().getValue(r))) {
+                deleteRow(r);
+              }
             }
           }
         }

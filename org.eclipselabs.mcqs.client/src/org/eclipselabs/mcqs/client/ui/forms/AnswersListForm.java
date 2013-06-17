@@ -39,6 +39,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.ScoutTexts;
 import org.eclipse.scout.rt.shared.TEXTS;
+import org.eclipse.scout.rt.shared.ui.UserAgentUtility;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipse.scout.svg.client.SVGUtility;
 import org.eclipse.scout.svg.client.svgfield.AbstractSvgField;
@@ -50,9 +51,9 @@ import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsB
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.ListBox;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.ListBox.AnswersField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.StatisticsBox;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.ContentBox.QuestionNrField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.ContentBox.QuestionTextField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.OkButton;
-import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.QuestionNrField;
-import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.QuestionTextField;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
 import org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
@@ -130,65 +131,70 @@ public class AnswersListForm extends AbstractForm {
     getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
   }
 
+  private void reloadStatistics() throws ProcessingException {
+    IAnswersListProcessService service = SERVICES.getService(IAnswersListProcessService.class);
+    AnswersListFormData formData = new AnswersListFormData();
+    exportFormData(formData);
+    formData = service.loadStatistics(formData);
+    importFormData(formData);
+
+    reloadGraph(formData);
+  }
+
   @Order(10.0)
   public class MainBox extends AbstractGroupBox {
 
-    private void reloadStatistics() throws ProcessingException {
-      IAnswersListProcessService service = SERVICES.getService(IAnswersListProcessService.class);
-      AnswersListFormData formData = new AnswersListFormData();
-      exportFormData(formData);
-      formData = service.loadStatistics(formData);
-      importFormData(formData);
-
-      reloadGraph(formData);
-    }
-
     @Order(10.0)
-    public class QuestionNrField extends AbstractIntegerField {
+    public class ContentBox extends AbstractGroupBox {
 
-      @Override
-      protected boolean getConfiguredEnabled() {
-        return false;
+      @Order(10.0)
+      public class QuestionNrField extends AbstractIntegerField {
+
+        @Override
+        protected boolean getConfiguredEnabled() {
+          return false;
+        }
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Question");
+        }
       }
 
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("Question");
-      }
-    }
+      @Order(20.0)
+      public class QuestionTextField extends AbstractStringField {
 
-    @Order(20.0)
-    public class QuestionTextField extends AbstractStringField {
+        @Override
+        protected boolean getConfiguredEnabled() {
+          return false;
+        }
 
-      @Override
-      protected boolean getConfiguredEnabled() {
-        return false;
+        @Override
+        protected int getConfiguredGridH() {
+          return 2;
+        }
+
+        @Override
+        protected int getConfiguredGridW() {
+          return 2;
+        }
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Question");
+        }
+
+        @Override
+        protected boolean getConfiguredMultilineText() {
+          return true;
+        }
+
+        @Override
+        protected boolean getConfiguredWrapText() {
+          return true;
+        }
       }
 
-      @Override
-      protected int getConfiguredGridH() {
-        return 2;
-      }
-
-      @Override
-      protected int getConfiguredGridW() {
-        return 2;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("Question");
-      }
-
-      @Override
-      protected boolean getConfiguredMultilineText() {
-        return true;
-      }
-
-      @Override
-      protected boolean getConfiguredWrapText() {
-        return true;
-      }
     }
 
     @Order(30.0)
@@ -200,6 +206,11 @@ public class AnswersListForm extends AbstractForm {
         @Override
         protected String getConfiguredLabel() {
           return TEXTS.get("Graph");
+        }
+
+        @Override
+        protected void execInitField() throws ProcessingException {
+          setVisible(UserAgentUtility.isDesktopDevice());
         }
 
         @Order(10.0)

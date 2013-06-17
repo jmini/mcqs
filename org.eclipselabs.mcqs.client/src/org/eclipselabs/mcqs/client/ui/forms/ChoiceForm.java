@@ -26,7 +26,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
 import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.CancelButton;
-import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.ChoiceField;
+import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.ContentBox.ChoiceField;
 import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.OkButton;
 import org.eclipselabs.mcqs.shared.services.process.ChoiceFormData;
 
@@ -78,16 +78,20 @@ public class ChoiceForm extends AbstractForm {
   public class MainBox extends AbstractGroupBox {
 
     @Order(10.0)
-    public class ChoiceField extends AbstractStringField {
+    public class ContentBox extends AbstractGroupBox {
 
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("Choice");
-      }
+      @Order(10.0)
+      public class ChoiceField extends AbstractStringField {
 
-      @Override
-      protected boolean getConfiguredMandatory() {
-        return true;
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Choice");
+        }
+
+        @Override
+        protected boolean getConfiguredMandatory() {
+          return true;
+        }
       }
     }
 

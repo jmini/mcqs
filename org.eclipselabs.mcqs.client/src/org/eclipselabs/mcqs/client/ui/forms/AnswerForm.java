@@ -31,11 +31,11 @@ import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.lookup.LookupCall;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.CancelButton;
-import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ChoicesField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.ChoicesField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.QuestionNrField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.QuestionTextField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.YourNameField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.OkButton;
-import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.QuestionNrField;
-import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.QuestionTextField;
-import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.YourNameField;
 import org.eclipselabs.mcqs.shared.security.UpdateAnswerPermission;
 import org.eclipselabs.mcqs.shared.services.lookup.ChoicesLookupCall;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
@@ -103,90 +103,93 @@ public class AnswerForm extends AbstractForm {
 
   @Order(10.0)
   public class MainBox extends AbstractGroupBox {
-
-    @Override
-    protected int getConfiguredGridColumnCount() {
-      return 1;
-    }
-
     @Order(10.0)
-    public class QuestionNrField extends AbstractIntegerField {
+    public class ContentBox extends AbstractGroupBox {
 
       @Override
-      protected boolean getConfiguredEnabled() {
-        return false;
+      protected int getConfiguredGridColumnCount() {
+        return 1;
       }
 
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("QuestionNr");
-      }
-    }
+      @Order(10.0)
+      public class QuestionNrField extends AbstractIntegerField {
 
-    @Order(20.0)
-    public class QuestionTextField extends AbstractStringField {
+        @Override
+        protected boolean getConfiguredEnabled() {
+          return false;
+        }
 
-      @Override
-      protected boolean getConfiguredEnabled() {
-        return false;
-      }
-
-      @Override
-      protected int getConfiguredGridH() {
-        return 2;
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("QuestionNr");
+        }
       }
 
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("Question");
+      @Order(20.0)
+      public class QuestionTextField extends AbstractStringField {
+
+        @Override
+        protected boolean getConfiguredEnabled() {
+          return false;
+        }
+
+        @Override
+        protected int getConfiguredGridH() {
+          return 2;
+        }
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Question");
+        }
+
+        @Override
+        protected boolean getConfiguredMultilineText() {
+          return true;
+        }
+
+        @Override
+        protected boolean getConfiguredWrapText() {
+          return true;
+        }
       }
 
-      @Override
-      protected boolean getConfiguredMultilineText() {
-        return true;
+      @Order(30.0)
+      public class YourNameField extends AbstractStringField {
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("YourName");
+        }
+
+        @Override
+        protected boolean getConfiguredMandatory() {
+          return true;
+        }
       }
 
-      @Override
-      protected boolean getConfiguredWrapText() {
-        return true;
-      }
-    }
+      @Order(40.0)
+      public class ChoicesField extends AbstractListBox<Long> {
 
-    @Order(30.0)
-    public class YourNameField extends AbstractStringField {
+        @Override
+        protected int getConfiguredGridH() {
+          return 6;
+        }
 
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("YourName");
-      }
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Choices");
+        }
 
-      @Override
-      protected boolean getConfiguredMandatory() {
-        return true;
-      }
-    }
+        @Override
+        protected Class<? extends LookupCall> getConfiguredLookupCall() {
+          return ChoicesLookupCall.class;
+        }
 
-    @Order(40.0)
-    public class ChoicesField extends AbstractListBox<Long> {
-
-      @Override
-      protected int getConfiguredGridH() {
-        return 6;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("Choices");
-      }
-
-      @Override
-      protected Class<? extends LookupCall> getConfiguredLookupCall() {
-        return ChoicesLookupCall.class;
-      }
-
-      @Override
-      protected Class<? extends IValueField> getConfiguredMasterField() {
-        return AnswerForm.MainBox.QuestionNrField.class;
+        @Override
+        protected Class<? extends IValueField> getConfiguredMasterField() {
+          return AnswerForm.MainBox.ContentBox.QuestionNrField.class;
+        }
       }
     }
 

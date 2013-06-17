@@ -30,7 +30,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.service.SERVICES;
-import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm.MainBox.QuestionsField;
+import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm.MainBox.ContentBox.QuestionsField;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
@@ -86,171 +86,175 @@ public class QuestionsListForm extends AbstractForm {
   public class MainBox extends AbstractGroupBox {
 
     @Order(10.0)
-    public class QuestionsField extends AbstractTableField<QuestionsField.Table> {
-
-      @Override
-      protected int getConfiguredGridH() {
-        return 6;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return TEXTS.get("Questions");
-      }
-
-      @Override
-      protected boolean getConfiguredLabelVisible() {
-        return false;
-      }
+    public class ContentBox extends AbstractGroupBox {
 
       @Order(10.0)
-      public class Table extends AbstractTable {
+      public class QuestionsField extends AbstractTableField<QuestionsField.Table> {
 
-        public QuestionColumn getQuestionColumn() {
-          return getColumnSet().getColumnByClass(QuestionColumn.class);
+        @Override
+        protected int getConfiguredGridH() {
+          return 6;
         }
 
-        public QuestionNrColumn getQuestionNrColumn() {
-          return getColumnSet().getColumnByClass(QuestionNrColumn.class);
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Questions");
         }
 
-        @Order(10.0)
-        public class QuestionNrColumn extends AbstractIntegerColumn {
-
-          @Override
-          protected String getConfiguredHeaderText() {
-            return TEXTS.get("Nr");
-          }
-
-          @Override
-          protected boolean getConfiguredPrimaryKey() {
-            return true;
-          }
-
-          @Override
-          protected boolean getConfiguredVisible() {
-            return false;
-          }
-        }
-
-        @Order(20.0)
-        public class QuestionColumn extends AbstractStringColumn {
-
-          @Override
-          protected String getConfiguredHeaderText() {
-            return TEXTS.get("Question");
-          }
-
-          @Override
-          protected int getConfiguredWidth() {
-            return 380;
-          }
+        @Override
+        protected boolean getConfiguredLabelVisible() {
+          return false;
         }
 
         @Order(10.0)
-        public class AddAnAnswerMenu extends AbstractMenu {
+        public class Table extends AbstractTable {
 
-          @Override
-          protected String getConfiguredText() {
-            return TEXTS.get("AddAnAnswer");
+          public QuestionColumn getQuestionColumn() {
+            return getColumnSet().getColumnByClass(QuestionColumn.class);
           }
 
-          @Override
-          protected void execAction() throws ProcessingException {
-            AnswerForm form = new AnswerForm();
-            form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
-            form.startNew();
-          }
-        }
-
-        @Order(20.0)
-        public class DisplayAllAnswersMenu extends AbstractMenu {
-
-          @Override
-          protected String getConfiguredText() {
-            return TEXTS.get("DisplayAllAnswers");
+          public QuestionNrColumn getQuestionNrColumn() {
+            return getColumnSet().getColumnByClass(QuestionNrColumn.class);
           }
 
-          @Override
-          protected void execAction() throws ProcessingException {
-            AnswersListForm form = new AnswersListForm();
-            form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
-            form.startDisplay();
-          }
-        }
+          @Order(10.0)
+          public class QuestionNrColumn extends AbstractIntegerColumn {
 
-        @Order(30.0)
-        public class SeparatorMenu extends AbstractMenu {
+            @Override
+            protected String getConfiguredHeaderText() {
+              return TEXTS.get("Nr");
+            }
 
-          @Override
-          protected boolean getConfiguredSeparator() {
-            return true;
-          }
-        }
+            @Override
+            protected boolean getConfiguredPrimaryKey() {
+              return true;
+            }
 
-        @Order(40.0)
-        public class CreateQuestionMenu extends AbstractMenu {
-
-          @Override
-          protected boolean getConfiguredEmptySpaceAction() {
-            return true;
-          }
-
-          @Override
-          protected boolean getConfiguredSingleSelectionAction() {
-            return false;
-          }
-
-          @Override
-          protected String getConfiguredText() {
-            return TEXTS.get("CreateQuestion");
-          }
-
-          @Override
-          protected void execAction() throws ProcessingException {
-            QuestionForm form = new QuestionForm();
-            form.startNew();
-            form.waitFor();
-            if (form.isFormStored()) {
-              reloadForm();
+            @Override
+            protected boolean getConfiguredVisible() {
+              return false;
             }
           }
-        }
 
-        @Order(50.0)
-        public class EditQuestionMenu extends AbstractMenu {
+          @Order(20.0)
+          public class QuestionColumn extends AbstractStringColumn {
 
-          @Override
-          protected String getConfiguredText() {
-            return TEXTS.get("EditQuestion");
-          }
+            @Override
+            protected String getConfiguredHeaderText() {
+              return TEXTS.get("Question");
+            }
 
-          @Override
-          protected void execAction() throws ProcessingException {
-            QuestionForm form = new QuestionForm();
-            form.setQuestionNr(getQuestionNrColumn().getSelectedValue());
-            form.startModify();
-            form.waitFor();
-            if (form.isFormStored()) {
-              reloadForm();
+            @Override
+            protected int getConfiguredWidth() {
+              return 380;
             }
           }
-        }
 
-        @Order(60.0)
-        public class DeleteQuestionMenu extends AbstractMenu {
+          @Order(10.0)
+          public class AddAnAnswerMenu extends AbstractMenu {
 
-          @Override
-          protected String getConfiguredText() {
-            return TEXTS.get("DeleteQuestion");
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("AddAnAnswer");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              AnswerForm form = new AnswerForm();
+              form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
+              form.startNew();
+            }
           }
 
-          @Override
-          protected void execAction() throws ProcessingException {
-            ITableRow r = getSelectedRow();
-            if (MessageBox.showDeleteConfirmationMessage(TEXTS.get("Questions"), getQuestionColumn().getValue(r))) {
-              SERVICES.getService(IQuestionProcessService.class).delete(getQuestionNrColumn().getValue(r));
-              reloadForm();
+          @Order(20.0)
+          public class DisplayAllAnswersMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("DisplayAllAnswers");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              AnswersListForm form = new AnswersListForm();
+              form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
+              form.startDisplay();
+            }
+          }
+
+          @Order(30.0)
+          public class SeparatorMenu extends AbstractMenu {
+
+            @Override
+            protected boolean getConfiguredSeparator() {
+              return true;
+            }
+          }
+
+          @Order(40.0)
+          public class CreateQuestionMenu extends AbstractMenu {
+
+            @Override
+            protected boolean getConfiguredEmptySpaceAction() {
+              return true;
+            }
+
+            @Override
+            protected boolean getConfiguredSingleSelectionAction() {
+              return false;
+            }
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("CreateQuestion");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              QuestionForm form = new QuestionForm();
+              form.startNew();
+              form.waitFor();
+              if (form.isFormStored()) {
+                reloadForm();
+              }
+            }
+          }
+
+          @Order(50.0)
+          public class EditQuestionMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("EditQuestion");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              QuestionForm form = new QuestionForm();
+              form.setQuestionNr(getQuestionNrColumn().getSelectedValue());
+              form.startModify();
+              form.waitFor();
+              if (form.isFormStored()) {
+                reloadForm();
+              }
+            }
+          }
+
+          @Order(60.0)
+          public class DeleteQuestionMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("DeleteQuestion");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              ITableRow r = getSelectedRow();
+              if (MessageBox.showDeleteConfirmationMessage(TEXTS.get("Questions"), getQuestionColumn().getValue(r))) {
+                SERVICES.getService(IQuestionProcessService.class).delete(getQuestionNrColumn().getValue(r));
+                reloadForm();
+              }
             }
           }
         }
