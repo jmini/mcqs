@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.scout.commons.BooleanUtility;
 import org.eclipse.scout.commons.annotations.Priority;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.service.AbstractService;
@@ -41,7 +42,7 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     if (questionNr == null) {
       throw new ProcessingException("QuestionNr can not be null");
     }
-    QuestionFormData question = dataStore.updateQuestionText(questionNr, formData.getQuestionText());
+    QuestionFormData question = dataStore.updateQuestionText(questionNr, formData.getQuestionText(), formData.getMultipleChoicesProperty());
 
     //load answers list:
     formData.getAnswers().clearRows();
@@ -100,7 +101,15 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     Statistics statistics = formData.getStatistics();
     statistics.clearRows();
     for (P_Choice choice : choicesMap.values()) {
-      statistics.addRow(new Object[]{choice.getChoiceText(), choice.getResult()});
+      int i = statistics.addRow();
+      statistics.setChoice(i, choice.getChoiceText());
+      if (BooleanUtility.nvl(question.getMultipleChoices().getValue())) {
+        statistics.setResultYes(i, choice.getResult());
+        statistics.setResultNo(i, 1 - choice.getResult());
+      }
+      else {
+        statistics.setResult(i, choice.getResult());
+      }
     }
   }
 

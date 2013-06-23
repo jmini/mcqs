@@ -27,13 +27,16 @@ import org.eclipse.scout.rt.client.ui.form.AbstractForm;
 import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
 import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractCancelButton;
 import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractOkButton;
+import org.eclipse.scout.rt.client.ui.form.fields.checkbox.AbstractCheckBox;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.service.SERVICES;
+import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.ContentBox.ChoiceField;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.CancelButton;
+import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.ContentBox.MultipleChoicesField;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.OkButton;
 import org.eclipselabs.mcqs.shared.security.UpdateQuestionPermission;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
@@ -42,7 +45,7 @@ import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 @FormData(value = QuestionFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
 public class QuestionForm extends AbstractForm {
 
-  private Integer questionNr;
+  private Integer m_questionNr;
 
   public QuestionForm() throws ProcessingException {
     super();
@@ -51,16 +54,6 @@ public class QuestionForm extends AbstractForm {
   @Override
   protected String getConfiguredTitle() {
     return TEXTS.get("Question");
-  }
-
-  @FormData
-  public Integer getQuestionNr() {
-    return questionNr;
-  }
-
-  @FormData
-  public void setQuestionNr(Integer questionNr) {
-    this.questionNr = questionNr;
   }
 
   public void startModify() throws ProcessingException {
@@ -75,8 +68,16 @@ public class QuestionForm extends AbstractForm {
     return getFieldByClass(CancelButton.class);
   }
 
+  public ChoiceField getChoiceField() {
+    return getFieldByClass(ChoiceField.class);
+  }
+
   public MainBox getMainBox() {
     return getFieldByClass(MainBox.class);
+  }
+
+  public MultipleChoicesField getMultipleChoicesField() {
+    return getFieldByClass(MultipleChoicesField.class);
   }
 
   public OkButton getOkButton() {
@@ -119,6 +120,15 @@ public class QuestionForm extends AbstractForm {
       }
 
       @Order(20.0)
+      public class MultipleChoicesField extends AbstractCheckBox {
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("MultipleChoices");
+        }
+      }
+
+      @Order(30.0)
       public class ChoicesField extends AbstractTableField<ChoicesField.Table> {
 
         @Override
@@ -269,6 +279,7 @@ public class QuestionForm extends AbstractForm {
       formData = service.load(formData);
       importFormData(formData);
       setEnabledPermission(new UpdateQuestionPermission());
+      getMultipleChoicesField().setEnabled(false);
     }
 
     @Override
@@ -298,5 +309,15 @@ public class QuestionForm extends AbstractForm {
       exportFormData(formData);
       formData = service.create(formData);
     }
+  }
+
+  @FormData
+  public Integer getQuestionNr() {
+    return m_questionNr;
+  }
+
+  @FormData
+  public void setQuestionNr(Integer questionNr) {
+    m_questionNr = questionNr;
   }
 }

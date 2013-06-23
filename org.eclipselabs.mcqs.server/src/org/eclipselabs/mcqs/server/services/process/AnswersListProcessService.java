@@ -37,10 +37,10 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
       throw new ProcessingException("QuestionNr can not be null");
     }
 
-    SQL.selectInto(" select question_text " +
+    SQL.selectInto(" select question_text, multiple_choices " +
         " from  questions " +
         " where question_id = :questionNr " +
-        " into  :questionText", formData);
+        " into  :questionText, :MultipleChoices", formData);
 
     SQL.selectInto(" select answer_id, name " +
         " from  answers " +
@@ -64,7 +64,8 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
     SQL.selectInto("  select c.choice_text, (select count(*) from answers_choices ac where ac.choice_id = c.choice_id) " +
         "  from  choices c " +
         "  where c.question_id = :questionNr " +
-        "  into  :choice, :result",
+        "  into  :choice, :result " +
+        "  order by choice_id",
         formData.getStatistics(), formData);
 
     double nbAnswers = formData.getAnswers().getRowCount();
@@ -72,6 +73,8 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
       for (int i = 0; i < formData.getStatistics().getRowCount(); i++) {
         double result = (formData.getStatistics().getResult(i).doubleValue() / nbAnswers);
         formData.getStatistics().setResult(i, result);
+        formData.getStatistics().setResultYes(i, result);
+        formData.getStatistics().setResultNo(i, 1 - result);
       }
     }
 

@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.server.services.process;
 
+import org.eclipse.scout.commons.BooleanUtility;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.exception.VetoException;
 import org.eclipse.scout.commons.holders.NVPair;
@@ -86,11 +87,18 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
     }
 
     loadQuestion(formData);
-
-    SQL.selectInto(" select choice_id " +
-        " from  answers_choices " +
-        " where answer_id = :AnswerNr " +
-        " into  :Choices", formData);
+    if (BooleanUtility.nvl(formData.getMultipleChoices())) {
+      SQL.selectInto(" select choice_id " +
+          " from  answers_choices " +
+          " where answer_id = :AnswerNr " +
+          " into  :Choices", formData);
+    }
+    else {
+      SQL.selectInto(" select choice_id " +
+          " from  answers_choices " +
+          " where answer_id = :AnswerNr " +
+          " into  :Choice", formData);
+    }
 
     return formData;
   }
@@ -119,10 +127,10 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
    * @throws ProcessingException
    */
   private void loadQuestion(AnswerFormData formData) throws ProcessingException {
-    SQL.selectInto(" select question_text " +
+    SQL.selectInto(" select question_text, multiple_choices " +
         " from  questions " +
         " where question_id = :QuestionNr " +
-        " into  :QuestionText", formData);
+        " into  :QuestionText, :MultipleChoices", formData);
   }
 
   /**
@@ -130,11 +138,17 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
    * @throws ProcessingException
    */
   private void storeAnswerChoice(AnswerFormData formData) throws ProcessingException {
-    if (formData.getChoices().isValueSet() && formData.getChoices().getValue() != null) {
-      for (Long choiceId : formData.getChoices().getValue()) {
-        SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
-            " values (:AnswerNr, :ChoiceId) ", formData, new NVPair("ChoiceId", choiceId));
+    if (BooleanUtility.nvl(formData.getMultipleChoices())) {
+      if (formData.getChoices().isValueSet() && formData.getChoices().getValue() != null) {
+        for (Long choiceId : formData.getChoices().getValue()) {
+          SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
+              " values (:AnswerNr, :ChoiceId) ", formData, new NVPair("ChoiceId", choiceId));
+        }
       }
+    }
+    else {
+      SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
+          " values (:AnswerNr, :Choice) ", formData);
     }
   }
 

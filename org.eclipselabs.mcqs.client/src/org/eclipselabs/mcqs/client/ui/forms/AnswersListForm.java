@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.scout.commons.BooleanUtility;
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
@@ -51,6 +52,7 @@ import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsB
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.ListBox;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.ListBox.AnswersField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.StatisticsBox;
+import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.StatisticsBox.StatisticsField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.ContentBox.QuestionNrField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.ContentBox.QuestionTextField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.OkButton;
@@ -60,6 +62,8 @@ import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
 
 @FormData(value = AnswersListFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
 public class AnswersListForm extends AbstractForm {
+
+  private Boolean m_multipleChoices;
 
   public AnswersListForm() throws ProcessingException {
     super();
@@ -119,6 +123,18 @@ public class AnswersListForm extends AbstractForm {
     return getFieldByClass(StatisticsBox.class);
   }
 
+  public StatisticsField getStatisticsField() {
+    return getFieldByClass(StatisticsField.class);
+  }
+
+  private void handleMultiple() {
+    boolean isMulipleChoices = BooleanUtility.nvl(getMultipleChoices());
+
+    getStatisticsField().getTable().getResultColumn().setVisible(!isMulipleChoices);
+    getStatisticsField().getTable().getResultYesColumn().setVisible(isMulipleChoices);
+    getStatisticsField().getTable().getResultNoColumn().setVisible(isMulipleChoices);
+  }
+
   private void reloadGraph(AnswersListFormData formData) throws ProcessingException {
     List<BarGraph> values = new ArrayList<BarGraph>();
     int nb = formData.getStatistics().getRowCount();
@@ -127,7 +143,7 @@ public class AnswersListForm extends AbstractForm {
       int percent = (int) (formData.getStatistics().getResult(j) * 100);
       values.add(new BarGraph(j, formData.getStatistics().getChoice(j), percent));
     }
-    InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values));
+    InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values, BooleanUtility.nvl(getMultipleChoices())));
     getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
   }
 
@@ -262,6 +278,14 @@ public class AnswersListForm extends AbstractForm {
               return true;
             }
 
+            public ResultYesColumn getResultYesColumn() {
+              return getColumnSet().getColumnByClass(ResultYesColumn.class);
+            }
+
+            public ResultNoColumn getResultNoColumn() {
+              return getColumnSet().getColumnByClass(ResultNoColumn.class);
+            }
+
             public ChoiceColumn getChoiceColumn() {
               return getColumnSet().getColumnByClass(ChoiceColumn.class);
             }
@@ -290,6 +314,44 @@ public class AnswersListForm extends AbstractForm {
               @Override
               protected String getConfiguredHeaderText() {
                 return TEXTS.get("Result");
+              }
+
+              @Override
+              protected int getConfiguredMultiplier() {
+                return 100;
+              }
+
+              @Override
+              protected boolean getConfiguredPercent() {
+                return true;
+              }
+            }
+
+            @Order(30.0)
+            public class ResultYesColumn extends AbstractDoubleColumn {
+
+              @Override
+              protected String getConfiguredHeaderText() {
+                return TEXTS.get("ResultYes");
+              }
+
+              @Override
+              protected int getConfiguredMultiplier() {
+                return 100;
+              }
+
+              @Override
+              protected boolean getConfiguredPercent() {
+                return true;
+              }
+            }
+
+            @Order(40.0)
+            public class ResultNoColumn extends AbstractDoubleColumn {
+
+              @Override
+              protected String getConfiguredHeaderText() {
+                return TEXTS.get("ResultNo");
               }
 
               @Override
@@ -485,7 +547,18 @@ public class AnswersListForm extends AbstractForm {
       formData = service.load(formData);
       importFormData(formData);
 
+      handleMultiple();
       reloadGraph(formData);
     }
+  }
+
+  @FormData
+  public Boolean getMultipleChoices() {
+    return m_multipleChoices;
+  }
+
+  @FormData
+  public void setMultipleChoices(Boolean multipleChoices) {
+    m_multipleChoices = multipleChoices;
   }
 }

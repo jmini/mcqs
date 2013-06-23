@@ -49,6 +49,10 @@ public class QuestionFormData extends AbstractFormData {
     return getFieldByClass(Choices.class);
   }
 
+  public MultipleChoices getMultipleChoices() {
+    return getFieldByClass(MultipleChoices.class);
+  }
+
   public QuestionText getQuestionText() {
     return getFieldByClass(QuestionText.class);
   }
@@ -112,6 +116,13 @@ public class QuestionFormData extends AbstractFormData {
           setChoiceText(row, (String) value);
           break;
       }
+    }
+  }
+
+  public static class MultipleChoices extends AbstractValueFieldData<Boolean> {
+    private static final long serialVersionUID = 1L;
+
+    public MultipleChoices() {
     }
   }
 

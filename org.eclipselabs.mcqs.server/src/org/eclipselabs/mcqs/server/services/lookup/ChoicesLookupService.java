@@ -15,7 +15,6 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.server.services.lookup;
 
-
 import org.eclipse.scout.rt.server.services.lookup.AbstractSqlLookupService;
 import org.eclipselabs.mcqs.shared.services.lookup.IChoicesLookupService;
 
@@ -23,6 +22,15 @@ public class ChoicesLookupService extends AbstractSqlLookupService implements IC
 
   @Override
   public String getConfiguredSqlSelect() {
-    return "select choice_id, choice_text from choices where question_id = :master";
+    return " select choice_id, choice_text "
+        + " from choices "
+        + " where question_id = :master"
+        + " <key> and choice_id = :key </key> "
+        + " <text> and UPPER(choice_text) LIKE UPPER(:text||'%') </text>";
+  }
+
+  @Override
+  protected int getConfiguredSortColumn() {
+    return 0;
   }
 }

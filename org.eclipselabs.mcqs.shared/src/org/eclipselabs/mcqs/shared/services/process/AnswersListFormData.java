@@ -19,11 +19,30 @@ import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
 import org.eclipse.scout.rt.shared.data.form.ValidationRule;
 import org.eclipse.scout.rt.shared.data.form.fields.AbstractValueFieldData;
 import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldData;
+import org.eclipse.scout.rt.shared.data.form.properties.AbstractPropertyData;
 
 public class AnswersListFormData extends AbstractFormData {
   private static final long serialVersionUID = 1L;
 
   public AnswersListFormData() {
+  }
+
+  public MultipleChoicesProperty getMultipleChoicesProperty() {
+    return getPropertyByClass(MultipleChoicesProperty.class);
+  }
+
+  /**
+   * access method for property MultipleChoices.
+   */
+  public Boolean getMultipleChoices() {
+    return getMultipleChoicesProperty().getValue();
+  }
+
+  /**
+   * access method for property MultipleChoices.
+   */
+  public void setMultipleChoices(Boolean multipleChoices) {
+    getMultipleChoicesProperty().setValue(multipleChoices);
   }
 
   public Answers getAnswers() {
@@ -40,6 +59,13 @@ public class AnswersListFormData extends AbstractFormData {
 
   public Statistics getStatistics() {
     return getFieldByClass(Statistics.class);
+  }
+
+  public class MultipleChoicesProperty extends AbstractPropertyData<Boolean> {
+    private static final long serialVersionUID = 1L;
+
+    public MultipleChoicesProperty() {
+    }
   }
 
   public static class Answers extends AbstractTableFieldData {
@@ -128,6 +154,8 @@ public class AnswersListFormData extends AbstractFormData {
 
     public static final int CHOICE_COLUMN_ID = 0;
     public static final int RESULT_COLUMN_ID = 1;
+    public static final int RESULT_YES_COLUMN_ID = 2;
+    public static final int RESULT_NO_COLUMN_ID = 3;
 
     public void setChoice(int row, String choice) {
       setValueInternal(row, CHOICE_COLUMN_ID, choice);
@@ -145,9 +173,25 @@ public class AnswersListFormData extends AbstractFormData {
       return (Double) getValueInternal(row, RESULT_COLUMN_ID);
     }
 
+    public void setResultYes(int row, Double resultYes) {
+      setValueInternal(row, RESULT_YES_COLUMN_ID, resultYes);
+    }
+
+    public Double getResultYes(int row) {
+      return (Double) getValueInternal(row, RESULT_YES_COLUMN_ID);
+    }
+
+    public void setResultNo(int row, Double resultNo) {
+      setValueInternal(row, RESULT_NO_COLUMN_ID, resultNo);
+    }
+
+    public Double getResultNo(int row) {
+      return (Double) getValueInternal(row, RESULT_NO_COLUMN_ID);
+    }
+
     @Override
     public int getColumnCount() {
-      return 2;
+      return 4;
     }
 
     @Override
@@ -157,6 +201,10 @@ public class AnswersListFormData extends AbstractFormData {
           return getChoice(row);
         case RESULT_COLUMN_ID:
           return getResult(row);
+        case RESULT_YES_COLUMN_ID:
+          return getResultYes(row);
+        case RESULT_NO_COLUMN_ID:
+          return getResultNo(row);
         default:
           return null;
       }
@@ -170,6 +218,12 @@ public class AnswersListFormData extends AbstractFormData {
           break;
         case RESULT_COLUMN_ID:
           setResult(row, (Double) value);
+          break;
+        case RESULT_YES_COLUMN_ID:
+          setResultYes(row, (Double) value);
+          break;
+        case RESULT_NO_COLUMN_ID:
+          setResultNo(row, (Double) value);
           break;
       }
     }

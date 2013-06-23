@@ -47,8 +47,8 @@ public class QuestionProcessService extends AbstractService implements IQuestion
       throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
-    SQL.insert(" insert into questions (question_text) " +
-        " values (:QuestionText) ", formData);
+    SQL.insert(" insert into questions (question_text, multiple_choices) " +
+        " values (:QuestionText, :MultipleChoices) ", formData);
 
     SQL.selectInto(" values IDENTITY_VAL_LOCAL() " +
         " into  :QuestionNr", formData);
@@ -70,10 +70,10 @@ public class QuestionProcessService extends AbstractService implements IQuestion
       throw new ProcessingException("QuestionNr can no be null");
     }
 
-    SQL.selectInto(" select question_text " +
+    SQL.selectInto(" select question_text, multiple_choices " +
         " from questions " +
         " where question_id = :QuestionNr " +
-        " into  :QuestionText ", formData);
+        " into  :QuestionText, :MultipleChoices ", formData);
 
     SQL.selectInto(" select choice_id, choice_text " +
         " from  choices " +
@@ -93,7 +93,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
       throw new ProcessingException("QuestionNr can no be null");
     }
 
-    SQL.update("update questions set question_text = :QuestionText where question_id = :QuestionNr", formData);
+    SQL.update("update questions set question_text = :QuestionText, multiple_choices = :MultipleChoices where question_id = :QuestionNr", formData);
 
     storeQuestionChoices(formData);
     return formData;

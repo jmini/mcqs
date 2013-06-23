@@ -1,6 +1,6 @@
-INSERT INTO MCQ.QUESTIONS (QUESTION_TEXT) 
+INSERT INTO MCQ.QUESTIONS (QUESTION_TEXT, MULTIPLE_CHOICES) 
 VALUES
-  ('Quel est votre IDE préféré?');
+  ('Quel est votre IDE pr√©f√©r√©?', 0);
  
 INSERT INTO MCQ.CHOICES 
   (QUESTION_ID, CHOICE_TEXT) 
@@ -13,11 +13,11 @@ VALUES
   (IDENTITY_VAL_LOCAL(), 'JCreator'), 
   (IDENTITY_VAL_LOCAL(), 'JBuilder'), 
   (IDENTITY_VAL_LOCAL(), 'BEA Workshop Studio'), 
-  (IDENTITY_VAL_LOCAL(), 'Editeurs de texte avancés (Emacs, VI, JEdit, UltraEdit, ...)');
+  (IDENTITY_VAL_LOCAL(), 'Editeurs de texte avanc√©s (Emacs, VI, JEdit, UltraEdit, ...)');
   
-INSERT INTO MCQ.QUESTIONS (QUESTION_TEXT) 
+INSERT INTO MCQ.QUESTIONS (QUESTION_TEXT, MULTIPLE_CHOICES) 
 VALUES
-  ('Quel est le meilleur smartphone sous Android?');
+  ('Quels sont les meilleurs smartphones sous Android?', 1);
   
 INSERT INTO MCQ.CHOICES 
   (QUESTION_ID, CHOICE_TEXT) 

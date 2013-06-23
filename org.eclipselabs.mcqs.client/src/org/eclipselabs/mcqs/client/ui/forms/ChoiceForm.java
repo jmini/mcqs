@@ -33,7 +33,7 @@ import org.eclipselabs.mcqs.shared.services.process.ChoiceFormData;
 @FormData(value = ChoiceFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
 public class ChoiceForm extends AbstractForm {
 
-  private Integer choiceNr;
+  private Integer m_choiceNr;
 
   public ChoiceForm() throws ProcessingException {
     super();
@@ -42,16 +42,6 @@ public class ChoiceForm extends AbstractForm {
   @Override
   protected String getConfiguredTitle() {
     return TEXTS.get("Choice");
-  }
-
-  @FormData
-  public Integer getChoiceNr() {
-    return choiceNr;
-  }
-
-  @FormData
-  public void setChoiceNr(Integer choiceNr) {
-    this.choiceNr = choiceNr;
   }
 
   public void startEdit() throws ProcessingException {
@@ -105,5 +95,15 @@ public class ChoiceForm extends AbstractForm {
   }
 
   public class EditHandler extends AbstractFormHandler {
+  }
+
+  @FormData
+  public Integer getChoiceNr() {
+    return m_choiceNr;
+  }
+
+  @FormData
+  public void setChoiceNr(Integer choiceNr) {
+    m_choiceNr = choiceNr;
   }
 }
