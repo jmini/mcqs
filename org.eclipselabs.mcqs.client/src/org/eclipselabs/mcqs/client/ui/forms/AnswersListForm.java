@@ -128,7 +128,7 @@ public class AnswersListForm extends AbstractForm {
   }
 
   private void handleMultiple() {
-    boolean isMulipleChoices = BooleanUtility.nvl(getMultipleChoices());
+    boolean isMulipleChoices = isMultipleChoices();
 
     getStatisticsField().getTable().getResultColumn().setVisible(!isMulipleChoices);
     getStatisticsField().getTable().getResultYesColumn().setVisible(isMulipleChoices);
@@ -140,10 +140,17 @@ public class AnswersListForm extends AbstractForm {
     int nb = formData.getStatistics().getRowCount();
     for (int i = 0; i < nb; i++) {
       int j = nb - i - 1;
-      int percent = (int) (formData.getStatistics().getResult(j) * 100);
+      Double result;
+      if (isMultipleChoices()) {
+        result = formData.getStatistics().getResultYes(j);
+      }
+      else {
+        result = formData.getStatistics().getResult(j);
+      }
+      int percent = (int) (result * 100);
       values.add(new BarGraph(j, formData.getStatistics().getChoice(j), percent));
     }
-    InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values, BooleanUtility.nvl(getMultipleChoices())));
+    InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values, isMultipleChoices()));
     getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
   }
 
@@ -555,6 +562,10 @@ public class AnswersListForm extends AbstractForm {
   @FormData
   public Boolean getMultipleChoices() {
     return m_multipleChoices;
+  }
+
+  private boolean isMultipleChoices() {
+    return BooleanUtility.nvl(getMultipleChoices());
   }
 
   @FormData

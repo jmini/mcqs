@@ -93,7 +93,7 @@ public final class BarGraphGenerator {
       double d = 574.0 * (e.getValue() / 100.0);
       BigDecimal bd = new BigDecimal(d).setScale(1, RoundingMode.HALF_EVEN);
       String width = String.valueOf(bd.intValue());
-      width = width.replaceAll(".0$", "");
+      width = width.replaceAll("\\.0$", "");
       String[] cs = new String[]{
           //          "salmon",
           "lightpink",
