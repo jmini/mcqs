@@ -20,9 +20,9 @@ import org.eclipse.scout.commons.exception.VetoException;
 import org.eclipse.scout.commons.holders.ITableHolder;
 import org.eclipse.scout.commons.holders.NVPair;
 import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.CreateQuestionPermission;
 import org.eclipselabs.mcqs.shared.security.DeleteQuestionPermission;
 import org.eclipselabs.mcqs.shared.security.ReadQuestionPermission;
@@ -35,7 +35,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public QuestionFormData prepareCreate(QuestionFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
     //nothing to do
     return formData;
@@ -44,11 +44,11 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public QuestionFormData create(QuestionFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
-    SQL.insert(" insert into questions (question_text) " +
-        " values (:QuestionText) ", formData);
+    SQL.insert(" insert into questions (question_text, multiple_choices) " +
+        " values (:QuestionText, :MultipleChoices) ", formData);
 
     SQL.selectInto(" values IDENTITY_VAL_LOCAL() " +
         " into  :QuestionNr", formData);
@@ -63,17 +63,17 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public QuestionFormData load(QuestionFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getQuestionNr() == null) {
       throw new ProcessingException("QuestionNr can no be null");
     }
 
-    SQL.selectInto(" select question_text " +
+    SQL.selectInto(" select question_text, multiple_choices " +
         " from questions " +
         " where question_id = :QuestionNr " +
-        " into  :QuestionText ", formData);
+        " into  :QuestionText, :MultipleChoices ", formData);
 
     SQL.selectInto(" select choice_id, choice_text " +
         " from  choices " +
@@ -86,14 +86,14 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public QuestionFormData store(QuestionFormData formData) throws ProcessingException {
     if (!ACCESS.check(new UpdateQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getQuestionNr() == null) {
       throw new ProcessingException("QuestionNr can no be null");
     }
 
-    SQL.update("update questions set question_text = :QuestionText where question_id = :QuestionNr", formData);
+    SQL.update("update questions set question_text = :QuestionText, multiple_choices = :MultipleChoices where question_id = :QuestionNr", formData);
 
     storeQuestionChoices(formData);
     return formData;
@@ -134,7 +134,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
   @Override
   public void delete(Integer questionNr) throws ProcessingException {
     if (!ACCESS.check(new DeleteQuestionPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     SQL.delete("delete from answers_choices where answer_id in (select answer_id from answers where question_id = :QuestionNr)", new NVPair("QuestionNr", questionNr));

@@ -15,6 +15,7 @@ http://www.eclipse.org/scout
 git repository
 --------------
 Branches:
-* master: default branch, should run with the last released Eclipse Scout Version [eg: Eclipse Scout Indigo SR1].
+* preview: feature branch (sandbox to work on new stuff)
+* master: default branch, should run with the last released Eclipse Scout Version [2013-08-19: Eclipse Scout Kepler R].
 * tutorial: branch for a step by step tutorial [created with: Eclipse Scout Indigo SR1].
 

@@ -18,8 +18,8 @@ package org.eclipselabs.mcqs.server;
 import javax.security.auth.Subject;
 
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.scout.commons.security.SimplePrincipal;
 import org.eclipse.scout.rt.server.scheduler.Scheduler;
-import org.eclipse.scout.rt.shared.services.common.security.SimplePrincipal;
 import org.osgi.framework.BundleContext;
 
 public class Activator extends Plugin {

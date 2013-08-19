@@ -18,9 +18,9 @@ package org.eclipselabs.mcqs.server.services.process;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.exception.VetoException;
 import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.ReadAnswersListPermission;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
@@ -30,17 +30,17 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
   @Override
   public AnswersListFormData load(AnswersListFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadAnswersListPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getQuestionNr().getValue() == null) {
       throw new ProcessingException("QuestionNr can not be null");
     }
 
-    SQL.selectInto(" select question_text " +
+    SQL.selectInto(" select question_text, multiple_choices " +
         " from  questions " +
         " where question_id = :questionNr " +
-        " into  :questionText", formData);
+        " into  :questionText, :MultipleChoices", formData);
 
     SQL.selectInto(" select answer_id, name " +
         " from  answers " +
@@ -54,7 +54,7 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
   @Override
   public AnswersListFormData loadStatistics(AnswersListFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadAnswersListPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getQuestionNr().getValue() == null) {
@@ -64,7 +64,8 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
     SQL.selectInto("  select c.choice_text, (select count(*) from answers_choices ac where ac.choice_id = c.choice_id) " +
         "  from  choices c " +
         "  where c.question_id = :questionNr " +
-        "  into  :choice, :result",
+        "  into  :choice, :result " +
+        "  order by choice_id",
         formData.getStatistics(), formData);
 
     double nbAnswers = formData.getAnswers().getRowCount();
@@ -72,6 +73,8 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
       for (int i = 0; i < formData.getStatistics().getRowCount(); i++) {
         double result = (formData.getStatistics().getResult(i).doubleValue() / nbAnswers);
         formData.getStatistics().setResult(i, result);
+        formData.getStatistics().setResultYes(i, result);
+        formData.getStatistics().setResultNo(i, 1 - result);
       }
     }
 

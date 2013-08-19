@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.client.ui.forms;
 
+import org.eclipse.scout.commons.BooleanUtility;
 import org.eclipse.scout.commons.annotations.FormData;
 import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
@@ -26,16 +27,18 @@ import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractOkButton;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.integerfield.AbstractIntegerField;
 import org.eclipse.scout.rt.client.ui.form.fields.listbox.AbstractListBox;
+import org.eclipse.scout.rt.client.ui.form.fields.smartfield.AbstractSmartField;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.lookup.LookupCall;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.CancelButton;
-import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ChoicesField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.ChoiceField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.ChoicesField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.QuestionNrField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.QuestionTextField;
+import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.ContentBox.YourNameField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.OkButton;
-import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.QuestionNrField;
-import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.QuestionTextField;
-import org.eclipselabs.mcqs.client.ui.forms.AnswerForm.MainBox.YourNameField;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.UpdateAnswerPermission;
 import org.eclipselabs.mcqs.shared.services.lookup.ChoicesLookupCall;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
@@ -44,7 +47,8 @@ import org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService;
 @FormData(value = AnswerFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
 public class AnswerForm extends AbstractForm {
 
-  private Long answerNr;
+  private Long m_answerNr;
+  private Boolean m_multipleChoices;
 
   public AnswerForm() throws ProcessingException {
     super();
@@ -52,21 +56,7 @@ public class AnswerForm extends AbstractForm {
 
   @Override
   protected String getConfiguredTitle() {
-    return Texts.get("Answer");
-  }
-
-  public CancelButton getCancelButton() {
-    return getFieldByClass(CancelButton.class);
-  }
-
-  @FormData
-  public Long getAnswerNr() {
-    return answerNr;
-  }
-
-  @FormData
-  public void setAnswerNr(Long answerNr) {
-    this.answerNr = answerNr;
+    return TEXTS.get("Answer");
   }
 
   public void startModify() throws ProcessingException {
@@ -75,6 +65,14 @@ public class AnswerForm extends AbstractForm {
 
   public void startNew() throws ProcessingException {
     startInternal(new AnswerForm.NewHandler());
+  }
+
+  public CancelButton getCancelButton() {
+    return getFieldByClass(CancelButton.class);
+  }
+
+  public ChoiceField getChoiceField() {
+    return getFieldByClass(ChoiceField.class);
   }
 
   public ChoicesField getChoicesField() {
@@ -110,83 +108,106 @@ public class AnswerForm extends AbstractForm {
     }
 
     @Order(10.0)
-    public class QuestionNrField extends AbstractIntegerField {
+    public class ContentBox extends AbstractGroupBox {
 
-      @Override
-      protected boolean getConfiguredEnabled() {
-        return false;
+      @Order(10.0)
+      public class QuestionNrField extends AbstractIntegerField {
+
+        @Override
+        protected boolean getConfiguredEnabled() {
+          return false;
+        }
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("QuestionNr");
+        }
       }
 
-      @Override
-      protected String getConfiguredLabel() {
-        return Texts.get("QuestionNr");
-      }
-    }
+      @Order(20.0)
+      public class QuestionTextField extends AbstractStringField {
 
-    @Order(20.0)
-    public class QuestionTextField extends AbstractStringField {
+        @Override
+        protected boolean getConfiguredEnabled() {
+          return false;
+        }
 
-      @Override
-      protected boolean getConfiguredEnabled() {
-        return false;
-      }
+        @Override
+        protected int getConfiguredGridH() {
+          return 2;
+        }
 
-      @Override
-      protected int getConfiguredGridH() {
-        return 2;
-      }
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Question");
+        }
 
-      @Override
-      protected String getConfiguredLabel() {
-        return Texts.get("Question");
-      }
+        @Override
+        protected boolean getConfiguredMultilineText() {
+          return true;
+        }
 
-      @Override
-      protected boolean getConfiguredMultilineText() {
-        return true;
-      }
-
-      @Override
-      protected boolean getConfiguredWrapText() {
-        return true;
-      }
-    }
-
-    @Order(30.0)
-    public class YourNameField extends AbstractStringField {
-
-      @Override
-      protected String getConfiguredLabel() {
-        return Texts.get("YourName");
+        @Override
+        protected boolean getConfiguredWrapText() {
+          return true;
+        }
       }
 
-      @Override
-      protected boolean getConfiguredMandatory() {
-        return true;
-      }
-    }
+      @Order(30.0)
+      public class YourNameField extends AbstractStringField {
 
-    @Order(40.0)
-    public class ChoicesField extends AbstractListBox<Long> {
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("YourName");
+        }
 
-      @Override
-      protected int getConfiguredGridH() {
-        return 6;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return Texts.get("Choices");
+        @Override
+        protected boolean getConfiguredMandatory() {
+          return true;
+        }
       }
 
-      @Override
-      protected Class<? extends LookupCall> getConfiguredLookupCall() {
-        return ChoicesLookupCall.class;
+      @Order(40.0)
+      public class ChoiceField extends AbstractSmartField<Long> {
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Choice");
+        }
+
+        @Override
+        protected Class<? extends LookupCall> getConfiguredLookupCall() {
+          return ChoicesLookupCall.class;
+        }
+
+        @Override
+        protected Class<? extends IValueField> getConfiguredMasterField() {
+          return AnswerForm.MainBox.ContentBox.QuestionNrField.class;
+        }
       }
 
-      @Override
-      protected Class<? extends IValueField> getConfiguredMasterField() {
-        return AnswerForm.MainBox.QuestionNrField.class;
+      @Order(50.0)
+      public class ChoicesField extends AbstractListBox<Long> {
+
+        @Override
+        protected int getConfiguredGridH() {
+          return 6;
+        }
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Choices");
+        }
+
+        @Override
+        protected Class<? extends LookupCall> getConfiguredLookupCall() {
+          return ChoicesLookupCall.class;
+        }
+
+        @Override
+        protected Class<? extends IValueField> getConfiguredMasterField() {
+          return AnswerForm.MainBox.ContentBox.QuestionNrField.class;
+        }
       }
     }
 
@@ -199,6 +220,13 @@ public class AnswerForm extends AbstractForm {
     }
   }
 
+  private void handleMultiple() {
+    boolean isMulipleChoices = BooleanUtility.nvl(getMultipleChoices());
+    getChoiceField().setVisible(!isMulipleChoices);
+    getChoiceField().setMandatory(!isMulipleChoices);
+    getChoicesField().setVisible(isMulipleChoices);
+  }
+
   public class ModifyHandler extends AbstractFormHandler {
 
     @Override
@@ -209,6 +237,7 @@ public class AnswerForm extends AbstractForm {
       formData = service.load(formData);
       importFormData(formData);
       setEnabledPermission(new UpdateAnswerPermission());
+      handleMultiple();
     }
 
     @Override
@@ -229,6 +258,7 @@ public class AnswerForm extends AbstractForm {
       exportFormData(formData);
       formData = service.prepareCreate(formData);
       importFormData(formData);
+      handleMultiple();
     }
 
     @Override
@@ -239,5 +269,25 @@ public class AnswerForm extends AbstractForm {
       formData = service.create(formData);
       importFormData(formData);
     }
+  }
+
+  @FormData
+  public Long getAnswerNr() {
+    return m_answerNr;
+  }
+
+  @FormData
+  public void setAnswerNr(Long answerNr) {
+    m_answerNr = answerNr;
+  }
+
+  @FormData
+  public Boolean getMultipleChoices() {
+    return m_multipleChoices;
+  }
+
+  @FormData
+  public void setMultipleChoices(Boolean multipleChoices) {
+    m_multipleChoices = multipleChoices;
   }
 }

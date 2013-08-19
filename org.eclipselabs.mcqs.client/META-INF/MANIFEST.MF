@@ -4,11 +4,14 @@ Bundle-Name: org.eclipselabs.mcqs.client
 Bundle-SymbolicName: org.eclipselabs.mcqs.client;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipselabs.mcqs.client.Activator
-Bundle-ActivationPolicy: lazy
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.scout.rt.client;visibility:=reexport,
- org.eclipselabs.mcqs.shared
 Export-Package: org.eclipselabs.mcqs.client,
  org.eclipselabs.mcqs.client.ui.desktop,
  org.eclipselabs.mcqs.client.ui.forms
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.scout.rt.client;visibility:=reexport,
+ org.eclipse.scout.rt.extension.client;visibility:=reexport,
+ org.eclipselabs.mcqs.shared,
+ org.eclipse.scout.svg.client
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.w3c.dom.svg;version="[1.1.0,2.0.0)"
+Bundle-ActivationPolicy: lazy

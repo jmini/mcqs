@@ -22,6 +22,6 @@ public class ReadAnswerPermission extends BasicPermission {
   private static final long serialVersionUID = 0L;
 
   public ReadAnswerPermission() {
-  super("ReadAnswer");
+    super("ReadAnswer");
   }
 }

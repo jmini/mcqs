@@ -21,28 +21,34 @@ import org.eclipse.scout.commons.logger.IScoutLogger;
 import org.eclipse.scout.commons.logger.ScoutLogManager;
 import org.eclipse.scout.rt.client.ClientSyncJob;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
-import org.eclipse.scout.rt.client.ui.desktop.AbstractDesktop;
 import org.eclipse.scout.rt.client.ui.desktop.IDesktop;
 import org.eclipse.scout.rt.client.ui.form.ScoutInfoForm;
+import org.eclipse.scout.rt.extension.client.ui.desktop.AbstractExtensibleDesktop;
+import org.eclipse.scout.rt.shared.TEXTS;
+import org.eclipse.scout.rt.shared.ui.UserAgentUtility;
 import org.eclipselabs.mcqs.client.ClientSession;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm;
-import org.eclipselabs.mcqs.shared.Texts;
+import org.eclipselabs.mcqs.shared.Icons;
 
-public class Desktop extends AbstractDesktop implements IDesktop {
+public class Desktop extends AbstractExtensibleDesktop implements IDesktop {
   private static IScoutLogger logger = ScoutLogManager.getLogger(Desktop.class);
 
   public Desktop() {
   }
 
   @Override
-  public String getConfiguredTitle() {
-    return Texts.get("ApplicationTitle");
+  protected String getConfiguredTitle() {
+    return TEXTS.get("ApplicationTitle");
   }
 
   @Override
   protected void execOpened() throws ProcessingException {
-    // dektop form
+    //If it is a mobile or tablet device, the DesktopExtension in the mobile plugin takes care of starting the correct forms.
+    if (!UserAgentUtility.isDesktopDevice()) {
+      return;
+    }
     QuestionsListForm desktopForm = new QuestionsListForm();
+    desktopForm.setIconId(Icons.McqsSmall);
     desktopForm.startDisplay();
   }
 
@@ -51,7 +57,7 @@ public class Desktop extends AbstractDesktop implements IDesktop {
 
     @Override
     public String getConfiguredText() {
-      return Texts.get("FileMenu");
+      return TEXTS.get("FileMenu");
     }
 
     @Order(10.0)
@@ -59,7 +65,7 @@ public class Desktop extends AbstractDesktop implements IDesktop {
 
       @Override
       public String getConfiguredText() {
-        return Texts.get("AboutMenu");
+        return TEXTS.get("AboutMenu");
       }
 
       @Override
@@ -82,8 +88,8 @@ public class Desktop extends AbstractDesktop implements IDesktop {
     public class ExitMenu extends AbstractMenu {
 
       @Override
-      public String getConfiguredText() {
-        return Texts.get("ExitMenu");
+      protected String getConfiguredText() {
+        return TEXTS.get("ExitMenu");
       }
 
       @Override
@@ -92,5 +98,4 @@ public class Desktop extends AbstractDesktop implements IDesktop {
       }
     }
   }
-
 }

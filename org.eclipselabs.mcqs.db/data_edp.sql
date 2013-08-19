@@ -1,6 +1,6 @@
-INSERT INTO MCQ.QUESTIONS (QUESTION_TEXT)
+INSERT INTO MCQ.QUESTIONS (QUESTION_TEXT, MULTIPLE_CHOICES)
 VALUES
-  ('Quels packages d''Eclipse Indigo avez-vous téléchargés ?');
+  ('Quels packages d''Eclipse Indigo avez-vous tÃ©lÃ©chargÃ©s ?', 1);
 
 INSERT INTO MCQ.CHOICES
   (QUESTION_ID, CHOICE_TEXT)
@@ -17,9 +17,9 @@ VALUES
   (IDENTITY_VAL_LOCAL(), 'Parallel Application Developers'),
   (IDENTITY_VAL_LOCAL(), 'Scout Developers');
 
-INSERT INTO MCQ.QUESTIONS (QUESTION_TEXT)
+INSERT INTO MCQ.QUESTIONS (QUESTION_TEXT, MULTIPLE_CHOICES)
 VALUES
-  ('Quels nouveaux projets d''Eclipse Indigo vous intéressent le plus ?');
+  ('Quels nouveaux projets d''Eclipse Indigo vous intÃ©ressent le plus ?', 1);
 
 INSERT INTO MCQ.CHOICES
   (QUESTION_ID, CHOICE_TEXT)

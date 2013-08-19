@@ -15,13 +15,14 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.server.services.process;
 
+import org.eclipse.scout.commons.BooleanUtility;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.exception.VetoException;
 import org.eclipse.scout.commons.holders.NVPair;
 import org.eclipse.scout.rt.server.services.common.jdbc.SQL;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.CreateAnswerPermission;
 import org.eclipselabs.mcqs.shared.security.DeleteAnswerPermission;
 import org.eclipselabs.mcqs.shared.security.ReadAnswerPermission;
@@ -34,7 +35,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   @Override
   public AnswerFormData prepareCreate(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getQuestionNr().getValue() == null) {
@@ -49,7 +50,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   @Override
   public AnswerFormData create(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new CreateAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     SQL.insert(" insert into answers (name, question_id) " +
@@ -69,7 +70,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   @Override
   public AnswerFormData load(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new ReadAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getAnswerNr() == null) {
@@ -86,11 +87,18 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
     }
 
     loadQuestion(formData);
-
-    SQL.selectInto(" select choice_id " +
-        " from  answers_choices " +
-        " where answer_id = :AnswerNr " +
-        " into  :Choices", formData);
+    if (BooleanUtility.nvl(formData.getMultipleChoices())) {
+      SQL.selectInto(" select choice_id " +
+          " from  answers_choices " +
+          " where answer_id = :AnswerNr " +
+          " into  :Choices", formData);
+    }
+    else {
+      SQL.selectInto(" select choice_id " +
+          " from  answers_choices " +
+          " where answer_id = :AnswerNr " +
+          " into  :Choice", formData);
+    }
 
     return formData;
   }
@@ -98,7 +106,7 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
   @Override
   public AnswerFormData store(AnswerFormData formData) throws ProcessingException {
     if (!ACCESS.check(new UpdateAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (formData.getAnswerNr() == null) {
@@ -119,10 +127,10 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
    * @throws ProcessingException
    */
   private void loadQuestion(AnswerFormData formData) throws ProcessingException {
-    SQL.selectInto(" select question_text " +
+    SQL.selectInto(" select question_text, multiple_choices " +
         " from  questions " +
         " where question_id = :QuestionNr " +
-        " into  :QuestionText", formData);
+        " into  :QuestionText, :MultipleChoices", formData);
   }
 
   /**
@@ -130,18 +138,24 @@ public class AnswerProcessService extends AbstractService implements IAnswerProc
    * @throws ProcessingException
    */
   private void storeAnswerChoice(AnswerFormData formData) throws ProcessingException {
-    if (formData.getChoices().isValueSet() && formData.getChoices().getValue() != null) {
-      for (Long choiceId : formData.getChoices().getValue()) {
-        SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
-            " values (:AnswerNr, :ChoiceId) ", formData, new NVPair("ChoiceId", choiceId));
+    if (BooleanUtility.nvl(formData.getMultipleChoices())) {
+      if (formData.getChoices().isValueSet() && formData.getChoices().getValue() != null) {
+        for (Long choiceId : formData.getChoices().getValue()) {
+          SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
+              " values (:AnswerNr, :ChoiceId) ", formData, new NVPair("ChoiceId", choiceId));
+        }
       }
+    }
+    else {
+      SQL.insert(" insert into answers_choices (answer_id, choice_id) " +
+          " values (:AnswerNr, :Choice) ", formData);
     }
   }
 
   @Override
   public void delete(Long answerNr) throws ProcessingException {
     if (!ACCESS.check(new DeleteAnswerPermission())) {
-      throw new VetoException(Texts.get("AuthorizationFailed"));
+      throw new VetoException(TEXTS.get("AuthorizationFailed"));
     }
 
     if (answerNr == null) {

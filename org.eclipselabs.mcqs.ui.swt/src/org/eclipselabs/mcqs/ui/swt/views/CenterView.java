@@ -18,18 +18,14 @@ package org.eclipselabs.mcqs.ui.swt.views;
 import org.eclipse.scout.rt.ui.swt.ISwtEnvironment;
 import org.eclipse.scout.rt.ui.swt.window.desktop.view.AbstractScoutView;
 import org.eclipselabs.mcqs.ui.swt.Activator;
-import org.eclipselabs.mcqs.ui.swt.SwtEnvironment;
 
-/** <h3>CenterView</h3>
- *  A view used of scout is registered as a view extension point in the plugin.xml and linked to
- *  scout view id in the SwtEnvironment.
-* @see SwtEnvironment
- */
 public class CenterView extends AbstractScoutView {
 
+  public CenterView() {
+  }
 
   @Override
-  protected ISwtEnvironment getSwtEnvironment(){
+  protected ISwtEnvironment getSwtEnvironment() {
     return Activator.getDefault().getEnvironment();
   }
 }

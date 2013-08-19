@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2011 Jeremie Bresson
+ * Copyright 2012 Jeremie Bresson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.eclipselabs.mcqs.shared.services.process;
-
-import java.util.Map;
 
 import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
 import org.eclipse.scout.rt.shared.data.form.ValidationRule;
@@ -47,6 +45,28 @@ public class AnswerFormData extends AbstractFormData {
     getAnswerNrProperty().setValue(answerNr);
   }
 
+  public MultipleChoicesProperty getMultipleChoicesProperty() {
+    return getPropertyByClass(MultipleChoicesProperty.class);
+  }
+
+  /**
+   * access method for property MultipleChoices.
+   */
+  public Boolean getMultipleChoices() {
+    return getMultipleChoicesProperty().getValue();
+  }
+
+  /**
+   * access method for property MultipleChoices.
+   */
+  public void setMultipleChoices(Boolean multipleChoices) {
+    getMultipleChoicesProperty().setValue(multipleChoices);
+  }
+
+  public Choice getChoice() {
+    return getFieldByClass(Choice.class);
+  }
+
   public Choices getChoices() {
     return getFieldByClass(Choices.class);
   }
@@ -70,7 +90,32 @@ public class AnswerFormData extends AbstractFormData {
     }
   }
 
-  public class Choices extends AbstractValueFieldData<Long[]> {
+  public class MultipleChoicesProperty extends AbstractPropertyData<Boolean> {
+    private static final long serialVersionUID = 1L;
+
+    public MultipleChoicesProperty() {
+    }
+  }
+
+  public static class Choice extends AbstractValueFieldData<Long> {
+    private static final long serialVersionUID = 1L;
+
+    public Choice() {
+    }
+
+    /**
+     * list of derived validation rules.
+     */
+    @Override
+    protected void initValidationRules(java.util.Map<String, Object> ruleMap) {
+      super.initValidationRules(ruleMap);
+      ruleMap.put(ValidationRule.LOOKUP_CALL, ChoicesLookupCall.class);
+      ruleMap.put(ValidationRule.MASTER_VALUE_FIELD, QuestionNr.class);
+      ruleMap.put(ValidationRule.ZERO_NULL_EQUALITY, true);
+    }
+  }
+
+  public static class Choices extends AbstractValueFieldData<Long[]> {
     private static final long serialVersionUID = 1L;
 
     public Choices() {
@@ -80,21 +125,21 @@ public class AnswerFormData extends AbstractFormData {
      * list of derived validation rules.
      */
     @Override
-    protected void initValidationRules(Map<String, Object> ruleMap) {
+    protected void initValidationRules(java.util.Map<String, Object> ruleMap) {
       super.initValidationRules(ruleMap);
       ruleMap.put(ValidationRule.LOOKUP_CALL, ChoicesLookupCall.class);
       ruleMap.put(ValidationRule.MASTER_VALUE_FIELD, QuestionNr.class);
     }
   }
 
-  public class QuestionNr extends AbstractValueFieldData<Integer> {
+  public static class QuestionNr extends AbstractValueFieldData<Integer> {
     private static final long serialVersionUID = 1L;
 
     public QuestionNr() {
     }
   }
 
-  public class QuestionText extends AbstractValueFieldData<String> {
+  public static class QuestionText extends AbstractValueFieldData<String> {
     private static final long serialVersionUID = 1L;
 
     public QuestionText() {
@@ -104,13 +149,13 @@ public class AnswerFormData extends AbstractFormData {
      * list of derived validation rules.
      */
     @Override
-    protected void initValidationRules(Map<String, Object> ruleMap) {
+    protected void initValidationRules(java.util.Map<String, Object> ruleMap) {
       super.initValidationRules(ruleMap);
       ruleMap.put(ValidationRule.MAX_LENGTH, 4000);
     }
   }
 
-  public class YourName extends AbstractValueFieldData<String> {
+  public static class YourName extends AbstractValueFieldData<String> {
     private static final long serialVersionUID = 1L;
 
     public YourName() {
@@ -120,7 +165,7 @@ public class AnswerFormData extends AbstractFormData {
      * list of derived validation rules.
      */
     @Override
-    protected void initValidationRules(Map<String, Object> ruleMap) {
+    protected void initValidationRules(java.util.Map<String, Object> ruleMap) {
       super.initValidationRules(ruleMap);
       ruleMap.put(ValidationRule.MANDATORY, true);
       ruleMap.put(ValidationRule.MAX_LENGTH, 4000);

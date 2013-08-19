@@ -1,74 +1,184 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
+
    <extension
+         name=""
          point="org.eclipse.ui.perspectives">
       <perspective
+            name="mcqs"
+            icon="resources/icons/eclipse_scout.gif"
+            fixed="false"
             class="org.eclipselabs.mcqs.ui.swt.perspective.Perspective"
-            fixed="true"
-            id="org.eclipselabs.mcqs.ui.swt.perspective.Perspective"
-            name="mcqs"/>
+            id="org.eclipselabs.mcqs.ui.swt.perspective.Perspective">
+      </perspective>
    </extension>
    <extension
+         name=""
          point="org.eclipse.ui.views">
       <view
+            name="Center View"
+            allowMultiple="true"
+            icon="resources/icons/eclipse_scout.gif"
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
             class="org.eclipselabs.mcqs.ui.swt.views.CenterView"
-            icon="resources/icons/eclipse_scout.gif"
-            id="org.eclipselabs.mcqs.ui.swt.views.CenterView"
-            name="CenterView">
+            id="org.eclipselabs.mcqs.ui.swt.views.CenterView">
       </view>
       <view
-            class="org.eclipselabs.mcqs.ui.swt.views.OutlinePageView"
+            name="West view"
+            allowMultiple="true"
             icon="resources/icons/eclipse_scout.gif"
-            id="org.eclipselabs.mcqs.ui.swt.views.OutlinePageView"
-            name="Outline"
-            restorable="true">
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
+            class="org.eclipselabs.mcqs.ui.swt.views.WestView"
+            id="org.eclipselabs.mcqs.ui.swt.views.WestView">
       </view>
       <view
-            class="org.eclipselabs.mcqs.ui.swt.views.TablePageView"
+            name="North view"
+            allowMultiple="true"
             icon="resources/icons/eclipse_scout.gif"
-            id="org.eclipselabs.mcqs.ui.swt.views.TablePageView"
-            name="Table Page"
-            restorable="true">
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
+            class="org.eclipselabs.mcqs.ui.swt.views.NorthView"
+            id="org.eclipselabs.mcqs.ui.swt.views.NorthView">
       </view>
       <view
-            class="org.eclipselabs.mcqs.ui.swt.views.SearchView"
+            name="North west view"
+            allowMultiple="true"
             icon="resources/icons/eclipse_scout.gif"
-            id="org.eclipselabs.mcqs.ui.swt.views.SearchView"
-            name="Search"
-            restorable="true">
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
+            class="org.eclipselabs.mcqs.ui.swt.views.NorthWestView"
+            id="org.eclipselabs.mcqs.ui.swt.views.NorthWestView">
       </view>
+      <view
+            name="North east view"
+            allowMultiple="true"
+            icon="resources/icons/eclipse_scout.gif"
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
+            class="org.eclipselabs.mcqs.ui.swt.views.NorthEastView"
+            id="org.eclipselabs.mcqs.ui.swt.views.NorthEastView">
+      </view>
+      <view
+            name="East view"
+            allowMultiple="true"
+            icon="resources/icons/eclipse_scout.gif"
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
+            class="org.eclipselabs.mcqs.ui.swt.views.EastView"
+            id="org.eclipselabs.mcqs.ui.swt.views.EastView">
+      </view>
+      <view
+            name="South view"
+            allowMultiple="true"
+            icon="resources/icons/eclipse_scout.gif"
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
+            class="org.eclipselabs.mcqs.ui.swt.views.SouthView"
+            id="org.eclipselabs.mcqs.ui.swt.views.SouthView">
+      </view>
+      <view
+            name="South west view"
+            allowMultiple="true"
+            icon="resources/icons/eclipse_scout.gif"
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
+            class="org.eclipselabs.mcqs.ui.swt.views.SouthWestView"
+            id="org.eclipselabs.mcqs.ui.swt.views.SouthWestView">
+      </view>
+      <view
+            name="South east view"
+            allowMultiple="true"
+            icon="resources/icons/eclipse_scout.gif"
+            category="org.eclipselabs.mcqs.ui.swt.viewCategory"
+            restorable="true"
+            class="org.eclipselabs.mcqs.ui.swt.views.SouthEastView"
+            id="org.eclipselabs.mcqs.ui.swt.views.SouthEastView">
+      </view>
+      <view
+            name="Progress View"
+            allowMultiple="false"
+            icon="resources/icons/progress_view.gif"
+            category="org.eclipse.ui"
+            restorable="true"
+            class="org.eclipse.ui.ExtensionFactory:progressView"
+            id="org.eclipse.ui.views.ProgressView">
+      </view>
+      <category
+            name="mcqs"
+            id="org.eclipselabs.mcqs.ui.swt.viewCategory">
+      </category>
    </extension>
    <extension
+         name=""
          point="org.eclipse.ui.startup">
       <startup
             class="org.eclipselabs.mcqs.ui.swt.SwtStartup">
       </startup>
    </extension>
-     <extension id="application" name="Application" point="org.eclipse.core.runtime.applications">
-    <application>
-      <run class="org.eclipselabs.mcqs.ui.swt.application.Application"/>
-    </application>
-  </extension>
-  <extension id="product" point="org.eclipse.core.runtime.products">
-    <product
-          application="org.eclipselabs.mcqs.ui.swt.application"
-          name="mcqs">
-       <property
-             name="appName"
-             value="mcqs"/>
-       <property
-          name="windowImages"
-          value="resources/icons/eclipseScout16x16.gif,resources/icons/eclipseScout32x32.gif"/>
-    </product>
-  </extension>
-  <extension
-      point="org.eclipse.ui.views">
-   <view
-         class="org.eclipse.ui.internal.progress.ProgressView"
-         icon="resources/icons/progress_none.gif"
-         id="org.eclipse.ui.views.ProgressView"
-         name="Progress View">
-   </view>
-  </extension>
+   <extension
+         id="application"
+         name="Application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="org.eclipselabs.mcqs.ui.swt.application.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         name=""
+         point="org.eclipse.ui.editors">
+      <editor
+            name="ScoutEditorPart"
+            default="false"
+            icon="resources/icons/eclipse_scout.gif"
+            matchingStrategy="org.eclipse.scout.rt.ui.swt.window.desktop.editor.ScoutEditorMatchingStrategy"
+            class="org.eclipselabs.mcqs.ui.swt.editor.ScoutEditorPart"
+            id="org.eclipselabs.mcqs.ui.swt.editor.ScoutEditorPart">
+      </editor>
+   </extension>
+   <extension
+         id="product"
+         name=""
+         point="org.eclipse.core.runtime.products">
+      <product
+            name="mcqs"
+            application="org.eclipselabs.mcqs.ui.swt.application">
+         <property
+               name="appName"
+               value="mcqs">
+         </property>
+         <property
+               name="windowImages"
+               value="resources/icons/eclipseScout16x16.gif,resources/icons/eclipseScout32x32.gif">
+         </property>
+         <property
+               name="applicationXMI"
+               value="org.eclipse.platform/LegacyIDE.e4xmi">
+         </property>
+         <property
+               name="cssTheme"
+               value="org.eclipse.e4.ui.css.theme.e4_default">
+         </property>
+         <property
+               name="applicationCSSResources"
+               value="platform:/plugin/org.eclipse.platform/images/">
+         </property>
+      </product>
+   </extension>
+   <extension
+         name=""
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <dynamic
+               class="org.eclipselabs.mcqs.ui.swt.application.menu.DesktopMenuBar"
+               id="org.eclipse.scout.swt.menu.dynamic">
+         </dynamic>
+      </menuContribution>
+   </extension>
 
 </plugin>

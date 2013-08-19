@@ -23,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.scout.commons.holders.ITableHolder;
 import org.eclipse.scout.rt.shared.data.form.fields.AbstractValueFieldData;
+import org.eclipse.scout.rt.shared.data.form.properties.AbstractPropertyData;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices;
@@ -48,6 +49,7 @@ public final class DataStore {
     QuestionFormData formData = new QuestionFormData();
     formData.setQuestionNr(createQuestionNr());
     formData.getQuestionText().setValue("Where did you travel last year?");
+    formData.getMultipleChoices().setValue(true);
     formData.getChoices().addRow(new Object[]{createChoiceNr(), "Asia"});
     formData.getChoices().addRow(new Object[]{createChoiceNr(), "Africa"});
     formData.getChoices().addRow(new Object[]{createChoiceNr(), "North America"});
@@ -61,7 +63,8 @@ public final class DataStore {
   private QuestionFormData createQuestion2() {
     QuestionFormData formData = new QuestionFormData();
     formData.setQuestionNr(createQuestionNr());
-    formData.getQuestionText().setValue("What are your favorite days?");
+    formData.getQuestionText().setValue("What is your favorite day in the week?");
+    formData.getMultipleChoices().setValue(false);
     formData.getChoices().addRow(new Object[]{createChoiceNr(), "Monday"});
     formData.getChoices().addRow(new Object[]{createChoiceNr(), "Tuesday"});
     formData.getChoices().addRow(new Object[]{createChoiceNr(), "Wednesday"});
@@ -119,9 +122,10 @@ public final class DataStore {
     m_questions.remove(questionNr);
   }
 
-  public QuestionFormData updateQuestionText(Integer questionNr, AbstractValueFieldData<String> questionText) {
+  public QuestionFormData updateQuestionText(Integer questionNr, AbstractValueFieldData<String> questionText, AbstractPropertyData<Boolean> multipleChoices) {
     QuestionFormData question = DataStore.getInstance().getQuestion(questionNr);
     questionText.setValue(question.getQuestionText().getValue());
+    multipleChoices.setValue(question.getMultipleChoices().getValue());
     return question;
   }
 

@@ -15,73 +15,73 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.ui.swt.perspective;
 
-import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
+import org.eclipse.ui.IPlaceholderFolderLayout;
 import org.eclipse.ui.IViewLayout;
-import org.eclipselabs.mcqs.ui.swt.Activator;
+import org.eclipse.ui.progress.IProgressConstants;
+import org.eclipselabs.mcqs.ui.swt.views.CenterView;
+import org.eclipselabs.mcqs.ui.swt.views.EastView;
+import org.eclipselabs.mcqs.ui.swt.views.NorthEastView;
+import org.eclipselabs.mcqs.ui.swt.views.NorthView;
+import org.eclipselabs.mcqs.ui.swt.views.NorthWestView;
+import org.eclipselabs.mcqs.ui.swt.views.SouthEastView;
+import org.eclipselabs.mcqs.ui.swt.views.SouthView;
+import org.eclipselabs.mcqs.ui.swt.views.SouthWestView;
+import org.eclipselabs.mcqs.ui.swt.views.WestView;
 
-
-/** <h3>Activator</h3>
- *  ...
-*/
 public class Perspective implements IPerspectiveFactory {
 
-	public void createInitialLayout(IPageLayout layout) {
+  public static final String ID = Perspective.class.getName();
+  public static final String FOLDER_CENTER = ID + ".folders.center";
+  public static final String FOLDER_NORTH = ID + ".folders.north";
+  public static final String FOLDER_NORTH_EAST = ID + ".folders.northeast";
+  public static final String FOLDER_EAST = ID + ".folders.east";
+  public static final String FOLDER_SOUTH_EAST = ID + ".folders.southeast";
+  public static final String FOLDER_SOUTH = ID + ".folders.south";
+  public static final String FOLDER_SOUTH_WEST = ID + ".folders.southwest";
+  public static final String FOLDER_WEST = ID + ".folders.west";
+  public static final String FOLDER_NORTH_WEST = ID + ".folders.northwest";
 
+  private static final String ALL_SECONDARY_VIEW_IDS = ":*";
+
+  @Override
+  public void createInitialLayout(IPageLayout layout) {
     layout.setEditorAreaVisible(false);
 
-    layout.setFixed(false);
+    IPlaceholderFolderLayout folder = layout.createPlaceholderFolder(FOLDER_WEST, IPageLayout.LEFT, 0.2f, IPageLayout.ID_EDITOR_AREA);
+    folder.addPlaceholder(WestView.class.getName() + ALL_SECONDARY_VIEW_IDS);
 
-    layout.addStandaloneViewPlaceholder(Activator.OUTLINE_VIEW_ID,IPageLayout.LEFT,0.2f, IPageLayout.ID_EDITOR_AREA, true);
+    // create a folder instead of a placeholder to ensure the space of the center view is always visible.
+    folder = layout.createFolder(FOLDER_CENTER, IPageLayout.RIGHT, 0.6f, IPageLayout.ID_EDITOR_AREA);
+    folder.addPlaceholder(CenterView.class.getName() + ALL_SECONDARY_VIEW_IDS);
 
-    String folderId="org.eclipselabs.mcqs.ui.swt.viewStack";
-    IFolderLayout folderLayout = layout.createFolder(folderId,IPageLayout.RIGHT, 0.3f, Activator.TABLE_PAGE_VIEW_ID);
-    folderLayout.addPlaceholder(Activator.TABLE_PAGE_VIEW_ID);
-    folderLayout.addPlaceholder(Activator.CENTER_VIEW_ID);
+    folder = layout.createPlaceholderFolder(FOLDER_EAST, IPageLayout.RIGHT, 0.6f, FOLDER_CENTER);
+    folder.addPlaceholder(EastView.class.getName() + ALL_SECONDARY_VIEW_IDS);
 
-    layout.addStandaloneViewPlaceholder(Activator.SEAECH_VIEW_ID,IPageLayout.BOTTOM,0.7f,  folderId, true);
-    IViewLayout outlineSelectorLayout = layout.getViewLayout(Activator.OUTLINE_VIEW_ID);
-    outlineSelectorLayout.setCloseable(false);
-    outlineSelectorLayout.setMoveable(false);
+    folder = layout.createPlaceholderFolder(FOLDER_NORTH, IPageLayout.TOP, 0.2f, FOLDER_CENTER);
+    folder.addPlaceholder(NorthView.class.getName() + ALL_SECONDARY_VIEW_IDS);
 
-    IViewLayout tablePageLayout = layout.getViewLayout(Activator.TABLE_PAGE_VIEW_ID);
-    tablePageLayout.setCloseable(false);
-    tablePageLayout.setMoveable(false);
+    folder = layout.createPlaceholderFolder(FOLDER_NORTH_WEST, IPageLayout.TOP, 0.2f, FOLDER_WEST);
+    folder.addPlaceholder(NorthWestView.class.getName() + ALL_SECONDARY_VIEW_IDS);
 
-    IViewLayout searchLayout = layout.getViewLayout(Activator.SEAECH_VIEW_ID);
-    searchLayout.setCloseable(false);
-    searchLayout.setMoveable(false);
+    folder = layout.createPlaceholderFolder(FOLDER_NORTH_EAST, IPageLayout.TOP, 0.2f, FOLDER_EAST);
+    folder.addPlaceholder(NorthEastView.class.getName() + ALL_SECONDARY_VIEW_IDS);
 
-//
-//
-//    String folderID = "org.eclipse.scout.rt.ui.swt.layout.viewStack";
-//    layout.addStandaloneViewPlaceholder(Activator.CENTER_VIEW_ID,IPageLayout.LEFT,0.8f, IPageLayout.ID_EDITOR_AREA, true);
+    folder = layout.createPlaceholderFolder(FOLDER_SOUTH, IPageLayout.BOTTOM, 0.6f, FOLDER_CENTER);
+    folder.addPlaceholder(SouthView.class.getName() + ALL_SECONDARY_VIEW_IDS);
 
-//    IFolderLayout folderLayout = layout.createFolder(folderID,
-//        IPageLayout.RIGHT, 0.3f, Activator.CRM_OUTLINE_VIEW);
-//    folderLayout.addView(Activator.CRM_TABLE_VIEW);
-//    folderLayout.addPlaceholder(Activator.CRM_FORM_STACK_VIEW_ID+":*");
-////    layout.addStandaloneView(Activator.CRM_TABLE_VIEW, true, IPageLayout.RIGHT,0.3f, Activator.CRM_OUTLINE_VIEW);
-//    layout.addFastView("org.eclipse.ui.views.ProgressView", 0.3f);
-//    layout.addPlaceholder(Activator.CRM_DETAIL_VIEW, IPageLayout.BOTTOM,0.6f, folderID);
-//    layout.addStandaloneView(Activator.CRM_OUTLINE_SELECTOR_VIEW, false,IPageLayout.BOTTOM ,0.8f, Activator.CRM_OUTLINE_VIEW);
-//
-//
-//    IViewLayout outlineSelectorLayout = layout.getViewLayout(Activator.CRM_OUTLINE_SELECTOR_VIEW);
-//      outlineSelectorLayout.setCloseable(false);
-//      outlineSelectorLayout.setMoveable(false);
-//
-//      IViewLayout outlineLayout = layout.getViewLayout(Activator.CRM_OUTLINE_VIEW);
-//      outlineLayout.setCloseable(false);
-//      outlineLayout.setMoveable(false);
-//
-//      IViewLayout detailLayout = layout.getViewLayout(Activator.CRM_DETAIL_VIEW);
-//      detailLayout.setCloseable(false);
-//      detailLayout.setMoveable(false);
-//
-//      IViewLayout tableViewLayout = layout.getViewLayout(Activator.CRM_TABLE_VIEW);
-//      tableViewLayout.setCloseable(false);
+    folder = layout.createPlaceholderFolder(FOLDER_SOUTH_WEST, IPageLayout.BOTTOM, 0.6f, FOLDER_WEST);
+    folder.addPlaceholder(SouthWestView.class.getName() + ALL_SECONDARY_VIEW_IDS);
+
+    folder = layout.createPlaceholderFolder(FOLDER_SOUTH_EAST, IPageLayout.BOTTOM, 0.6f, FOLDER_EAST);
+    folder.addPlaceholder(SouthEastView.class.getName() + ALL_SECONDARY_VIEW_IDS);
+    folder.addPlaceholder(IProgressConstants.PROGRESS_VIEW_ID);
+
+    IViewLayout outlineLayout = layout.getViewLayout(NorthWestView.class.getName());
+    if (outlineLayout != null) {
+      outlineLayout.setCloseable(false);
+      outlineLayout.setMoveable(false);
+    }
   }
-
 }

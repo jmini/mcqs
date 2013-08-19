@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2011 Jeremie Bresson
+ * Copyright 2012 Jeremie Bresson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,58 +15,101 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.ui.swt;
 
-import org.eclipse.jface.util.Util;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.eclipse.scout.rt.client.AbstractClientSession;
+import org.eclipse.scout.rt.client.ui.desktop.IDesktop;
 import org.eclipse.scout.rt.client.ui.form.IForm;
-import org.eclipse.scout.rt.client.ui.messagebox.IMessageBox;
 import org.eclipse.scout.rt.ui.swt.AbstractSwtEnvironment;
-import org.eclipse.swt.SWT;
+import org.eclipse.scout.rt.ui.swt.ISwtEnvironmentListener;
+import org.eclipse.scout.rt.ui.swt.SwtEnvironmentEvent;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipselabs.mcqs.ui.swt.window.dialog.SwtMacScoutDialog;
-import org.eclipselabs.mcqs.ui.swt.window.messagebox.SwtMacScoutMessageBoxDialog;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+import org.eclipselabs.mcqs.ui.swt.application.ApplicationActionBarAdvisor;
+import org.eclipselabs.mcqs.ui.swt.editor.ScoutEditorPart;
+import org.eclipselabs.mcqs.ui.swt.views.CenterView;
+import org.eclipselabs.mcqs.ui.swt.views.EastView;
+import org.eclipselabs.mcqs.ui.swt.views.NorthEastView;
+import org.eclipselabs.mcqs.ui.swt.views.NorthView;
+import org.eclipselabs.mcqs.ui.swt.views.NorthWestView;
+import org.eclipselabs.mcqs.ui.swt.views.SouthEastView;
+import org.eclipselabs.mcqs.ui.swt.views.SouthView;
+import org.eclipselabs.mcqs.ui.swt.views.SouthWestView;
+import org.eclipselabs.mcqs.ui.swt.views.WestView;
 import org.osgi.framework.Bundle;
 
-/**
- * <h3>SwtEnvironment</h3> This class provides the possibility to write a own representation of any scout field.
- * Furthermore the scout view id to swt view id mapping is done here. Ensure that each
- * swt view id you are mapping to a certain scout view id is defined in the plugin.xml
- * as a view extension. <br>
- * e.g.
- * 
- * <pre>
- *  public ISwtScoutSmartField createSmartField(Composite parent, ISmartField<?> model) {
- *    // create your own component
- *    ISwtScoutSmartField sf = ...
- *    return sf;
- *  }
- * </pre>
- */
 public class SwtEnvironment extends AbstractSwtEnvironment {
 
-  public static final String DEFAULT_STACK_VIEW_ID = "com.bsiag.crm.ui.swt.views.defaultStackView";
+  private ApplicationActionBarAdvisor m_advisor;
 
   public SwtEnvironment(Bundle bundle, String perspectiveId, Class<? extends AbstractClientSession> clientSessionClazz) {
     super(bundle, perspectiveId, clientSessionClazz);
-    registerPart(IForm.VIEW_ID_CENTER, Activator.CENTER_VIEW_ID);
-    registerPart(IForm.VIEW_ID_OUTLINE, Activator.OUTLINE_VIEW_ID);
-    registerPart(IForm.VIEW_ID_PAGE_TABLE, Activator.TABLE_PAGE_VIEW_ID);
-    registerPart(IForm.VIEW_ID_PAGE_SEARCH, Activator.SEAECH_VIEW_ID);
+
+    registerPart(IForm.VIEW_ID_OUTLINE, NorthWestView.class.getName());
+    registerPart(IForm.VIEW_ID_OUTLINE_SELECTOR, SouthWestView.class.getName());
+    registerPart(IForm.VIEW_ID_CENTER, CenterView.class.getName());
+    registerPart(IForm.VIEW_ID_PAGE_TABLE, CenterView.class.getName());
+    registerPart(IForm.VIEW_ID_PAGE_DETAIL, NorthView.class.getName());
+    registerPart(IForm.VIEW_ID_PAGE_SEARCH, SouthView.class.getName());
+    registerPart(IForm.VIEW_ID_N, NorthView.class.getName());
+    registerPart(IForm.VIEW_ID_NW, NorthWestView.class.getName());
+    registerPart(IForm.VIEW_ID_W, WestView.class.getName());
+    registerPart(IForm.VIEW_ID_SW, SouthWestView.class.getName());
+    registerPart(IForm.VIEW_ID_S, SouthView.class.getName());
+    registerPart(IForm.VIEW_ID_SE, SouthEastView.class.getName());
+    registerPart(IForm.VIEW_ID_E, EastView.class.getName());
+    registerPart(IForm.VIEW_ID_NE, NorthEastView.class.getName());
+
+    registerPart(IForm.EDITOR_ID, ScoutEditorPart.class.getName());
+
+    addEnvironmentListener(new ISwtEnvironmentListener() {
+      @Override
+      public void environmentChanged(SwtEnvironmentEvent e) {
+        if (e.getType() == SwtEnvironmentEvent.STOPPED) {
+          PlatformUI.getWorkbench().close();
+        }
+      }
+    });
+    addEnvironmentListener(new ISwtEnvironmentListener() {
+      @Override
+      public void environmentChanged(SwtEnvironmentEvent e) {
+        if (e.getType() == SwtEnvironmentEvent.STARTED) {
+          removeEnvironmentListener(this);
+          IDesktop d = getClientSession().getDesktop();
+          if (d != null) {
+            setWindowTitle(d.getTitle());
+            d.addPropertyChangeListener(IDesktop.PROP_TITLE, new PropertyChangeListener() {
+              @Override
+              public void propertyChange(PropertyChangeEvent evt) {
+                setWindowTitle((String) evt.getNewValue());
+              }
+            });
+            if (m_advisor != null) {
+              m_advisor.initViewButtons(d);
+            }
+          }
+        }
+      }
+    });
   }
 
-  @Override
-  public void showMessageBoxFromScout(IMessageBox messageBox) {
-    if (Util.isMac()) {
-      SwtMacScoutMessageBoxDialog box = new SwtMacScoutMessageBoxDialog(getParentShellIgnoringPopups(SWT.SYSTEM_MODAL | SWT.APPLICATION_MODAL | SWT.MODELESS), messageBox, this);
-      box.open();
+  public void setAdvisor(ApplicationActionBarAdvisor advisor) {
+    m_advisor = advisor;
+  }
+
+  private void setWindowTitle(final String title) {
+    for (IWorkbenchWindow w : PlatformUI.getWorkbench().getWorkbenchWindows()) {
+      final Shell s = w.getShell();
+      if (!s.isDisposed()) {
+        s.getDisplay().asyncExec(new Runnable() {
+          @Override
+          public void run() {
+            s.setText(title);
+          }
+        });
+      }
     }
-    else {
-      super.showMessageBoxFromScout(messageBox);
-    }
   }
-
-  @Override
-  protected SwtMacScoutDialog createSwtScoutDialog(Shell shell, int dialogStyle) {
-    return new SwtMacScoutDialog(shell, this, dialogStyle);
-  }
-
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2011 Jeremie Bresson
+ * Copyright 2012 Jeremie Bresson
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.eclipselabs.mcqs.shared.services.process;
-
-import java.util.Map;
 
 import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
 import org.eclipse.scout.rt.shared.data.form.ValidationRule;
@@ -51,6 +49,10 @@ public class QuestionFormData extends AbstractFormData {
     return getFieldByClass(Choices.class);
   }
 
+  public MultipleChoices getMultipleChoices() {
+    return getFieldByClass(MultipleChoices.class);
+  }
+
   public QuestionText getQuestionText() {
     return getFieldByClass(QuestionText.class);
   }
@@ -62,26 +64,29 @@ public class QuestionFormData extends AbstractFormData {
     }
   }
 
-  public class Choices extends AbstractTableFieldData {
+  public static class Choices extends AbstractTableFieldData {
     private static final long serialVersionUID = 1L;
 
     public Choices() {
     }
 
+    public static final int CHOICE_NR_COLUMN_ID = 0;
+    public static final int CHOICE_TEXT_COLUMN_ID = 1;
+
     public void setChoiceNr(int row, Integer choiceNr) {
-      setValueInternal(row, 0, choiceNr);
+      setValueInternal(row, CHOICE_NR_COLUMN_ID, choiceNr);
     }
 
     public Integer getChoiceNr(int row) {
-      return (Integer) getValueInternal(row, 0);
+      return (Integer) getValueInternal(row, CHOICE_NR_COLUMN_ID);
     }
 
     public void setChoiceText(int row, String choiceText) {
-      setValueInternal(row, 1, choiceText);
+      setValueInternal(row, CHOICE_TEXT_COLUMN_ID, choiceText);
     }
 
     public String getChoiceText(int row) {
-      return (String) getValueInternal(row, 1);
+      return (String) getValueInternal(row, CHOICE_TEXT_COLUMN_ID);
     }
 
     @Override
@@ -92,9 +97,9 @@ public class QuestionFormData extends AbstractFormData {
     @Override
     public Object getValueAt(int row, int column) {
       switch (column) {
-        case 0:
+        case CHOICE_NR_COLUMN_ID:
           return getChoiceNr(row);
-        case 1:
+        case CHOICE_TEXT_COLUMN_ID:
           return getChoiceText(row);
         default:
           return null;
@@ -104,17 +109,24 @@ public class QuestionFormData extends AbstractFormData {
     @Override
     public void setValueAt(int row, int column, Object value) {
       switch (column) {
-        case 0:
+        case CHOICE_NR_COLUMN_ID:
           setChoiceNr(row, (Integer) value);
           break;
-        case 1:
+        case CHOICE_TEXT_COLUMN_ID:
           setChoiceText(row, (String) value);
           break;
       }
     }
   }
 
-  public class QuestionText extends AbstractValueFieldData<String> {
+  public static class MultipleChoices extends AbstractValueFieldData<Boolean> {
+    private static final long serialVersionUID = 1L;
+
+    public MultipleChoices() {
+    }
+  }
+
+  public static class QuestionText extends AbstractValueFieldData<String> {
     private static final long serialVersionUID = 1L;
 
     public QuestionText() {
@@ -124,7 +136,7 @@ public class QuestionFormData extends AbstractFormData {
      * list of derived validation rules.
      */
     @Override
-    protected void initValidationRules(Map<String, Object> ruleMap) {
+    protected void initValidationRules(java.util.Map<String, Object> ruleMap) {
       super.initValidationRules(ruleMap);
       ruleMap.put(ValidationRule.MAX_LENGTH, 4000);
     }

@@ -24,16 +24,16 @@ import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractCancelButton;
 import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractOkButton;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.CancelButton;
-import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.ChoiceField;
+import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.ContentBox.ChoiceField;
 import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.OkButton;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.services.process.ChoiceFormData;
 
 @FormData(value = ChoiceFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
 public class ChoiceForm extends AbstractForm {
 
-  private Integer choiceNr;
+  private Integer m_choiceNr;
 
   public ChoiceForm() throws ProcessingException {
     super();
@@ -41,7 +41,7 @@ public class ChoiceForm extends AbstractForm {
 
   @Override
   protected String getConfiguredTitle() {
-    return Texts.get("Choice");
+    return TEXTS.get("Choice");
   }
 
   public void startEdit() throws ProcessingException {
@@ -50,16 +50,6 @@ public class ChoiceForm extends AbstractForm {
 
   public CancelButton getCancelButton() {
     return getFieldByClass(CancelButton.class);
-  }
-
-  @FormData
-  public Integer getChoiceNr() {
-    return choiceNr;
-  }
-
-  @FormData
-  public void setChoiceNr(Integer choiceNr) {
-    this.choiceNr = choiceNr;
   }
 
   public ChoiceField getChoiceField() {
@@ -78,16 +68,20 @@ public class ChoiceForm extends AbstractForm {
   public class MainBox extends AbstractGroupBox {
 
     @Order(10.0)
-    public class ChoiceField extends AbstractStringField {
+    public class ContentBox extends AbstractGroupBox {
 
-      @Override
-      protected String getConfiguredLabel() {
-        return Texts.get("Choice");
-      }
+      @Order(10.0)
+      public class ChoiceField extends AbstractStringField {
 
-      @Override
-      protected boolean getConfiguredMandatory() {
-        return true;
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Choice");
+        }
+
+        @Override
+        protected boolean getConfiguredMandatory() {
+          return true;
+        }
       }
     }
 
@@ -101,5 +95,15 @@ public class ChoiceForm extends AbstractForm {
   }
 
   public class EditHandler extends AbstractFormHandler {
+  }
+
+  @FormData
+  public Integer getChoiceNr() {
+    return m_choiceNr;
+  }
+
+  @FormData
+  public void setChoiceNr(Integer choiceNr) {
+    m_choiceNr = choiceNr;
   }
 }

@@ -27,14 +27,17 @@ import org.eclipse.scout.rt.client.ui.form.AbstractForm;
 import org.eclipse.scout.rt.client.ui.form.AbstractFormHandler;
 import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractCancelButton;
 import org.eclipse.scout.rt.client.ui.form.fields.button.AbstractOkButton;
+import org.eclipse.scout.rt.client.ui.form.fields.checkbox.AbstractCheckBox;
 import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringField;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
+import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.service.SERVICES;
+import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.ContentBox.ChoiceField;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.CancelButton;
+import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.ContentBox.MultipleChoicesField;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.OkButton;
-import org.eclipselabs.mcqs.shared.Texts;
 import org.eclipselabs.mcqs.shared.security.UpdateQuestionPermission;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
@@ -42,7 +45,7 @@ import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 @FormData(value = QuestionFormData.class, sdkCommand = FormData.SdkCommand.CREATE)
 public class QuestionForm extends AbstractForm {
 
-  private Integer questionNr;
+  private Integer m_questionNr;
 
   public QuestionForm() throws ProcessingException {
     super();
@@ -50,21 +53,7 @@ public class QuestionForm extends AbstractForm {
 
   @Override
   protected String getConfiguredTitle() {
-    return Texts.get("Question");
-  }
-
-  public CancelButton getCancelButton() {
-    return getFieldByClass(CancelButton.class);
-  }
-
-  @FormData
-  public Integer getQuestionNr() {
-    return questionNr;
-  }
-
-  @FormData
-  public void setQuestionNr(Integer questionNr) {
-    this.questionNr = questionNr;
+    return TEXTS.get("Question");
   }
 
   public void startModify() throws ProcessingException {
@@ -75,8 +64,20 @@ public class QuestionForm extends AbstractForm {
     startInternal(new QuestionForm.NewHandler());
   }
 
+  public CancelButton getCancelButton() {
+    return getFieldByClass(CancelButton.class);
+  }
+
+  public ChoiceField getChoiceField() {
+    return getFieldByClass(ChoiceField.class);
+  }
+
   public MainBox getMainBox() {
     return getFieldByClass(MainBox.class);
+  }
+
+  public MultipleChoicesField getMultipleChoicesField() {
+    return getFieldByClass(MultipleChoicesField.class);
   }
 
   public OkButton getOkButton() {
@@ -87,158 +88,172 @@ public class QuestionForm extends AbstractForm {
   public class MainBox extends AbstractGroupBox {
 
     @Order(10.0)
-    public class QuestionTextField extends AbstractStringField {
-      @Override
-      protected int getConfiguredGridH() {
-        return 2;
-      }
-
-      @Override
-      protected int getConfiguredGridW() {
-        return 2;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return Texts.get("Question");
-      }
-
-      @Override
-      protected boolean getConfiguredMultilineText() {
-        return true;
-      }
-
-      @Override
-      protected boolean getConfiguredWrapText() {
-        return true;
-      }
-    }
-
-    @Order(20.0)
-    public class ChoicesField extends AbstractTableField<ChoicesField.Table> {
-
-      @Override
-      protected int getConfiguredGridH() {
-        return 6;
-      }
-
-      @Override
-      protected int getConfiguredGridW() {
-        return 2;
-      }
-
-      @Override
-      protected String getConfiguredLabel() {
-        return Texts.get("Choices");
-      }
+    public class ContentBox extends AbstractGroupBox {
 
       @Order(10.0)
-      public class Table extends AbstractTable {
+      public class QuestionTextField extends AbstractStringField {
 
-        public ChoiceTextColumn getChoiceTextColumn() {
-          return getColumnSet().getColumnByClass(ChoiceTextColumn.class);
+        @Override
+        protected int getConfiguredGridH() {
+          return 2;
         }
 
         @Override
-        protected boolean getConfiguredAutoResizeColumns() {
+        protected int getConfiguredGridW() {
+          return 2;
+        }
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Question");
+        }
+
+        @Override
+        protected boolean getConfiguredMultilineText() {
           return true;
         }
 
-        public ChoiceNrColumn getChoiceNrColumn() {
-          return getColumnSet().getColumnByClass(ChoiceNrColumn.class);
+        @Override
+        protected boolean getConfiguredWrapText() {
+          return true;
+        }
+      }
+
+      @Order(20.0)
+      public class MultipleChoicesField extends AbstractCheckBox {
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("MultipleChoices");
+        }
+      }
+
+      @Order(30.0)
+      public class ChoicesField extends AbstractTableField<ChoicesField.Table> {
+
+        @Override
+        protected int getConfiguredGridH() {
+          return 6;
+        }
+
+        @Override
+        protected int getConfiguredGridW() {
+          return 2;
+        }
+
+        @Override
+        protected String getConfiguredLabel() {
+          return TEXTS.get("Choices");
         }
 
         @Order(10.0)
-        public class ChoiceNrColumn extends AbstractIntegerColumn {
+        public class Table extends AbstractTable {
 
           @Override
-          protected boolean getConfiguredDisplayable() {
-            return false;
-          }
-
-          @Override
-          protected String getConfiguredHeaderText() {
-            return Texts.get("Nr");
-          }
-        }
-
-        @Order(20.0)
-        public class ChoiceTextColumn extends AbstractStringColumn {
-
-          @Override
-          protected String getConfiguredHeaderText() {
-            return Texts.get("Choice");
-          }
-        }
-
-        @Order(10.0)
-        public class AddChoiceMenu extends AbstractMenu {
-
-          @Override
-          protected boolean getConfiguredEmptySpaceAction() {
+          protected boolean getConfiguredAutoResizeColumns() {
             return true;
           }
 
-          @Override
-          protected boolean getConfiguredSingleSelectionAction() {
-            return false;
+          public ChoiceNrColumn getChoiceNrColumn() {
+            return getColumnSet().getColumnByClass(ChoiceNrColumn.class);
           }
 
-          @Override
-          protected String getConfiguredText() {
-            return Texts.get("AddChoice");
+          public ChoiceTextColumn getChoiceTextColumn() {
+            return getColumnSet().getColumnByClass(ChoiceTextColumn.class);
           }
 
-          @Override
-          protected void execAction() throws ProcessingException {
-            ChoiceForm form = new ChoiceForm();
-            form.startEdit();
-            form.waitFor();
-            if (form.isFormStored()) {
-              ITableRow r = createRow();
-              getChoiceTextColumn().setValue(r, form.getChoiceField().getValue());
-              addRow(r, true);
+          @Order(10.0)
+          public class ChoiceNrColumn extends AbstractIntegerColumn {
+
+            @Override
+            protected boolean getConfiguredDisplayable() {
+              return false;
+            }
+
+            @Override
+            protected String getConfiguredHeaderText() {
+              return TEXTS.get("Nr");
             }
           }
-        }
 
-        @Order(20.0)
-        public class EditChoiceMenu extends AbstractMenu {
+          @Order(20.0)
+          public class ChoiceTextColumn extends AbstractStringColumn {
 
-          @Override
-          protected String getConfiguredText() {
-            return Texts.get("EditChoice");
-          }
-
-          @Override
-          protected void execAction() throws ProcessingException {
-            ITableRow r = getSelectedRow();
-
-            ChoiceForm form = new ChoiceForm();
-            form.setChoiceNr(getChoiceNrColumn().getValue(r));
-            form.getChoiceField().setValue(getChoiceTextColumn().getValue(r));
-
-            form.startEdit();
-            form.waitFor();
-            if (form.isFormStored()) {
-              getChoiceTextColumn().setValue(r, form.getChoiceField().getValue());
+            @Override
+            protected String getConfiguredHeaderText() {
+              return TEXTS.get("Choice");
             }
           }
-        }
 
-        @Order(30.0)
-        public class RemoveChoiceMenu extends AbstractMenu {
+          @Order(10.0)
+          public class AddChoiceMenu extends AbstractMenu {
 
-          @Override
-          protected String getConfiguredText() {
-            return Texts.get("RemoveChoice");
+            @Override
+            protected boolean getConfiguredEmptySpaceAction() {
+              return true;
+            }
+
+            @Override
+            protected boolean getConfiguredSingleSelectionAction() {
+              return false;
+            }
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("AddChoice");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              ChoiceForm form = new ChoiceForm();
+              form.startEdit();
+              form.waitFor();
+              if (form.isFormStored()) {
+                ITableRow r = createRow();
+                getChoiceTextColumn().setValue(r, form.getChoiceField().getValue());
+                addRow(r, true);
+              }
+            }
           }
 
-          @Override
-          protected void execAction() throws ProcessingException {
-            ITableRow r = getSelectedRow();
-            if (MessageBox.showDeleteConfirmationMessage(Texts.get("Choice"), getChoiceTextColumn().getValue(r))) {
-              deleteRow(r);
+          @Order(20.0)
+          public class EditChoiceMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("EditChoice");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              ITableRow r = getSelectedRow();
+
+              ChoiceForm form = new ChoiceForm();
+              form.setChoiceNr(getChoiceNrColumn().getValue(r));
+              form.getChoiceField().setValue(getChoiceTextColumn().getValue(r));
+
+              form.startEdit();
+              form.waitFor();
+              if (form.isFormStored()) {
+                getChoiceTextColumn().setValue(r, form.getChoiceField().getValue());
+              }
+            }
+          }
+
+          @Order(30.0)
+          public class RemoveChoiceMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("RemoveChoice");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              ITableRow r = getSelectedRow();
+              if (MessageBox.showDeleteConfirmationMessage(TEXTS.get("Choice"), getChoiceTextColumn().getValue(r))) {
+                deleteRow(r);
+              }
             }
           }
         }
@@ -264,6 +279,7 @@ public class QuestionForm extends AbstractForm {
       formData = service.load(formData);
       importFormData(formData);
       setEnabledPermission(new UpdateQuestionPermission());
+      getMultipleChoicesField().setEnabled(false);
     }
 
     @Override
@@ -293,5 +309,15 @@ public class QuestionForm extends AbstractForm {
       exportFormData(formData);
       formData = service.create(formData);
     }
+  }
+
+  @FormData
+  public Integer getQuestionNr() {
+    return m_questionNr;
+  }
+
+  @FormData
+  public void setQuestionNr(Integer questionNr) {
+    m_questionNr = questionNr;
   }
 }
