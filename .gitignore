@@ -1,1 +1,10 @@
-bin
+bin/
+classes/
+target/
+
+*.orig
+*.class
+*.jar
+*.war
+*.ear
+*.zip
