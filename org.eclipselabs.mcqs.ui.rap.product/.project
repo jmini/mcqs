@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>org.eclipselabs.mcqs.ui.rap.product</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>.settings/org.eclipse.core.resources.prefs</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/org.eclipselabs.mcqs.master/.settings/org.eclipse.core.resources.prefs</locationURI>
+		</link>
+		<link>
+			<name>.settings/org.eclipse.m2e.core.prefs</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/org.eclipselabs.mcqs.master/.settings/org.eclipse.m2e.core.prefs</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>
