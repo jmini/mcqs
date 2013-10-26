@@ -23,7 +23,7 @@
     <groupId>org.eclipselabs.mcqs</groupId>
     <artifactId>org.eclipselabs.mcqs.master</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <relativePath>../org.eclipsescout.demo.master/</relativePath>
+    <relativePath>../org.eclipselabs.mcqs.master/</relativePath>
   </parent>
 
   <artifactId>org.eclipselabs.mcqs.target</artifactId>

@@ -82,7 +82,13 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     }
 
     for (AnswerFormData answer : answers) {
-      Long[] answerChoices = answer.getChoices().getValue();
+      Long[] answerChoices;
+      if (BooleanUtility.nvl(answer.getMultipleChoices())) {
+        answerChoices = answer.getChoices().getValue();
+      }
+      else {
+        answerChoices = new Long[]{answer.getChoice().getValue()};
+      }
       for (Long answerChoice : answerChoices) {
         Integer answerChoiceKey = Integer.valueOf(answerChoice.intValue());
         if (choicesMap.containsKey(answerChoiceKey)) {

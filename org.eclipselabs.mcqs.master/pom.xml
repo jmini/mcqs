@@ -97,16 +97,18 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho.version}</version>
       </plugin>
 
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
         <configuration>
           <target>
             <artifact>
-              <groupId>org.eclipsescout.demo</groupId>
-              <artifactId>org.eclipsescout.demo.target</artifactId>
+              <groupId>org.eclipselabs.mcqs</groupId>
+              <artifactId>org.eclipselabs.mcqs.target</artifactId>
               <version>1.0.0-SNAPSHOT</version>
               <classifier>platform</classifier>
             </artifact>
