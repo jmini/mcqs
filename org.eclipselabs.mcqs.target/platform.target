@@ -12,6 +12,7 @@
       <unit id="org.eclipse.pde.source.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.emf.ecore.feature.group" version="0.0.0"/>
       <unit id="org.eclipse.emf.common.feature.group" version="0.0.0"/>
+      <unit id="org.eclipse.birt.feature.group" version="0.0.0"/>
 
       <repository location="http://download.eclipse.org/releases/kepler"/>
     </location>

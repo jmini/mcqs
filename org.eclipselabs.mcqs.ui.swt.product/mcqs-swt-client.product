@@ -47,6 +47,12 @@
       <plugin id="org.apache.batik.util"/>
       <plugin id="org.apache.batik.util.gui"/>
       <plugin id="org.apache.batik.xml"/>
+      <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.eclipse.birt.chart.device.extension"/>
+      <plugin id="org.eclipse.birt.chart.device.svg"/>
+      <plugin id="org.eclipse.birt.chart.engine"/>
+      <plugin id="org.eclipse.birt.chart.engine.extension"/>
+      <plugin id="org.eclipse.birt.core"/>
       <plugin id="org.eclipse.compare.core"/>
       <plugin id="org.eclipse.core.commands"/>
       <plugin id="org.eclipse.core.contenttype"/>
@@ -121,6 +127,7 @@
       <plugin id="org.eclipselabs.mcqs.client"/>
       <plugin id="org.eclipselabs.mcqs.shared"/>
       <plugin id="org.eclipselabs.mcqs.ui.swt"/>
+      <plugin id="org.mozilla.javascript"/>
       <plugin id="org.w3c.css.sac"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>

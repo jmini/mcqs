@@ -15,8 +15,6 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.client.graph;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ import java.util.List;
 public final class BarGraphGenerator {
   public static String[] COLORS = new String[]{"yellow", "salmon", "lightgreen", "blanchedalmond", "thistle", "tan"};
 
-  public static List<String> generate(List<BarGraph> values, boolean multipleChoices) {
+  public static byte[] generate(List<BarGraph> values, boolean multipleChoices) {
     ArrayList<String> cnt = new ArrayList<String>();
 
     int nb = values.size();
@@ -81,7 +79,7 @@ public final class BarGraphGenerator {
     cnt.add("  </g>");
     cnt.add("</svg>");
 
-    return cnt;
+    return toBytes(cnt);
   }
 
   private static void addRect(ArrayList<String> cnt, List<BarGraph> values, boolean multiple) {
@@ -124,18 +122,13 @@ public final class BarGraphGenerator {
     }
   }
 
-  /**
-   * @param generate
-   * @return
-   */
-  public static InputStream convertToInputStream(List<String> cnt) {
+  private static byte[] toBytes(List<String> cnt) {
     StringBuilder sb = new StringBuilder();
     for (String l : cnt) {
       sb.append(l + "\n");
     }
     byte[] bytes = sb.toString().getBytes();
-    InputStream is = new ByteArrayInputStream(bytes);
-    return is;
+    return bytes;
   }
 
 }

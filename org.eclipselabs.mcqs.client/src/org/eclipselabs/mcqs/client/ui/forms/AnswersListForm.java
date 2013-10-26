@@ -15,6 +15,7 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.client.ui.forms;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ import org.eclipse.scout.service.SERVICES;
 import org.eclipse.scout.svg.client.SVGUtility;
 import org.eclipse.scout.svg.client.svgfield.AbstractSvgField;
 import org.eclipselabs.mcqs.client.graph.BarGraph;
-import org.eclipselabs.mcqs.client.graph.BarGraphGenerator;
+import org.eclipselabs.mcqs.client.graph.BirtBarGraphGenerator;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.GraphBox;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsBox.GraphBox.GraphField;
@@ -147,10 +148,11 @@ public class AnswersListForm extends AbstractForm {
       else {
         result = formData.getStatistics().getResult(j);
       }
-      int percent = (int) (result * 100);
+      double percent = result * 100;
       values.add(new BarGraph(j, formData.getStatistics().getChoice(j), percent));
     }
-    InputStream in = BarGraphGenerator.convertToInputStream(BarGraphGenerator.generate(values, isMultipleChoices()));
+    byte[] content = BirtBarGraphGenerator.generate(values, isMultipleChoices());
+    InputStream in = new ByteArrayInputStream(content);
     getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
   }
 

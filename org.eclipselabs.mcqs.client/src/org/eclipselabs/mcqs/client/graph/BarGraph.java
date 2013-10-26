@@ -18,9 +18,9 @@ package org.eclipselabs.mcqs.client.graph;
 public class BarGraph {
   private int id;
   private String name;
-  private int value;
+  private double value;
 
-  public BarGraph(int id, String name, int value) {
+  public BarGraph(int id, String name, double value) {
     super();
     this.id = id;
     this.name = name;
@@ -35,7 +35,7 @@ public class BarGraph {
     return name;
   }
 
-  public int getValue() {
+  public double getValue() {
     return value;
   }
 
