@@ -12,11 +12,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.scout.rt.extension.client;visibility:=reexport,
  org.eclipselabs.mcqs.shared,
  org.eclipse.scout.svg.client,
- org.eclipse.birt.chart.engine;bundle-version="4.3.1",
- com.ibm.icu;bundle-version="50.1.1",
- org.eclipse.birt.chart.device.svg;bundle-version="4.3.1",
- org.eclipse.birt.chart.device.extension;bundle-version="4.3.1",
- org.eclipse.birt.chart.engine.extension;bundle-version="4.3.1"
+ org.eclipse.birt.chart.engine,
+ com.ibm.icu,
+ org.eclipse.birt.chart.device.svg,
+ org.eclipse.birt.chart.device.extension,
+ org.eclipse.birt.chart.engine.extension
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.w3c.dom.svg;version="[1.1.0,2.0.0)"
 Bundle-ActivationPolicy: lazy

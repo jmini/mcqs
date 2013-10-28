@@ -31,12 +31,16 @@ import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ChartDimension;
+import org.eclipse.birt.chart.model.attribute.DataPointComponent;
+import org.eclipse.birt.chart.model.attribute.DataPointComponentType;
 import org.eclipse.birt.chart.model.attribute.IntersectionType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TickStyle;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
+import org.eclipse.birt.chart.model.attribute.impl.DataPointComponentImpl;
+import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -98,24 +102,27 @@ public class BirtBarGraphGenerator {
   private static Chart createChart(List<BarGraph> barGraphs, boolean multipleChoices) {
     // Data Set:
     String[] names = new String[barGraphs.size()];
-    double[] values = new double[barGraphs.size()];
+    double[] valuesYes = new double[barGraphs.size()];
+    double[] valuesNo = new double[barGraphs.size()];
     for (int i = 0; i < barGraphs.size(); i++) {
       BarGraph barGraph = barGraphs.get(i);
       names[i] = barGraph.getName();
-      values[i] = barGraph.getValue();
+      valuesYes[i] = barGraph.getValue();
+      valuesNo[i] = 1 - barGraph.getValue();
     }
     TextDataSet categoryValues = TextDataSetImpl.create(names);
-    NumberDataSet serieValues = NumberDataSetImpl.create(values);
+    NumberDataSet yesSerieValues = NumberDataSetImpl.create(valuesYes);
 
     if (multipleChoices) {
-      return createBarChart(categoryValues, serieValues);
+      NumberDataSet noSerieValues = NumberDataSetImpl.create(valuesNo);
+      return createBarChart(categoryValues, yesSerieValues, noSerieValues);
     }
     else {
-      return createPieChart(categoryValues, serieValues);
+      return createPieChart(categoryValues, yesSerieValues);
     }
   }
 
-  private static Chart createBarChart(TextDataSet categoryValues, NumberDataSet serieValues) {
+  private static Chart createBarChart(TextDataSet categoryValues, NumberDataSet yesSerieValues, NumberDataSet noSerieValues) {
     // bart charts are based on charts that contain axes
     ChartWithAxes cwaBar = ChartWithAxesImpl.create();
     cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
@@ -146,18 +153,34 @@ public class BirtBarGraphGenerator {
     yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
     yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
     yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
+    yAxisPrimary.setPercent(true);
 
     // create the category base series
     Series seCategory = SeriesImpl.create();
     seCategory.setDataSet(categoryValues);
 
-    // create the value orthogonal series
+    // Y-Series
     BarSeries bs1 = (BarSeries) BarSeriesImpl.create();
-    bs1.setSeriesIdentifier("Answers");
-    bs1.setDataSet(serieValues);
-    bs1.setRiserOutline(null);
+    bs1.setSeriesIdentifier(TEXTS.get("ResultYes"));
+    bs1.setDataSet(yesSerieValues);
+    bs1.setStacked(true);
     bs1.getLabel().setVisible(true);
     bs1.setLabelPosition(Position.INSIDE_LITERAL);
+
+    DataPointComponent dpc1 = DataPointComponentImpl.create(DataPointComponentType.ORTHOGONAL_VALUE_LITERAL, JavaNumberFormatSpecifierImpl.create("##.##%"));
+    bs1.getDataPoint().getComponents().clear();
+    bs1.getDataPoint().getComponents().add(dpc1);
+
+    BarSeries bs2 = (BarSeries) BarSeriesImpl.create();
+    bs2.setSeriesIdentifier("ResultNo");
+    bs2.setDataSet(noSerieValues);
+    bs2.setStacked(true);
+    bs2.getLabel().setVisible(true);
+    bs2.setLabelPosition(Position.INSIDE_LITERAL);
+
+    DataPointComponent dpc2 = DataPointComponentImpl.create(DataPointComponentType.ORTHOGONAL_VALUE_LITERAL, JavaNumberFormatSpecifierImpl.create("##.##%"));
+    bs2.getDataPoint().getComponents().clear();
+    bs2.getDataPoint().getComponents().add(dpc2);
 
     // wrap the base series in the X-axis series definition
     SeriesDefinition sdX = SeriesDefinitionImpl.create();
@@ -167,9 +190,10 @@ public class BirtBarGraphGenerator {
 
     // wrap the orthogonal series in the X-axis series definition
     SeriesDefinition sdY = SeriesDefinitionImpl.create();
-    sdY.getSeriesPalette().shift(1); // set the color in the palette
+    sdY.getSeriesPalette().shift(0);
     yAxisPrimary.getSeriesDefinitions().add(sdY);
     sdY.getSeries().add(bs1);
+    sdY.getSeries().add(bs2);
 
     return cwaBar;
   }
@@ -203,11 +227,15 @@ public class BirtBarGraphGenerator {
     PieSeries sePie = (PieSeries) PieSeriesImpl.create();
     sePie.setDataSet(serieValues);
     sePie.setSeriesIdentifier(TEXTS.get("Answers"));
-    sePie.setExplosion(5);
+    sePie.setExplosion(3);
 
-    SeriesDefinition sdCity = SeriesDefinitionImpl.create();
-    sd.getSeriesDefinitions().add(sdCity);
-    sdCity.getSeries().add(sePie);
+    DataPointComponent dpc = DataPointComponentImpl.create(DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL, JavaNumberFormatSpecifierImpl.create("##.##%"));
+    sePie.getDataPoint().getComponents().clear();
+    sePie.getDataPoint().getComponents().add(dpc);
+
+    SeriesDefinition sdAnswers = SeriesDefinitionImpl.create();
+    sd.getSeriesDefinitions().add(sdAnswers);
+    sdAnswers.getSeries().add(sePie);
 
     return cwoaPie;
   }

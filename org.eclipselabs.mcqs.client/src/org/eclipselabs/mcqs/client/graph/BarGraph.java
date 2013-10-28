@@ -35,8 +35,10 @@ public class BarGraph {
     return name;
   }
 
+  /**
+   * @return value in percent (range: [0, 1])
+   */
   public double getValue() {
     return value;
   }
-
 }

@@ -88,7 +88,7 @@ public final class BarGraphGenerator {
     int x = 16;
     for (BarGraph e : values) {
       int y = 15 + (30 * (nb - i));
-      double d = 574.0 * (e.getValue() / 100.0);
+      double d = 574.0 * (e.getValue());
       BigDecimal bd = new BigDecimal(d).setScale(1, RoundingMode.HALF_EVEN);
       String width = String.valueOf(bd.intValue());
       width = width.replaceAll("\\.0$", "");

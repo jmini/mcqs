@@ -148,8 +148,7 @@ public class AnswersListForm extends AbstractForm {
       else {
         result = formData.getStatistics().getResult(j);
       }
-      double percent = result * 100;
-      values.add(new BarGraph(j, formData.getStatistics().getChoice(j), percent));
+      values.add(new BarGraph(j, formData.getStatistics().getChoice(j), result));
     }
     byte[] content = BirtBarGraphGenerator.generate(values, isMultipleChoices());
     InputStream in = new ByteArrayInputStream(content);
