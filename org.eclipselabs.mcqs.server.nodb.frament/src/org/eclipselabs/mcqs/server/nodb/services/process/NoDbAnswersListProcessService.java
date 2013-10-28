@@ -42,7 +42,7 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     if (questionNr == null) {
       throw new ProcessingException("QuestionNr can not be null");
     }
-    QuestionFormData question = dataStore.updateQuestionText(questionNr, formData.getQuestionText(), formData.getMultipleChoicesProperty());
+    QuestionFormData question = dataStore.updateQuestionText(formData);
 
     //load answers list:
     formData.getAnswers().clearRows();

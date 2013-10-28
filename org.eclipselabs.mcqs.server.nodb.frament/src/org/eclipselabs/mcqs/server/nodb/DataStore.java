@@ -25,53 +25,162 @@ import org.eclipse.scout.commons.holders.ITableHolder;
 import org.eclipse.scout.rt.shared.data.form.fields.AbstractValueFieldData;
 import org.eclipse.scout.rt.shared.data.form.properties.AbstractPropertyData;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
+import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices;
 
 public final class DataStore {
   private static final DataStore INSTANCE = new DataStore();
 
+  private static final int QUESTION_NR_TRAVEL = 1;
+  private static final int QUESTION_NR_DAY = 2;
+
+  private static final int CHOICE_NR_TRAVEL_ASIA = 1;
+  private static final int CHOICE_NR_TRAVEL_AFRICA = 2;
+  private static final int CHOICE_NR_TRAVEL_NORTH_AMERICA = 3;
+  private static final int CHOICE_NR_TRAVEL_SOUTH_AMERICA = 4;
+  private static final int CHOICE_NR_TRAVEL_ANTARCTICA = 5;
+  private static final int CHOICE_NR_TRAVEL_EUROPE = 6;
+  private static final int CHOICE_NR_TRAVEL_AUSTRALIA = 7;
+  private static final int CHOICE_NR_DAY_MONDAY = 8;
+  private static final int CHOICE_NR_DAY_TUESDAY = 9;
+  private static final int CHOICE_NR_DAY_WEDNESDAY = 10;
+  private static final int CHOICE_NR_DAY_THURSDAY = 11;
+  private static final int CHOICE_NR_DAY_FRIDAY = 12;
+  private static final int CHOICE_NR_DAY_SATURDAY = 13;
+  private static final int CHOICE_NR_DAY_SUNDAY = 14;
+
   private final Map<Integer, QuestionFormData> m_questions;
   private final Map<Long, AnswerFormData> m_answers;
 
-  private int m_questionNrSequence;
-  private int m_answerNrSequence;
-  private int m_choiceNrSequence;
+  private int m_questionNrSequence = QUESTION_NR_DAY; //max(QUESTION_NR_*)
+  private int m_answerNrSequence = 0;
+  private int m_choiceNrSequence = CHOICE_NR_DAY_SUNDAY; //max(CHOICE_NR_*)
+  private FirstNameGenerator m_nameGenerator = new FirstNameGenerator();
 
   private DataStore() {
     m_questions = new ConcurrentHashMap<Integer, QuestionFormData>();
     storeQuestion(createQuestion1());
     storeQuestion(createQuestion2());
     m_answers = new ConcurrentHashMap<Long, AnswerFormData>();
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_ASIA, CHOICE_NR_TRAVEL_NORTH_AMERICA, CHOICE_NR_TRAVEL_AFRICA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_ASIA, CHOICE_NR_TRAVEL_NORTH_AMERICA, CHOICE_NR_TRAVEL_SOUTH_AMERICA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_NORTH_AMERICA, CHOICE_NR_TRAVEL_SOUTH_AMERICA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_NORTH_AMERICA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_ASIA, CHOICE_NR_TRAVEL_EUROPE));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_NORTH_AMERICA, CHOICE_NR_TRAVEL_SOUTH_AMERICA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_NORTH_AMERICA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_ASIA, CHOICE_NR_TRAVEL_NORTH_AMERICA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_EUROPE));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_NORTH_AMERICA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_EUROPE, CHOICE_NR_TRAVEL_AFRICA, CHOICE_NR_TRAVEL_ASIA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_EUROPE, CHOICE_NR_TRAVEL_NORTH_AMERICA, CHOICE_NR_TRAVEL_ANTARCTICA, CHOICE_NR_TRAVEL_ASIA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_EUROPE, CHOICE_NR_TRAVEL_NORTH_AMERICA, CHOICE_NR_TRAVEL_AUSTRALIA, CHOICE_NR_TRAVEL_ASIA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_NORTH_AMERICA, CHOICE_NR_TRAVEL_EUROPE, CHOICE_NR_TRAVEL_AFRICA, CHOICE_NR_TRAVEL_ANTARCTICA, CHOICE_NR_TRAVEL_AUSTRALIA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_EUROPE, CHOICE_NR_TRAVEL_NORTH_AMERICA, CHOICE_NR_TRAVEL_AFRICA, CHOICE_NR_TRAVEL_AUSTRALIA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_EUROPE, CHOICE_NR_TRAVEL_AFRICA, CHOICE_NR_TRAVEL_AUSTRALIA));
+    storeAnswer(creatateAnswer1(CHOICE_NR_TRAVEL_EUROPE, CHOICE_NR_TRAVEL_AUSTRALIA));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_MONDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_MONDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_MONDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_MONDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_TUESDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_WEDNESDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_WEDNESDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_WEDNESDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_THURSDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_THURSDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_FRIDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_FRIDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_FRIDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_FRIDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_FRIDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SATURDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SATURDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SATURDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SATURDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SATURDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SATURDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
+    storeAnswer(creatateAnswer2(CHOICE_NR_DAY_SUNDAY));
   }
 
   private QuestionFormData createQuestion1() {
     QuestionFormData formData = new QuestionFormData();
-    formData.setQuestionNr(createQuestionNr());
+    formData.setQuestionNr(QUESTION_NR_TRAVEL);
     formData.getQuestionText().setValue("Where did you travel last year?");
     formData.getMultipleChoices().setValue(true);
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Asia"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Africa"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "North America"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "South America"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Antarctica"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Europe"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Australia"});
+    addChoice(formData, CHOICE_NR_TRAVEL_ASIA, "Asia");
+    addChoice(formData, CHOICE_NR_TRAVEL_AFRICA, "Africa");
+    addChoice(formData, CHOICE_NR_TRAVEL_NORTH_AMERICA, "North America");
+    addChoice(formData, CHOICE_NR_TRAVEL_SOUTH_AMERICA, "South America");
+    addChoice(formData, CHOICE_NR_TRAVEL_ANTARCTICA, "Antarctica");
+    addChoice(formData, CHOICE_NR_TRAVEL_EUROPE, "Europe");
+    addChoice(formData, CHOICE_NR_TRAVEL_AUSTRALIA, "Australia");
     return formData;
   }
 
   private QuestionFormData createQuestion2() {
     QuestionFormData formData = new QuestionFormData();
-    formData.setQuestionNr(createQuestionNr());
+    formData.setQuestionNr(QUESTION_NR_DAY);
     formData.getQuestionText().setValue("What is your favorite day in the week?");
     formData.getMultipleChoices().setValue(false);
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Monday"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Tuesday"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Wednesday"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Thursday"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Friday"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Saturday"});
-    formData.getChoices().addRow(new Object[]{createChoiceNr(), "Sunday"});
+    addChoice(formData, CHOICE_NR_DAY_MONDAY, "Monday");
+    addChoice(formData, CHOICE_NR_DAY_TUESDAY, "Tuesday");
+    addChoice(formData, CHOICE_NR_DAY_WEDNESDAY, "Wednesday");
+    addChoice(formData, CHOICE_NR_DAY_THURSDAY, "Thursday");
+    addChoice(formData, CHOICE_NR_DAY_FRIDAY, "Friday");
+    addChoice(formData, CHOICE_NR_DAY_SATURDAY, "Saturday");
+    addChoice(formData, CHOICE_NR_DAY_SUNDAY, "Sunday");
+    return formData;
+  }
+
+  private static void addChoice(QuestionFormData formData, Integer choiceNr, String choiceText) {
+    Choices tableData = formData.getChoices();
+    int row = tableData.addRow();
+    tableData.setChoiceNr(row, choiceNr);
+    tableData.setChoiceText(row, choiceText);
+  }
+
+  private AnswerFormData creatateAnswer1(int... choices) {
+    AnswerFormData formData = new AnswerFormData();
+    formData.getQuestionNr().setValue(QUESTION_NR_TRAVEL);
+    updateQuestionText(formData);
+    formData.getYourName().setValue(m_nameGenerator.generate());
+    formData.getChoices().setValue(toValue(choices));
+    return formData;
+  }
+
+  private static Long[] toValue(int... choices) {
+    Long[] value;
+    if (choices == null) {
+      value = new Long[]{};
+    }
+    else {
+      value = new Long[choices.length];
+      for (int i = 0; i < choices.length; i++) {
+        value[i] = Long.valueOf(choices[i]);
+      }
+    }
+    return value;
+  }
+
+  private AnswerFormData creatateAnswer2(int choice) {
+    AnswerFormData formData = new AnswerFormData();
+    formData.getQuestionNr().setValue(QUESTION_NR_DAY);
+    updateQuestionText(formData);
+    formData.getYourName().setValue(m_nameGenerator.generate());
+    formData.getChoice().setValue(Long.valueOf(choice));
     return formData;
   }
 
@@ -122,8 +231,16 @@ public final class DataStore {
     m_questions.remove(questionNr);
   }
 
-  public QuestionFormData updateQuestionText(Integer questionNr, AbstractValueFieldData<String> questionText, AbstractPropertyData<Boolean> multipleChoices) {
-    QuestionFormData question = DataStore.getInstance().getQuestion(questionNr);
+  public QuestionFormData updateQuestionText(AnswerFormData formData) {
+    return updateQuestionTextInternal(formData.getQuestionNr().getValue(), formData.getQuestionText(), formData.getMultipleChoicesProperty());
+  }
+
+  public QuestionFormData updateQuestionText(AnswersListFormData formData) {
+    return updateQuestionTextInternal(formData.getQuestionNr().getValue(), formData.getQuestionText(), formData.getMultipleChoicesProperty());
+  }
+
+  private QuestionFormData updateQuestionTextInternal(Integer questionNr, AbstractValueFieldData<String> questionText, AbstractPropertyData<Boolean> multipleChoices) {
+    QuestionFormData question = getQuestion(questionNr);
     questionText.setValue(question.getQuestionText().getValue());
     multipleChoices.setValue(question.getMultipleChoices().getValue());
     return question;
@@ -172,5 +289,4 @@ public final class DataStore {
     m_choiceNrSequence++;
     return Integer.valueOf(m_choiceNrSequence);
   }
-
 }

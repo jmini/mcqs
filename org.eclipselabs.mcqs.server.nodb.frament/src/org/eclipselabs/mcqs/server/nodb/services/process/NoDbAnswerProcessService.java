@@ -31,7 +31,7 @@ public class NoDbAnswerProcessService extends AbstractService implements IAnswer
       throw new ProcessingException("QuestionNr can no be null");
     }
 
-    DataStore.getInstance().updateQuestionText(formData.getQuestionNr().getValue(), formData.getQuestionText(), formData.getMultipleChoicesProperty());
+    DataStore.getInstance().updateQuestionText(formData);
     return formData;
   }
 
@@ -53,7 +53,7 @@ public class NoDbAnswerProcessService extends AbstractService implements IAnswer
       throw new ProcessingException("QuestionNr can no be null");
     }
 
-    DataStore.getInstance().updateQuestionText(newFormData.getQuestionNr().getValue(), newFormData.getQuestionText(), newFormData.getMultipleChoicesProperty());
+    DataStore.getInstance().updateQuestionText(formData);
     return newFormData;
   }
 
