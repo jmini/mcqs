@@ -20,6 +20,7 @@ import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.basic.table.AbstractTable;
+import org.eclipse.scout.rt.client.ui.basic.table.ITable;
 import org.eclipse.scout.rt.client.ui.basic.table.ITableRow;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractIntegerColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractStringColumn;
@@ -31,6 +32,7 @@ import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.TEXTS;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm.MainBox.ContentBox.QuestionsField;
+import org.eclipselabs.mcqs.client.ui.templates.AbstractExportToExcelMenu;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
@@ -151,47 +153,6 @@ public class QuestionsListForm extends AbstractForm {
           }
 
           @Order(10.0)
-          public class AddAnAnswerMenu extends AbstractMenu {
-
-            @Override
-            protected String getConfiguredText() {
-              return TEXTS.get("AddAnAnswer");
-            }
-
-            @Override
-            protected void execAction() throws ProcessingException {
-              AnswerForm form = new AnswerForm();
-              form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
-              form.startNew();
-            }
-          }
-
-          @Order(20.0)
-          public class DisplayAllAnswersMenu extends AbstractMenu {
-
-            @Override
-            protected String getConfiguredText() {
-              return TEXTS.get("DisplayAllAnswers");
-            }
-
-            @Override
-            protected void execAction() throws ProcessingException {
-              AnswersListForm form = new AnswersListForm();
-              form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
-              form.startDisplay();
-            }
-          }
-
-          @Order(30.0)
-          public class SeparatorMenu extends AbstractMenu {
-
-            @Override
-            protected boolean getConfiguredSeparator() {
-              return true;
-            }
-          }
-
-          @Order(40.0)
           public class CreateQuestionMenu extends AbstractMenu {
 
             @Override
@@ -217,6 +178,47 @@ public class QuestionsListForm extends AbstractForm {
               if (form.isFormStored()) {
                 reloadForm();
               }
+            }
+          }
+
+          @Order(20.0)
+          public class AddAnAnswerMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("AddAnAnswer");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              AnswerForm form = new AnswerForm();
+              form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
+              form.startNew();
+            }
+          }
+
+          @Order(30.0)
+          public class DisplayAllAnswersMenu extends AbstractMenu {
+
+            @Override
+            protected String getConfiguredText() {
+              return TEXTS.get("DisplayAllAnswers");
+            }
+
+            @Override
+            protected void execAction() throws ProcessingException {
+              AnswersListForm form = new AnswersListForm();
+              form.getQuestionNrField().setValue(getQuestionNrColumn().getSelectedValue());
+              form.startDisplay();
+            }
+          }
+
+          @Order(40.0)
+          public class SeparatorMenu extends AbstractMenu {
+
+            @Override
+            protected boolean getConfiguredSeparator() {
+              return true;
             }
           }
 
@@ -255,6 +257,20 @@ public class QuestionsListForm extends AbstractForm {
                 SERVICES.getService(IQuestionProcessService.class).delete(getQuestionNrColumn().getValue(r));
                 reloadForm();
               }
+            }
+          }
+
+          @Order(70.0)
+          public class ExportToExcelMenu extends AbstractExportToExcelMenu {
+
+            @Override
+            protected String provideTitle() {
+              return TEXTS.get("Questions");
+            }
+
+            @Override
+            protected ITable provideTable() {
+              return getTable();
             }
           }
         }

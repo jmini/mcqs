@@ -30,6 +30,7 @@
    </vm>
 
    <plugins>
+      <plugin id="com.bsiag.org.docx4j"/>
       <plugin id="com.bsiag.scout.rt.ui.swing.laf.rayo.fragment" fragment="true"/>
       <plugin id="com.bsiag.scout.rt.ui.swing.rayo"/>
       <plugin id="com.ibm.icu"/>
@@ -47,6 +48,9 @@
       <plugin id="org.apache.batik.util.gui"/>
       <plugin id="org.apache.batik.xml"/>
       <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.commons.io"/>
+      <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.xmlgraphics"/>
       <plugin id="org.eclipse.birt.chart.device.extension"/>
       <plugin id="org.eclipse.birt.chart.device.svg"/>
       <plugin id="org.eclipse.birt.chart.engine"/>
@@ -68,8 +72,11 @@
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.scout.commons"/>
+      <plugin id="org.eclipse.scout.commons.log4j.bridge.fragment"/>
+      <plugin id="org.eclipse.scout.docx4j"/>
       <plugin id="org.eclipse.scout.net"/>
       <plugin id="org.eclipse.scout.rt.client"/>
+      <plugin id="org.eclipse.scout.rt.docx4j.client"/>
       <plugin id="org.eclipse.scout.rt.extension.client"/>
       <plugin id="org.eclipse.scout.rt.shared"/>
       <plugin id="org.eclipse.scout.rt.ui.swing"/>

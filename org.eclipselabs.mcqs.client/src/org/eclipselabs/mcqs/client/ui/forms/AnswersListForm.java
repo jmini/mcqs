@@ -26,6 +26,7 @@ import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.basic.table.AbstractTable;
+import org.eclipse.scout.rt.client.ui.basic.table.ITable;
 import org.eclipse.scout.rt.client.ui.basic.table.ITableRow;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractDoubleColumn;
 import org.eclipse.scout.rt.client.ui.basic.table.columns.AbstractLongColumn;
@@ -57,6 +58,7 @@ import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.AnswersTabsB
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.ContentBox.QuestionNrField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.ContentBox.QuestionTextField;
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.OkButton;
+import org.eclipselabs.mcqs.client.ui.templates.AbstractExportToExcelMenu;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
 import org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
@@ -131,9 +133,9 @@ public class AnswersListForm extends AbstractForm {
   private void handleMultiple() {
     boolean isMulipleChoices = isMultipleChoices();
 
-    getStatisticsField().getTable().getResultColumn().setVisible(!isMulipleChoices);
-    getStatisticsField().getTable().getResultYesColumn().setVisible(isMulipleChoices);
-    getStatisticsField().getTable().getResultNoColumn().setVisible(isMulipleChoices);
+    getStatisticsField().getTable().getResultColumn().setDisplayable(!isMulipleChoices);
+    getStatisticsField().getTable().getResultYesColumn().setDisplayable(isMulipleChoices);
+    getStatisticsField().getTable().getResultNoColumn().setDisplayable(isMulipleChoices);
   }
 
   private void reloadGraph(AnswersListFormData formData) throws ProcessingException {
@@ -372,6 +374,20 @@ public class AnswersListForm extends AbstractForm {
                 return true;
               }
             }
+
+            @Order(10.0)
+            public class ExportToExcelMenu extends AbstractExportToExcelMenu {
+
+              @Override
+              protected String provideTitle() {
+                return TEXTS.get("Statistics");
+              }
+
+              @Override
+              protected ITable provideTable() {
+                return getTable();
+              }
+            }
           }
         }
       }
@@ -533,6 +549,20 @@ public class AnswersListForm extends AbstractForm {
                   deleteRow(r);
                   reloadStatistics();
                 }
+              }
+            }
+
+            @Order(10.0)
+            public class ExportToExcelMenu extends AbstractExportToExcelMenu {
+
+              @Override
+              protected String provideTitle() {
+                return TEXTS.get("Answers");
+              }
+
+              @Override
+              protected ITable provideTable() {
+                return getTable();
               }
             }
           }

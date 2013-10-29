@@ -5,11 +5,13 @@ Bundle-SymbolicName: org.eclipselabs.mcqs.shared;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.eclipselabs.mcqs.shared.Activator
 Export-Package: org.eclipselabs.mcqs.shared,
- org.eclipselabs.mcqs.shared.services.common.text,
  org.eclipselabs.mcqs.shared.security,
+ org.eclipselabs.mcqs.shared.services.common.text,
  org.eclipselabs.mcqs.shared.services.lookup,
  org.eclipselabs.mcqs.shared.services.process
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.scout.rt.shared;visibility:=reexport
+ org.eclipse.scout.rt.shared;visibility:=reexport,
+ com.bsiag.org.docx4j,
+ org.eclipse.scout.docx4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
