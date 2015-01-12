@@ -34,8 +34,8 @@ public class QuestionsListProcessService extends AbstractService implements IQue
 
     SQL.selectInto(" select question_id, question_text " +
         " from  questions " +
-        " into :QuestionNr, :Question",
-        formData.getQuestions());
+        " into :{questions.QuestionNr}, :{questions.Question}",
+        formData);
     return formData;
   }
 }

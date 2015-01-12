@@ -78,7 +78,7 @@ public class QuestionProcessService extends AbstractService implements IQuestion
     SQL.selectInto(" select choice_id, choice_text " +
         " from  choices " +
         " where question_id = :questionNr " +
-        " into  :choiceNr, :choiceText", formData.getChoices(), formData);
+        " into  :{choices.choiceNr}, :{choices.choiceText}", formData);
 
     return formData;
   }

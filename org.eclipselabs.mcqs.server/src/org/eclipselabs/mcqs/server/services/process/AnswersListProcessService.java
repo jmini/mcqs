@@ -45,7 +45,7 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
     SQL.selectInto(" select answer_id, name " +
         " from  answers " +
         " where question_id = :questionNr " +
-        " into  :answerNr, :name", formData.getAnswers(), formData);
+        " into  :{answers.answerNr}, :{answers.name}", formData);
 
     formData = loadStatistics(formData);
     return formData;
@@ -64,9 +64,9 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
     SQL.selectInto("  select c.choice_text, (select count(*) from answers_choices ac where ac.choice_id = c.choice_id) " +
         "  from  choices c " +
         "  where c.question_id = :questionNr " +
-        "  into  :choice, :result " +
+        "  into  :{statistics.choice}, :{statistics.result} " +
         "  order by choice_id",
-        formData.getStatistics(), formData);
+        formData);
 
     double nbAnswers = formData.getAnswers().getRowCount();
     if (nbAnswers > 0) {
