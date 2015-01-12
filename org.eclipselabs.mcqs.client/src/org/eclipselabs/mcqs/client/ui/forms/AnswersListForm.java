@@ -150,11 +150,15 @@ public class AnswersListForm extends AbstractForm {
       else {
         result = formData.getStatistics().getResult(j);
       }
-      values.add(new BarGraph(j, formData.getStatistics().getChoice(j), result));
+      if (result != null) {
+        values.add(new BarGraph(j, formData.getStatistics().getChoice(j), result.doubleValue()));
+      }
     }
-    byte[] content = BirtBarGraphGenerator.generate(values, isMultipleChoices());
-    InputStream in = new ByteArrayInputStream(content);
-    getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
+    if (values.size() > 0) {
+      byte[] content = BirtBarGraphGenerator.generate(values, isMultipleChoices());
+      InputStream in = new ByteArrayInputStream(content);
+      getGraphField().setSvgDocument(SVGUtility.readSVGDocument(in));
+    }
   }
 
   private void reloadStatistics() throws ProcessingException {
