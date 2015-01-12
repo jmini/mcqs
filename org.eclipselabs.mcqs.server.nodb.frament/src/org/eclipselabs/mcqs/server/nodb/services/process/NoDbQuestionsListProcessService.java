@@ -15,22 +15,29 @@
  ******************************************************************************/
 package org.eclipselabs.mcqs.server.nodb.services.process;
 
+import java.util.Collection;
+
 import org.eclipse.scout.commons.annotations.Priority;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.service.AbstractService;
 import org.eclipselabs.mcqs.server.nodb.DataStore;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService;
+import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
+import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData.Questions;
 
 @Priority(100)
 public class NoDbQuestionsListProcessService extends AbstractService implements IQuestionsListProcessService {
 
   @Override
   public QuestionsListFormData load(QuestionsListFormData formData) throws ProcessingException {
-    Object[][] questions = DataStore.getInstance().getQuestions();
-    formData.getQuestions().clearRows();
-    for (Object[] question : questions) {
-      formData.getQuestions().addRow(question);
+    Collection<QuestionFormData> questions = DataStore.getInstance().getQuestions();
+    Questions questionsTable = formData.getQuestions();
+    questionsTable.clearRows();
+    for (QuestionFormData question : questions) {
+      int r = questionsTable.addRow();
+      questionsTable.setQuestionNr(r, question.getQuestionNr());
+      questionsTable.setQuestion(r, question.getQuestionText().getValue());
     }
     return formData;
   }

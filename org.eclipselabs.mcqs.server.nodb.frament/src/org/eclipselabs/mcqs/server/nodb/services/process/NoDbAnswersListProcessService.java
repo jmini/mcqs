@@ -26,6 +26,7 @@ import org.eclipse.scout.service.AbstractService;
 import org.eclipselabs.mcqs.server.nodb.DataStore;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
+import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData.Answers;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData.Statistics;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
@@ -45,10 +46,13 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     QuestionFormData question = dataStore.updateQuestionText(formData);
 
     //load answers list:
-    formData.getAnswers().clearRows();
+    Answers answersTable = formData.getAnswers();
+    answersTable.clearRows();
     Collection<AnswerFormData> answers = dataStore.getAnswersOfQuestion(questionNr);
     for (AnswerFormData answer : answers) {
-      formData.getAnswers().addRow(new Object[]{answer.getAnswerNr(), answer.getYourName().getValue()});
+      int r = answersTable.addRow();
+      answersTable.setAnswerNr(r, answer.getAnswerNr());
+      answersTable.setName(r, answer.getYourName().getValue());
     }
 
     //load statistics list:
@@ -107,14 +111,14 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     Statistics statistics = formData.getStatistics();
     statistics.clearRows();
     for (P_Choice choice : choicesMap.values()) {
-      int i = statistics.addRow();
-      statistics.setChoice(i, choice.getChoiceText());
+      int r = statistics.addRow();
+      statistics.setChoice(r, choice.getChoiceText());
       if (BooleanUtility.nvl(question.getMultipleChoices().getValue())) {
-        statistics.setResultYes(i, choice.getResult());
-        statistics.setResultNo(i, 1 - choice.getResult());
+        statistics.setResultYes(r, choice.getResult());
+        statistics.setResultNo(r, 1 - choice.getResult());
       }
       else {
-        statistics.setResult(i, choice.getResult());
+        statistics.setResult(r, choice.getResult());
       }
     }
   }

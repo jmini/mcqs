@@ -17,7 +17,6 @@ package org.eclipselabs.mcqs.server.nodb;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -147,9 +146,9 @@ public final class DataStore {
 
   private static void addChoice(QuestionFormData formData, Integer choiceNr, String choiceText) {
     Choices tableData = formData.getChoices();
-    int row = tableData.addRow();
-    tableData.setChoiceNr(row, choiceNr);
-    tableData.setChoiceText(row, choiceText);
+    int r = tableData.addRow();
+    tableData.setChoiceNr(r, choiceNr);
+    tableData.setChoiceText(r, choiceText);
   }
 
   private AnswerFormData creatateAnswer1(int... choices) {
@@ -188,14 +187,8 @@ public final class DataStore {
     return INSTANCE;
   }
 
-  public Object[][] getQuestions() {
-    List<Object[]> data = new ArrayList<Object[]>();
-
-    for (QuestionFormData q : m_questions.values()) {
-      data.add(new Object[]{q.getQuestionNr(),
-          q.getQuestionText().getValue()});
-    }
-    return data.toArray(new Object[data.size()][]);
+  public Collection<QuestionFormData> getQuestions() {
+    return m_questions.values();
   }
 
   public void storeQuestion(QuestionFormData formData) {
