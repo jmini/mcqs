@@ -13,7 +13,7 @@
       <vmArgs>-Xms32m
 -Xmx512m
 -XX:MaxPermSize=256m
-</vmArgs>
+      </vmArgs>
    </launcherArgs>
 
    <windowImages/>
@@ -31,6 +31,7 @@
    <plugins>
       <plugin id="com.bsiag.org.docx4j"/>
       <plugin id="com.ibm.icu"/>
+      <plugin id="javax.servlet"/>
       <plugin id="javax.xml"/>
       <plugin id="org.apache.batik.bridge"/>
       <plugin id="org.apache.batik.css"/>
@@ -86,7 +87,7 @@
       <plugin id="org.eclipse.rap.ui.forms"/>
       <plugin id="org.eclipse.rap.ui.workbench"/>
       <plugin id="org.eclipse.scout.commons"/>
-      <plugin id="org.eclipse.scout.commons.log4j.bridge.fragment"/>
+      <plugin id="org.eclipse.scout.commons.log4j.bridge.fragment" fragment="true"/>
       <plugin id="org.eclipse.scout.docx4j"/>
       <plugin id="org.eclipse.scout.http.servletfilter"/>
       <plugin id="org.eclipse.scout.net"/>
@@ -94,6 +95,8 @@
       <plugin id="org.eclipse.scout.rt.client.mobile"/>
       <plugin id="org.eclipse.scout.rt.docx4j.client"/>
       <plugin id="org.eclipse.scout.rt.extension.client"/>
+      <plugin id="org.eclipse.scout.rt.server.commons"/>
+      <plugin id="org.eclipse.scout.rt.servicetunnel"/>
       <plugin id="org.eclipse.scout.rt.shared"/>
       <plugin id="org.eclipse.scout.rt.ui.rap"/>
       <plugin id="org.eclipse.scout.rt.ui.rap.mobile"/>
@@ -110,6 +113,7 @@
       <plugin id="org.eclipselabs.mcqs.ui.rap"/>
       <plugin id="org.mozilla.javascript"/>
       <plugin id="org.w3c.css.sac"/>
+      <plugin id="org.w3c.dom.events"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
    </plugins>

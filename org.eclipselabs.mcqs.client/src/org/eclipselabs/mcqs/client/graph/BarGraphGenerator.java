@@ -101,7 +101,7 @@ public final class BarGraphGenerator {
           "blanchedalmond",
           "khaki",
           //                    "thistle",
-          "mintcream"};
+      "mintcream"};
       //      String color = COLORS[i % COLORS.length];
       String color = cs[i % cs.length];
       cnt.add("    <rect height=\"20\" y=\"" + y + "\" x=\"" + x + "\" width=\"" + width + "\" id=\"e" + i + "\" style=\"stroke:rgb(0,0,0);stroke-width:1px;fill:" + color + ";\"/>");

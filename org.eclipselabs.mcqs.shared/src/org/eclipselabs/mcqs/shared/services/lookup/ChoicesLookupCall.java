@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011 Jeremie Bresson
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,12 +18,12 @@ package org.eclipselabs.mcqs.shared.services.lookup;
 import org.eclipse.scout.rt.shared.services.lookup.ILookupService;
 import org.eclipse.scout.rt.shared.services.lookup.LookupCall;
 
-public class ChoicesLookupCall extends LookupCall {
+public class ChoicesLookupCall extends LookupCall<Long> {
 
   private static final long serialVersionUID = 1L;
 
   @Override
-  protected Class<? extends ILookupService> getConfiguredService() {
+  protected Class<? extends ILookupService<Long>> getConfiguredService() {
     return IChoicesLookupService.class;
   }
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011 Jeremie Bresson
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.commons.logger.IScoutLogger;
 import org.eclipse.scout.commons.logger.ScoutLogManager;
-import org.eclipse.scout.rt.client.ClientSyncJob;
+import org.eclipse.scout.rt.client.ClientJob;
 import org.eclipse.scout.rt.client.ui.action.menu.AbstractMenu;
 import org.eclipse.scout.rt.client.ui.desktop.IDesktop;
 import org.eclipse.scout.rt.client.ui.form.ScoutInfoForm;
@@ -94,7 +94,7 @@ public class Desktop extends AbstractExtensibleDesktop implements IDesktop {
 
       @Override
       public void execAction() throws ProcessingException {
-        ClientSyncJob.getCurrentSession(ClientSession.class).stopSession();
+        ClientJob.getCurrentSession(ClientSession.class).stopSession();
       }
     }
   }

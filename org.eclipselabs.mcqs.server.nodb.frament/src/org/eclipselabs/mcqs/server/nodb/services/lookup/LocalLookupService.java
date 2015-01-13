@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2011 Jeremie Bresson
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,17 +25,17 @@ import org.eclipse.scout.commons.annotations.ConfigOperation;
 import org.eclipse.scout.commons.annotations.Order;
 import org.eclipse.scout.commons.exception.ProcessingException;
 import org.eclipse.scout.rt.server.services.lookup.AbstractLookupService;
+import org.eclipse.scout.rt.shared.services.lookup.ILookupCall;
+import org.eclipse.scout.rt.shared.services.lookup.ILookupRow;
 import org.eclipse.scout.rt.shared.services.lookup.ILookupService;
-import org.eclipse.scout.rt.shared.services.lookup.LookupCall;
-import org.eclipse.scout.rt.shared.services.lookup.LookupRow;
 
 //TODO: remove this class and use the Eclipse Scout LocalLookupService class when it is available.
 //SEE: https://bugs.eclipse.org/bugs/show_bug.cgi?id=369024
-public class LocalLookupService extends AbstractLookupService implements ILookupService {
+public class LocalLookupService<T> extends AbstractLookupService<T> implements ILookupService<T> {
 
   @ConfigOperation
   @Order(30)
-  protected List<LookupRow> execCreateLookupRows(LookupCall call) throws ProcessingException {
+  protected List<ILookupRow<T>> execCreateLookupRows(ILookupCall<T> call) throws ProcessingException {
     return Collections.emptyList();
   }
 
@@ -52,55 +52,55 @@ public class LocalLookupService extends AbstractLookupService implements ILookup
    * Complete override using local data
    */
   @Override
-  public LookupRow[] getDataByKey(LookupCall call) throws ProcessingException {
-    ArrayList<LookupRow> list = new ArrayList<LookupRow>();
+  public List<? extends ILookupRow<T>> getDataByKey(ILookupCall<T> call) throws ProcessingException {
+    ArrayList<ILookupRow<T>> list = new ArrayList<ILookupRow<T>>();
     Object key = call.getKey();
     if (key != null) {
-      for (LookupRow row : execCreateLookupRows(call)) {
+      for (ILookupRow<T> row : execCreateLookupRows(call)) {
         if (key.equals(row.getKey())) {
           list.add(row);
         }
       }
     }
-    return list.toArray(new LookupRow[0]);
+    return list;
   }
 
   /**
    * Complete override using local data
    */
   @Override
-  public LookupRow[] getDataByText(LookupCall call) throws ProcessingException {
-    ArrayList<LookupRow> list = new ArrayList<LookupRow>();
+  public List<? extends ILookupRow<T>> getDataByText(ILookupCall<T> call) throws ProcessingException {
+    ArrayList<ILookupRow<T>> list = new ArrayList<ILookupRow<T>>();
     Pattern p = createLowerCaseSearchPattern(call.getText());
-    for (LookupRow row : execCreateLookupRows(call)) {
+    for (ILookupRow<T> row : execCreateLookupRows(call)) {
       if (row.getText() != null && p.matcher(row.getText().toLowerCase()).matches()) {
         list.add(row);
       }
     }
-    return list.toArray(new LookupRow[0]);
+    return list;
   }
 
   /**
    * Complete override using local data
    */
   @Override
-  public LookupRow[] getDataByAll(LookupCall call) throws ProcessingException {
-    ArrayList<LookupRow> list = new ArrayList<LookupRow>();
+  public List<? extends ILookupRow<T>> getDataByAll(ILookupCall<T> call) throws ProcessingException {
+    ArrayList<ILookupRow<T>> list = new ArrayList<ILookupRow<T>>();
     Pattern p = createLowerCaseSearchPattern(call.getAll());
-    for (LookupRow row : execCreateLookupRows(call)) {
+    for (ILookupRow<T> row : execCreateLookupRows(call)) {
       if (row.getText() != null && p.matcher(row.getText().toLowerCase()).matches()) {
         list.add(row);
       }
     }
-    return list.toArray(new LookupRow[0]);
+    return list;
   }
 
   /**
    * Complete override using local data
    */
   @Override
-  public LookupRow[] getDataByRec(LookupCall call) throws ProcessingException {
-    ArrayList<LookupRow> list = new ArrayList<LookupRow>();
-    return list.toArray(new LookupRow[0]);
+  public List<? extends ILookupRow<T>> getDataByRec(ILookupCall<T> call) throws ProcessingException {
+    ArrayList<ILookupRow<T>> list = new ArrayList<ILookupRow<T>>();
+    return list;
   }
 }

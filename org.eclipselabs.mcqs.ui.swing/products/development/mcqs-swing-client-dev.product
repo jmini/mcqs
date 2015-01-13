@@ -11,10 +11,12 @@
 
    <launcherArgs>
       <programArgsMac>--launcher.secondThread
--nosplash</programArgsMac>
+-nosplash
+      </programArgsMac>
       <vmArgs>-Xms64m
 -Xmx512m
--XX:MaxPermSize=256m</vmArgs>
+-XX:MaxPermSize=256m
+      </vmArgs>
    </launcherArgs>
 
    <windowImages/>
@@ -72,12 +74,13 @@
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.scout.commons"/>
-      <plugin id="org.eclipse.scout.commons.log4j.bridge.fragment"/>
+      <plugin id="org.eclipse.scout.commons.log4j.bridge.fragment" fragment="true"/>
       <plugin id="org.eclipse.scout.docx4j"/>
       <plugin id="org.eclipse.scout.net"/>
       <plugin id="org.eclipse.scout.rt.client"/>
       <plugin id="org.eclipse.scout.rt.docx4j.client"/>
       <plugin id="org.eclipse.scout.rt.extension.client"/>
+      <plugin id="org.eclipse.scout.rt.servicetunnel"/>
       <plugin id="org.eclipse.scout.rt.shared"/>
       <plugin id="org.eclipse.scout.rt.ui.swing"/>
       <plugin id="org.eclipse.scout.service"/>
@@ -91,6 +94,7 @@
       <plugin id="org.eclipselabs.mcqs.ui.swing"/>
       <plugin id="org.mozilla.javascript"/>
       <plugin id="org.w3c.css.sac"/>
+      <plugin id="org.w3c.dom.events"/>
       <plugin id="org.w3c.dom.smil"/>
       <plugin id="org.w3c.dom.svg"/>
    </plugins>

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2012 Jeremie Bresson
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,10 @@
 package org.eclipselabs.mcqs.server.nodb.services.process;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.scout.commons.BooleanUtility;
 import org.eclipse.scout.commons.annotations.Priority;
@@ -86,12 +88,12 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     }
 
     for (AnswerFormData answer : answers) {
-      Long[] answerChoices;
+      Set<Long> answerChoices;
       if (BooleanUtility.nvl(answer.getMultipleChoices())) {
         answerChoices = answer.getChoices().getValue();
       }
       else {
-        answerChoices = new Long[]{answer.getChoice().getValue()};
+        answerChoices = Collections.singleton(answer.getChoice().getValue());
       }
       for (Long answerChoice : answerChoices) {
         Integer answerChoiceKey = Integer.valueOf(answerChoice.intValue());
