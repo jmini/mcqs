@@ -17,8 +17,9 @@ package org.eclipselabs.mcqs.shared.services.process;
 
 import javax.annotation.Generated;
 
+import org.eclipse.scout.rt.shared.data.basic.table.AbstractTableRowData;
 import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
-import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldData;
+import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldBeanData;
 
 /**
  * <b>NOTE:</b><br>
@@ -38,57 +39,86 @@ public class QuestionsListFormData extends AbstractFormData {
     return getFieldByClass(Questions.class);
   }
 
-  public static class Questions extends AbstractTableFieldData {
+  public static class Questions extends AbstractTableFieldBeanData {
 
     private static final long serialVersionUID = 1L;
-    public static final int QUESTION_NR_COLUMN_ID = 0;
-    public static final int QUESTION_COLUMN_ID = 1;
 
     public Questions() {
     }
 
-    public String getQuestion(int row) {
-      return (String) getValueInternal(row, QUESTION_COLUMN_ID);
-    }
-
-    public void setQuestion(int row, String question) {
-      setValueInternal(row, QUESTION_COLUMN_ID, question);
-    }
-
-    public Integer getQuestionNr(int row) {
-      return (Integer) getValueInternal(row, QUESTION_NR_COLUMN_ID);
-    }
-
-    public void setQuestionNr(int row, Integer questionNr) {
-      setValueInternal(row, QUESTION_NR_COLUMN_ID, questionNr);
+    @Override
+    public QuestionsRowData addRow() {
+      return (QuestionsRowData) super.addRow();
     }
 
     @Override
-    public int getColumnCount() {
-      return 2;
+    public QuestionsRowData addRow(int rowState) {
+      return (QuestionsRowData) super.addRow(rowState);
     }
 
     @Override
-    public Object getValueAt(int row, int column) {
-      switch (column) {
-        case QUESTION_NR_COLUMN_ID:
-          return getQuestionNr(row);
-        case QUESTION_COLUMN_ID:
-          return getQuestion(row);
-        default:
-          return null;
+    public QuestionsRowData createRow() {
+      return new QuestionsRowData();
+    }
+
+    @Override
+    public Class<? extends AbstractTableRowData> getRowType() {
+      return QuestionsRowData.class;
+    }
+
+    @Override
+    public QuestionsRowData[] getRows() {
+      return (QuestionsRowData[]) super.getRows();
+    }
+
+    @Override
+    public QuestionsRowData rowAt(int index) {
+      return (QuestionsRowData) super.rowAt(index);
+    }
+
+    public void setRows(QuestionsRowData[] rows) {
+      super.setRows(rows);
+    }
+
+    public static class QuestionsRowData extends AbstractTableRowData {
+
+      private static final long serialVersionUID = 1L;
+      public static final String questionNr = "questionNr";
+      public static final String question = "question";
+      private Integer m_questionNr;
+      private String m_question;
+
+      public QuestionsRowData() {
       }
-    }
 
-    @Override
-    public void setValueAt(int row, int column, Object value) {
-      switch (column) {
-        case QUESTION_NR_COLUMN_ID:
-          setQuestionNr(row, (Integer) value);
-          break;
-        case QUESTION_COLUMN_ID:
-          setQuestion(row, (String) value);
-          break;
+      /**
+       * @return the QuestionNr
+       */
+      public Integer getQuestionNr() {
+        return m_questionNr;
+      }
+
+      /**
+       * @param questionNr
+       *          the QuestionNr to set
+       */
+      public void setQuestionNr(Integer questionNr) {
+        m_questionNr = questionNr;
+      }
+
+      /**
+       * @return the Question
+       */
+      public String getQuestion() {
+        return m_question;
+      }
+
+      /**
+       * @param question
+       *          the Question to set
+       */
+      public void setQuestion(String question) {
+        m_question = question;
       }
     }
   }

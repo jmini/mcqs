@@ -29,6 +29,7 @@ import org.eclipselabs.mcqs.shared.security.ReadQuestionPermission;
 import org.eclipselabs.mcqs.shared.security.UpdateQuestionPermission;
 import org.eclipselabs.mcqs.shared.services.process.IQuestionProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
+import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices.ChoicesRowData;
 
 public class QuestionProcessService extends AbstractService implements IQuestionProcessService {
 
@@ -107,23 +108,23 @@ public class QuestionProcessService extends AbstractService implements IQuestion
    * @throws ProcessingException
    */
   private void storeQuestionChoices(QuestionFormData formData) throws ProcessingException {
-    for (int i = 0; i < formData.getChoices().getRowCount(); i++) {
-      switch (formData.getChoices().getRowState(i)) {
+    for (ChoicesRowData row : formData.getChoices().getRows()) {
+      switch (row.getRowState()) {
         case ITableHolder.STATUS_INSERTED:
           SQL.insert(" insert into choices (choice_text, question_id) " +
-              " values (:ChoiceText, :QuestionNr) ", formData, new NVPair("ChoiceText", formData.getChoices().getChoiceText(i)));
+              " values (:ChoiceText, :QuestionNr) ", formData, new NVPair("ChoiceText", row.getChoiceText()));
           break;
         case ITableHolder.STATUS_DELETED:
-          SQL.delete("delete from answers_choices where choice_id = :ChoiceId", new NVPair("ChoiceId", formData.getChoices().getChoiceNr(i)));
+          SQL.delete("delete from answers_choices where choice_id = :ChoiceId", new NVPair("ChoiceId", row.getChoiceNr()));
           SQL.delete(" delete from choices " +
-              " where choice_id = :ChoiceId ", new NVPair("ChoiceId", formData.getChoices().getChoiceNr(i)));
+              " where choice_id = :ChoiceId ", new NVPair("ChoiceId", row.getChoiceNr()));
           break;
         case ITableHolder.STATUS_UPDATED:
           SQL.update(" update choices " +
               " set choice_text = :ChoiceText " +
               " where choice_id = :ChoiceId ",
-              new NVPair("ChoiceText", formData.getChoices().getChoiceText(i)),
-              new NVPair("ChoiceId", formData.getChoices().getChoiceNr(i)));
+              new NVPair("ChoiceText", row.getChoiceText()),
+              new NVPair("ChoiceId", row.getChoiceNr()));
           break;
         default:
           break;

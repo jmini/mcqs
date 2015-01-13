@@ -19,10 +19,11 @@ import java.util.Map;
 
 import javax.annotation.Generated;
 
+import org.eclipse.scout.rt.shared.data.basic.table.AbstractTableRowData;
 import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
 import org.eclipse.scout.rt.shared.data.form.ValidationRule;
 import org.eclipse.scout.rt.shared.data.form.fields.AbstractValueFieldData;
-import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldData;
+import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldBeanData;
 import org.eclipse.scout.rt.shared.data.form.properties.AbstractPropertyData;
 
 /**
@@ -73,57 +74,86 @@ public class AnswersListFormData extends AbstractFormData {
     return getFieldByClass(Statistics.class);
   }
 
-  public static class Answers extends AbstractTableFieldData {
+  public static class Answers extends AbstractTableFieldBeanData {
 
     private static final long serialVersionUID = 1L;
-    public static final int ANSWER_NR_COLUMN_ID = 0;
-    public static final int NAME_COLUMN_ID = 1;
 
     public Answers() {
     }
 
-    public Long getAnswerNr(int row) {
-      return (Long) getValueInternal(row, ANSWER_NR_COLUMN_ID);
-    }
-
-    public void setAnswerNr(int row, Long answerNr) {
-      setValueInternal(row, ANSWER_NR_COLUMN_ID, answerNr);
-    }
-
-    public String getName(int row) {
-      return (String) getValueInternal(row, NAME_COLUMN_ID);
-    }
-
-    public void setName(int row, String name) {
-      setValueInternal(row, NAME_COLUMN_ID, name);
+    @Override
+    public AnswersRowData addRow() {
+      return (AnswersRowData) super.addRow();
     }
 
     @Override
-    public int getColumnCount() {
-      return 2;
+    public AnswersRowData addRow(int rowState) {
+      return (AnswersRowData) super.addRow(rowState);
     }
 
     @Override
-    public Object getValueAt(int row, int column) {
-      switch (column) {
-        case ANSWER_NR_COLUMN_ID:
-          return getAnswerNr(row);
-        case NAME_COLUMN_ID:
-          return getName(row);
-        default:
-          return null;
+    public AnswersRowData createRow() {
+      return new AnswersRowData();
+    }
+
+    @Override
+    public Class<? extends AbstractTableRowData> getRowType() {
+      return AnswersRowData.class;
+    }
+
+    @Override
+    public AnswersRowData[] getRows() {
+      return (AnswersRowData[]) super.getRows();
+    }
+
+    @Override
+    public AnswersRowData rowAt(int index) {
+      return (AnswersRowData) super.rowAt(index);
+    }
+
+    public void setRows(AnswersRowData[] rows) {
+      super.setRows(rows);
+    }
+
+    public static class AnswersRowData extends AbstractTableRowData {
+
+      private static final long serialVersionUID = 1L;
+      public static final String answerNr = "answerNr";
+      public static final String name = "name";
+      private Long m_answerNr;
+      private String m_name;
+
+      public AnswersRowData() {
       }
-    }
 
-    @Override
-    public void setValueAt(int row, int column, Object value) {
-      switch (column) {
-        case ANSWER_NR_COLUMN_ID:
-          setAnswerNr(row, (Long) value);
-          break;
-        case NAME_COLUMN_ID:
-          setName(row, (String) value);
-          break;
+      /**
+       * @return the AnswerNr
+       */
+      public Long getAnswerNr() {
+        return m_answerNr;
+      }
+
+      /**
+       * @param answerNr
+       *          the AnswerNr to set
+       */
+      public void setAnswerNr(Long answerNr) {
+        m_answerNr = answerNr;
+      }
+
+      /**
+       * @return the Name
+       */
+      public String getName() {
+        return m_name;
+      }
+
+      /**
+       * @param name
+       *          the Name to set
+       */
+      public void setName(String name) {
+        m_name = name;
       }
     }
   }
@@ -171,85 +201,120 @@ public class AnswersListFormData extends AbstractFormData {
     }
   }
 
-  public static class Statistics extends AbstractTableFieldData {
+  public static class Statistics extends AbstractTableFieldBeanData {
 
     private static final long serialVersionUID = 1L;
-    public static final int CHOICE_COLUMN_ID = 0;
-    public static final int RESULT_COLUMN_ID = 1;
-    public static final int RESULT_YES_COLUMN_ID = 2;
-    public static final int RESULT_NO_COLUMN_ID = 3;
 
     public Statistics() {
     }
 
-    public String getChoice(int row) {
-      return (String) getValueInternal(row, CHOICE_COLUMN_ID);
-    }
-
-    public void setChoice(int row, String choice) {
-      setValueInternal(row, CHOICE_COLUMN_ID, choice);
-    }
-
-    public Double getResult(int row) {
-      return (Double) getValueInternal(row, RESULT_COLUMN_ID);
-    }
-
-    public void setResult(int row, Double result) {
-      setValueInternal(row, RESULT_COLUMN_ID, result);
-    }
-
-    public Double getResultNo(int row) {
-      return (Double) getValueInternal(row, RESULT_NO_COLUMN_ID);
-    }
-
-    public void setResultNo(int row, Double resultNo) {
-      setValueInternal(row, RESULT_NO_COLUMN_ID, resultNo);
-    }
-
-    public Double getResultYes(int row) {
-      return (Double) getValueInternal(row, RESULT_YES_COLUMN_ID);
-    }
-
-    public void setResultYes(int row, Double resultYes) {
-      setValueInternal(row, RESULT_YES_COLUMN_ID, resultYes);
+    @Override
+    public StatisticsRowData addRow() {
+      return (StatisticsRowData) super.addRow();
     }
 
     @Override
-    public int getColumnCount() {
-      return 4;
+    public StatisticsRowData addRow(int rowState) {
+      return (StatisticsRowData) super.addRow(rowState);
     }
 
     @Override
-    public Object getValueAt(int row, int column) {
-      switch (column) {
-        case CHOICE_COLUMN_ID:
-          return getChoice(row);
-        case RESULT_COLUMN_ID:
-          return getResult(row);
-        case RESULT_YES_COLUMN_ID:
-          return getResultYes(row);
-        case RESULT_NO_COLUMN_ID:
-          return getResultNo(row);
-        default:
-          return null;
+    public StatisticsRowData createRow() {
+      return new StatisticsRowData();
+    }
+
+    @Override
+    public Class<? extends AbstractTableRowData> getRowType() {
+      return StatisticsRowData.class;
+    }
+
+    @Override
+    public StatisticsRowData[] getRows() {
+      return (StatisticsRowData[]) super.getRows();
+    }
+
+    @Override
+    public StatisticsRowData rowAt(int index) {
+      return (StatisticsRowData) super.rowAt(index);
+    }
+
+    public void setRows(StatisticsRowData[] rows) {
+      super.setRows(rows);
+    }
+
+    public static class StatisticsRowData extends AbstractTableRowData {
+
+      private static final long serialVersionUID = 1L;
+      public static final String choice = "choice";
+      public static final String result = "result";
+      public static final String resultYes = "resultYes";
+      public static final String resultNo = "resultNo";
+      private String m_choice;
+      private Double m_result;
+      private Double m_resultYes;
+      private Double m_resultNo;
+
+      public StatisticsRowData() {
       }
-    }
 
-    @Override
-    public void setValueAt(int row, int column, Object value) {
-      switch (column) {
-        case CHOICE_COLUMN_ID:
-          setChoice(row, (String) value);
-          break;
-        case RESULT_COLUMN_ID:
-          setResult(row, (Double) value);
-          break;
-        case RESULT_YES_COLUMN_ID:
-          setResultYes(row, (Double) value);
-          break;
-        case RESULT_NO_COLUMN_ID:
-          setResultNo(row, (Double) value);
-          break;
+      /**
+       * @return the Choice
+       */
+      public String getChoice() {
+        return m_choice;
+      }
+
+      /**
+       * @param choice
+       *          the Choice to set
+       */
+      public void setChoice(String choice) {
+        m_choice = choice;
+      }
+
+      /**
+       * @return the Result
+       */
+      public Double getResult() {
+        return m_result;
+      }
+
+      /**
+       * @param result
+       *          the Result to set
+       */
+      public void setResult(Double result) {
+        m_result = result;
+      }
+
+      /**
+       * @return the ResultYes
+       */
+      public Double getResultYes() {
+        return m_resultYes;
+      }
+
+      /**
+       * @param resultYes
+       *          the ResultYes to set
+       */
+      public void setResultYes(Double resultYes) {
+        m_resultYes = resultYes;
+      }
+
+      /**
+       * @return the ResultNo
+       */
+      public Double getResultNo() {
+        return m_resultNo;
+      }
+
+      /**
+       * @param resultNo
+       *          the ResultNo to set
+       */
+      public void setResultNo(Double resultNo) {
+        m_resultNo = resultNo;
       }
     }
   }

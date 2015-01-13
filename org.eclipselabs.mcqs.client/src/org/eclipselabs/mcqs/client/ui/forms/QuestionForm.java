@@ -38,6 +38,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.stringfield.AbstractStringFiel
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.TEXTS;
+import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldBeanData;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.ChoiceForm.MainBox.ContentBox.ChoiceField;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionForm.MainBox.CancelButton;
@@ -134,6 +135,7 @@ public class QuestionForm extends AbstractForm {
       }
 
       @Order(30.0)
+      @FormData(sdkCommand = FormData.SdkCommand.USE, value = AbstractTableFieldBeanData.class, defaultSubtypeSdkCommand = FormData.DefaultSubtypeSdkCommand.CREATE)
       public class ChoicesField extends AbstractTableField<ChoicesField.Table> {
 
         @Override

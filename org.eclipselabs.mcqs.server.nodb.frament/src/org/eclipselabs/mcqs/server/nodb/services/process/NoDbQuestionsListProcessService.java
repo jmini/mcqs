@@ -25,6 +25,7 @@ import org.eclipselabs.mcqs.shared.services.process.IQuestionsListProcessService
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData.Questions;
+import org.eclipselabs.mcqs.shared.services.process.QuestionsListFormData.Questions.QuestionsRowData;
 
 @Priority(100)
 public class NoDbQuestionsListProcessService extends AbstractService implements IQuestionsListProcessService {
@@ -35,9 +36,9 @@ public class NoDbQuestionsListProcessService extends AbstractService implements 
     Questions questionsTable = formData.getQuestions();
     questionsTable.clearRows();
     for (QuestionFormData question : questions) {
-      int r = questionsTable.addRow();
-      questionsTable.setQuestionNr(r, question.getQuestionNr());
-      questionsTable.setQuestion(r, question.getQuestionText().getValue());
+      QuestionsRowData row = questionsTable.addRow();
+      row.setQuestionNr(question.getQuestionNr());
+      row.setQuestion(question.getQuestionText().getValue());
     }
     return formData;
   }

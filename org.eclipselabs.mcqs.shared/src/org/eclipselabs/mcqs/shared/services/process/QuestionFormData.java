@@ -19,10 +19,11 @@ import java.util.Map;
 
 import javax.annotation.Generated;
 
+import org.eclipse.scout.rt.shared.data.basic.table.AbstractTableRowData;
 import org.eclipse.scout.rt.shared.data.form.AbstractFormData;
 import org.eclipse.scout.rt.shared.data.form.ValidationRule;
 import org.eclipse.scout.rt.shared.data.form.fields.AbstractValueFieldData;
-import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldData;
+import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldBeanData;
 import org.eclipse.scout.rt.shared.data.form.properties.AbstractPropertyData;
 
 /**
@@ -69,57 +70,86 @@ public class QuestionFormData extends AbstractFormData {
     return getFieldByClass(QuestionText.class);
   }
 
-  public static class Choices extends AbstractTableFieldData {
+  public static class Choices extends AbstractTableFieldBeanData {
 
     private static final long serialVersionUID = 1L;
-    public static final int CHOICE_NR_COLUMN_ID = 0;
-    public static final int CHOICE_TEXT_COLUMN_ID = 1;
 
     public Choices() {
     }
 
-    public Integer getChoiceNr(int row) {
-      return (Integer) getValueInternal(row, CHOICE_NR_COLUMN_ID);
-    }
-
-    public void setChoiceNr(int row, Integer choiceNr) {
-      setValueInternal(row, CHOICE_NR_COLUMN_ID, choiceNr);
-    }
-
-    public String getChoiceText(int row) {
-      return (String) getValueInternal(row, CHOICE_TEXT_COLUMN_ID);
-    }
-
-    public void setChoiceText(int row, String choiceText) {
-      setValueInternal(row, CHOICE_TEXT_COLUMN_ID, choiceText);
+    @Override
+    public ChoicesRowData addRow() {
+      return (ChoicesRowData) super.addRow();
     }
 
     @Override
-    public int getColumnCount() {
-      return 2;
+    public ChoicesRowData addRow(int rowState) {
+      return (ChoicesRowData) super.addRow(rowState);
     }
 
     @Override
-    public Object getValueAt(int row, int column) {
-      switch (column) {
-        case CHOICE_NR_COLUMN_ID:
-          return getChoiceNr(row);
-        case CHOICE_TEXT_COLUMN_ID:
-          return getChoiceText(row);
-        default:
-          return null;
+    public ChoicesRowData createRow() {
+      return new ChoicesRowData();
+    }
+
+    @Override
+    public Class<? extends AbstractTableRowData> getRowType() {
+      return ChoicesRowData.class;
+    }
+
+    @Override
+    public ChoicesRowData[] getRows() {
+      return (ChoicesRowData[]) super.getRows();
+    }
+
+    @Override
+    public ChoicesRowData rowAt(int index) {
+      return (ChoicesRowData) super.rowAt(index);
+    }
+
+    public void setRows(ChoicesRowData[] rows) {
+      super.setRows(rows);
+    }
+
+    public static class ChoicesRowData extends AbstractTableRowData {
+
+      private static final long serialVersionUID = 1L;
+      public static final String choiceNr = "choiceNr";
+      public static final String choiceText = "choiceText";
+      private Integer m_choiceNr;
+      private String m_choiceText;
+
+      public ChoicesRowData() {
       }
-    }
 
-    @Override
-    public void setValueAt(int row, int column, Object value) {
-      switch (column) {
-        case CHOICE_NR_COLUMN_ID:
-          setChoiceNr(row, (Integer) value);
-          break;
-        case CHOICE_TEXT_COLUMN_ID:
-          setChoiceText(row, (String) value);
-          break;
+      /**
+       * @return the ChoiceNr
+       */
+      public Integer getChoiceNr() {
+        return m_choiceNr;
+      }
+
+      /**
+       * @param choiceNr
+       *          the ChoiceNr to set
+       */
+      public void setChoiceNr(Integer choiceNr) {
+        m_choiceNr = choiceNr;
+      }
+
+      /**
+       * @return the ChoiceText
+       */
+      public String getChoiceText() {
+        return m_choiceText;
+      }
+
+      /**
+       * @param choiceText
+       *          the ChoiceText to set
+       */
+      public void setChoiceText(String choiceText) {
+        m_choiceText = choiceText;
       }
     }
   }

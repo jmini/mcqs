@@ -28,6 +28,7 @@ import org.eclipselabs.mcqs.server.nodb.DataStore;
 import org.eclipselabs.mcqs.shared.services.lookup.IChoicesLookupService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices;
+import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices.ChoicesRowData;
 
 @Priority(100)
 public class NoDbChoicesLookupService extends LocalLookupService<Long> implements IChoicesLookupService {
@@ -43,10 +44,10 @@ public class NoDbChoicesLookupService extends LocalLookupService<Long> implement
       if (q != null) {
         List<ILookupRow<Long>> list = new ArrayList<ILookupRow<Long>>();
         Choices choices = q.getChoices();
-        for (int i = 0; i < choices.getRowCount(); i++) {
-          Integer choiceNr = choices.getChoiceNr(i);
+        for (ChoicesRowData row : choices.getRows()) {
+          Integer choiceNr = row.getChoiceNr();
           if (choiceNr != null) {
-            list.add(new LookupRow<Long>(Long.valueOf(choiceNr.longValue()), choices.getChoiceText(i)));
+            list.add(new LookupRow<Long>(Long.valueOf(choiceNr.longValue()), row.getChoiceText()));
           }
         }
         return list;

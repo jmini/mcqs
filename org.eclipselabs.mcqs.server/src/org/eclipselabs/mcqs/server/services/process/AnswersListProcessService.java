@@ -23,6 +23,7 @@ import org.eclipse.scout.rt.shared.services.common.security.ACCESS;
 import org.eclipse.scout.service.AbstractService;
 import org.eclipselabs.mcqs.shared.security.ReadAnswersListPermission;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
+import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData.Statistics.StatisticsRowData;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
 
 public class AnswersListProcessService extends AbstractService implements IAnswersListProcessService {
@@ -70,11 +71,11 @@ public class AnswersListProcessService extends AbstractService implements IAnswe
 
     double nbAnswers = formData.getAnswers().getRowCount();
     if (nbAnswers > 0) {
-      for (int i = 0; i < formData.getStatistics().getRowCount(); i++) {
-        double result = (formData.getStatistics().getResult(i).doubleValue() / nbAnswers);
-        formData.getStatistics().setResult(i, result);
-        formData.getStatistics().setResultYes(i, result);
-        formData.getStatistics().setResultNo(i, 1 - result);
+      for (StatisticsRowData row : formData.getStatistics().getRows()) {
+        double result = (row.getResult().doubleValue() / nbAnswers);
+        row.setResult(result);
+        row.setResultYes(result);
+        row.setResultNo(1 - result);
       }
     }
 

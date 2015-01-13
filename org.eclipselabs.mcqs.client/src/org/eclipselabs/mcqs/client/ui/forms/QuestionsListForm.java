@@ -35,6 +35,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.groupbox.AbstractGroupBox;
 import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.TEXTS;
+import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldBeanData;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipselabs.mcqs.client.ui.forms.QuestionsListForm.MainBox.ContentBox.QuestionsField;
 import org.eclipselabs.mcqs.client.ui.templates.AbstractExportToExcelMenu;
@@ -96,6 +97,7 @@ public class QuestionsListForm extends AbstractForm {
     public class ContentBox extends AbstractGroupBox {
 
       @Order(10.0)
+      @FormData(sdkCommand = FormData.SdkCommand.USE, value = AbstractTableFieldBeanData.class, defaultSubtypeSdkCommand = FormData.DefaultSubtypeSdkCommand.CREATE)
       public class QuestionsField extends AbstractTableField<QuestionsField.Table> {
 
         @Override

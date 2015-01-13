@@ -29,10 +29,13 @@ import org.eclipselabs.mcqs.server.nodb.DataStore;
 import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData.Answers;
+import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData.Answers.AnswersRowData;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData.Statistics;
+import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData.Statistics.StatisticsRowData;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices;
+import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices.ChoicesRowData;
 
 @Priority(100)
 public class NoDbAnswersListProcessService extends AbstractService implements IAnswersListProcessService {
@@ -52,9 +55,9 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     answersTable.clearRows();
     Collection<AnswerFormData> answers = dataStore.getAnswersOfQuestion(questionNr);
     for (AnswerFormData answer : answers) {
-      int r = answersTable.addRow();
-      answersTable.setAnswerNr(r, answer.getAnswerNr());
-      answersTable.setName(r, answer.getYourName().getValue());
+      AnswersRowData row = answersTable.addRow();
+      row.setAnswerNr(answer.getAnswerNr());
+      row.setName(answer.getYourName().getValue());
     }
 
     //load statistics list:
@@ -80,13 +83,12 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
   private void loadStatisticsInternal(AnswersListFormData formData, QuestionFormData question, Collection<AnswerFormData> answers) {
     Choices choices = question.getChoices();
     Map<Integer, P_Choice> choicesMap = new HashMap<Integer, P_Choice>();
-    for (int i = 0; i < choices.getRowCount(); i++) {
-      if (choices.getChoiceNr(i) != null) {
-        P_Choice choice = new P_Choice(choices.getChoiceNr(i), choices.getChoiceText(i));
+    for (ChoicesRowData row : choices.getRows()) {
+      if (row.getChoiceNr() != null) {
+        P_Choice choice = new P_Choice(row.getChoiceNr(), row.getChoiceText());
         choicesMap.put(choice.getChoiceId(), choice);
       }
     }
-
     for (AnswerFormData answer : answers) {
       Set<Long> answerChoices;
       if (BooleanUtility.nvl(answer.getMultipleChoices())) {
@@ -113,14 +115,14 @@ public class NoDbAnswersListProcessService extends AbstractService implements IA
     Statistics statistics = formData.getStatistics();
     statistics.clearRows();
     for (P_Choice choice : choicesMap.values()) {
-      int r = statistics.addRow();
-      statistics.setChoice(r, choice.getChoiceText());
+      StatisticsRowData row = statistics.addRow();
+      row.setChoice(choice.getChoiceText());
       if (BooleanUtility.nvl(question.getMultipleChoices().getValue())) {
-        statistics.setResultYes(r, choice.getResult());
-        statistics.setResultNo(r, 1 - choice.getResult());
+        row.setResultYes(choice.getResult());
+        row.setResultNo(1 - choice.getResult());
       }
       else {
-        statistics.setResult(r, choice.getResult());
+        row.setResult(choice.getResult());
       }
     }
   }

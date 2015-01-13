@@ -30,6 +30,7 @@ import org.eclipselabs.mcqs.shared.services.process.AnswerFormData;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData;
 import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices;
+import org.eclipselabs.mcqs.shared.services.process.QuestionFormData.Choices.ChoicesRowData;
 
 public final class DataStore {
   private static final DataStore INSTANCE = new DataStore();
@@ -149,9 +150,9 @@ public final class DataStore {
 
   private static void addChoice(QuestionFormData formData, Integer choiceNr, String choiceText) {
     Choices tableData = formData.getChoices();
-    int r = tableData.addRow();
-    tableData.setChoiceNr(r, choiceNr);
-    tableData.setChoiceText(r, choiceText);
+    ChoicesRowData row = tableData.addRow();
+    row.setChoiceNr(choiceNr);
+    row.setChoiceText(choiceText);
   }
 
   private AnswerFormData creatateAnswer1(int... choices) {
@@ -198,17 +199,17 @@ public final class DataStore {
 
     //Clean Choices table:
     Choices choices = formData.getChoices();
-    for (int i = 0; i < choices.getRowCount(); i++) {
-      switch (choices.getRowState(i)) {
+    for (ChoicesRowData row : choices.getRows()) {
+      switch (row.getRowState()) {
         case ITableHolder.STATUS_INSERTED:
-          choices.setChoiceNr(i, createChoiceNr());
-          choices.setRowState(i, ITableHolder.STATUS_NON_CHANGED);
+          row.setChoiceNr(createChoiceNr());
+          row.setRowState(ITableHolder.STATUS_NON_CHANGED);
           break;
         case ITableHolder.STATUS_DELETED:
-          choices.removeRow(i);
+          choices.removeRow(row);
           break;
         default:
-          choices.setRowState(i, ITableHolder.STATUS_NON_CHANGED);
+          row.setRowState(ITableHolder.STATUS_NON_CHANGED);
           break;
       }
     }

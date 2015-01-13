@@ -46,6 +46,7 @@ import org.eclipse.scout.rt.client.ui.form.fields.tablefield.AbstractTableField;
 import org.eclipse.scout.rt.client.ui.messagebox.MessageBox;
 import org.eclipse.scout.rt.shared.ScoutTexts;
 import org.eclipse.scout.rt.shared.TEXTS;
+import org.eclipse.scout.rt.shared.data.form.fields.tablefield.AbstractTableFieldBeanData;
 import org.eclipse.scout.rt.shared.ui.UserAgentUtility;
 import org.eclipse.scout.service.SERVICES;
 import org.eclipse.scout.svg.client.SVGUtility;
@@ -64,6 +65,7 @@ import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.ContentBox.Q
 import org.eclipselabs.mcqs.client.ui.forms.AnswersListForm.MainBox.OkButton;
 import org.eclipselabs.mcqs.client.ui.templates.AbstractExportToExcelMenu;
 import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData;
+import org.eclipselabs.mcqs.shared.services.process.AnswersListFormData.Statistics.StatisticsRowData;
 import org.eclipselabs.mcqs.shared.services.process.IAnswerProcessService;
 import org.eclipselabs.mcqs.shared.services.process.IAnswersListProcessService;
 
@@ -147,15 +149,16 @@ public class AnswersListForm extends AbstractForm {
     int nb = formData.getStatistics().getRowCount();
     for (int i = 0; i < nb; i++) {
       int j = nb - i - 1;
+      StatisticsRowData row = formData.getStatistics().getRows()[j];
       Double result;
       if (isMultipleChoices()) {
-        result = formData.getStatistics().getResultYes(j);
+        result = row.getResultYes();
       }
       else {
-        result = formData.getStatistics().getResult(j);
+        result = row.getResult();
       }
       if (result != null) {
-        values.add(new BarGraph(j, formData.getStatistics().getChoice(j), result.doubleValue()));
+        values.add(new BarGraph(j, row.getChoice(), result.doubleValue()));
       }
     }
     if (values.size() > 0) {
@@ -271,6 +274,7 @@ public class AnswersListForm extends AbstractForm {
         }
 
         @Order(10.0)
+        @FormData(sdkCommand = FormData.SdkCommand.USE, value = AbstractTableFieldBeanData.class, defaultSubtypeSdkCommand = FormData.DefaultSubtypeSdkCommand.CREATE)
         public class StatisticsField extends AbstractTableField<StatisticsField.Table> {
 
           @Override
@@ -409,6 +413,7 @@ public class AnswersListForm extends AbstractForm {
         }
 
         @Order(10.0)
+        @FormData(sdkCommand = FormData.SdkCommand.USE, value = AbstractTableFieldBeanData.class, defaultSubtypeSdkCommand = FormData.DefaultSubtypeSdkCommand.CREATE)
         public class AnswersField extends AbstractTableField<AnswersField.Table> {
 
           @Override
