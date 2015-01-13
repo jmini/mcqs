@@ -16,8 +16,12 @@
 package org.eclipselabs.mcqs.client.ui.templates;
 
 import java.io.File;
+import java.util.Set;
 
+import org.eclipse.scout.commons.CollectionUtility;
 import org.eclipse.scout.commons.exception.ProcessingException;
+import org.eclipse.scout.rt.client.ui.action.menu.IMenuType;
+import org.eclipse.scout.rt.client.ui.action.menu.TableMenuType;
 import org.eclipse.scout.rt.client.ui.basic.table.ITable;
 import org.eclipse.scout.rt.docx4j.client.ScoutXlsxSpreadsheetAdapter;
 import org.eclipse.scout.rt.extension.client.ui.action.menu.AbstractExtensibleMenu;
@@ -40,13 +44,8 @@ public abstract class AbstractExportToExcelMenu extends AbstractExtensibleMenu {
   }
 
   @Override
-  protected boolean getConfiguredEmptySpaceAction() {
-    return true;
-  }
-
-  @Override
-  protected boolean getConfiguredSingleSelectionAction() {
-    return false;
+  protected Set<? extends IMenuType> getConfiguredMenuTypes() {
+    return CollectionUtility.<IMenuType> hashSet(TableMenuType.EmptySpace);
   }
 
   protected abstract String provideTitle();
